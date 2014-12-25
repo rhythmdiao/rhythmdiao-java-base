@@ -30,7 +30,7 @@ public class Dispatcher extends AbstractHandler {
             for (Annotation annotation : annotations) {
                 if (annotation instanceof RestfulServlet) {
                     try {
-                        dispatch(clazz, (RestfulServlet) annotation);
+                        dispatcher(clazz, (RestfulServlet) annotation);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -39,7 +39,7 @@ public class Dispatcher extends AbstractHandler {
         }
     }
 
-    private static void dispatch(Class clazz, RestfulServlet annotation)
+    private static void dispatcher(Class clazz, RestfulServlet annotation)
             throws ClassNotFoundException {
         String method = annotation.Method();
         String uri = annotation.URI();

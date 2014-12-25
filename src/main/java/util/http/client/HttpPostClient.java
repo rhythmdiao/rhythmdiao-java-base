@@ -23,7 +23,7 @@ public class HttpPostClient extends HttpBaseClient {
             HttpPost httpPost = new HttpPost();
             super.setURI(httpPost, requestURI);
             super.generateHeader(httpPost, headerMap);
-            generaterParameter(httpPost, parameterMap);
+            generateParameter(httpPost, parameterMap);
             return super.getResponse(httpPost);
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -31,7 +31,7 @@ public class HttpPostClient extends HttpBaseClient {
         }
     }
 
-    private static void generaterParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
+    private static void generateParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
         if (parameterMap != null) {
             List<NameValuePair> parameterList = Lists.newArrayList();
             for (String key : parameterMap.keySet()) {
