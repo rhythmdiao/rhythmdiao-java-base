@@ -4,9 +4,6 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
 
-/**
- * Created by mayuxing on 2014/12/18.
- */
 @XStreamAlias("response")
 public class WrappedResponse implements Serializable {
     @XStreamAlias("statusCode")
