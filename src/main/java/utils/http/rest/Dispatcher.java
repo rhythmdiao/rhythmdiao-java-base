@@ -1,7 +1,7 @@
 package utils.http.rest;
 
 import annotation.RestfulHandler;
-import api.http.RestHandler;
+import api.http.Handler;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.http.PathMap;
 import org.eclipse.jetty.server.Request;
@@ -46,9 +46,9 @@ public class Dispatcher extends AbstractHandler {
         String uri = annotation.uri();
 
         Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
-        if (!(handler instanceof RestHandler)) {
+        if (!(handler instanceof Handler)) {
             throw new RuntimeException(clazz.toString()
-                    + "never found rest handler");
+                    + "is not an instance of " + Handler.class);
         }
 
         logger.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
@@ -68,11 +68,11 @@ public class Dispatcher extends AbstractHandler {
         response.setContentType("text/html");
 
         final String method = baseRequest.getMethod();
-        final Object restServlet;
+        final Object handler;
 
         if (method.equals(HttpMethods.GET)) {
             try {
-                restServlet = postPathMapper.getMatch(uri)
+                handler = postPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
                 logger.error("Unknown uri, and the uri is [{}]", uri);
@@ -81,7 +81,7 @@ public class Dispatcher extends AbstractHandler {
 
         } else if (method.equals(HttpMethods.POST)) {
             try {
-                restServlet = getPathMapper.getMatch(uri)
+                handler = getPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
                 logger.error("Unknown uri, and uri is [{}]", uri);
@@ -90,8 +90,8 @@ public class Dispatcher extends AbstractHandler {
         } else {
             return;
         }
-        if (restServlet instanceof RestHandler) {
-            BaseRestResult result = ((RestHandler) restServlet).execute(baseRequest);
+        if (handler instanceof Handler) {
+            BaseRestResult result = ((Handler) handler).execute(baseRequest);
             response.getWriter().write(result.convertToResponse());
             baseRequest.setHandled(true);
         }
