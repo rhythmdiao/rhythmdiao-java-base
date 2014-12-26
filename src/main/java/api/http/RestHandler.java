@@ -1,11 +1,8 @@
-package utils.http.rest;
+package api.http;
 
 import org.eclipse.jetty.server.Request;
 import utils.http.rest.response.BaseRestResult;
 
-/**
- * Created by mayuxing on 2014/12/19.
- */
-public abstract class Handler {
+public interface RestHandler {
     public abstract BaseRestResult execute(Request request);
 }
