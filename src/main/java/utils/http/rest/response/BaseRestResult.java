@@ -1,16 +1,10 @@
-package util.http.rest.response;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+package utils.http.rest.response;
 
 import java.io.Serializable;
 
-@XStreamAlias("response")
-public class WrappedResponse implements Serializable {
-    @XStreamAlias("statusCode")
+public abstract class BaseRestResult<E extends Serializable> implements Serializable {
     private int statusCode;
-    @XStreamAlias("result")
     private Object result;
-    @XStreamAlias("msg")
     private String msg;
 
     public Object getResult() {
@@ -37,4 +31,5 @@ public class WrappedResponse implements Serializable {
         this.msg = msg;
     }
 
+    public abstract String convertToResponse();
 }

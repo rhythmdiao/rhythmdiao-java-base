@@ -1,15 +1,16 @@
-package util.http.rest;
+package utils.http.rest;
 
+import annotation.RestfulHandler;
+import api.http.RestHandler;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.http.PathMap;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.annotation.rest.RestfulServlet;
-import util.config.ApplicationContextWrapper;
-import util.http.rest.response.BaseRestResult;
-import util.tool.Reflection;
+import utils.config.ApplicationContextWrapper;
+import utils.http.rest.response.BaseRestResult;
+import utils.tool.Reflection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +25,13 @@ public class Dispatcher extends AbstractHandler {
     private static final PathMap postPathMapper = new PathMap(255);
 
     public void init() throws IOException {
-        Set<Class<?>> classes = Reflection.AnnotatedWith(RestfulServlet.class);
+        Set<Class<?>> classes = Reflection.AnnotatedWith(RestfulHandler.class);
         for (Class clazz : classes) {
             Annotation[] annotations = clazz.getAnnotations();
             for (Annotation annotation : annotations) {
-                if (annotation instanceof RestfulServlet) {
+                if (annotation instanceof RestfulHandler) {
                     try {
-                        dispatcher(clazz, (RestfulServlet) annotation);
+                        dispatcher(clazz, (RestfulHandler) annotation);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -39,13 +40,13 @@ public class Dispatcher extends AbstractHandler {
         }
     }
 
-    private static void dispatcher(Class clazz, RestfulServlet annotation)
+    private static void dispatcher(Class clazz, RestfulHandler annotation)
             throws ClassNotFoundException {
-        String method = annotation.Method();
-        String uri = annotation.URI();
+        String method = annotation.method();
+        String uri = annotation.uri();
 
         Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
-        if (!(handler instanceof Handler)) {
+        if (!(handler instanceof RestHandler)) {
             throw new RuntimeException(clazz.toString()
                     + "never found rest handler");
         }
@@ -89,8 +90,8 @@ public class Dispatcher extends AbstractHandler {
         } else {
             return;
         }
-        if (restServlet instanceof Handler) {
-            BaseRestResult result = ((Handler) restServlet).execute(baseRequest);
+        if (restServlet instanceof RestHandler) {
+            BaseRestResult result = ((RestHandler) restServlet).execute(baseRequest);
             response.getWriter().write(result.convertToResponse());
             baseRequest.setHandled(true);
         }

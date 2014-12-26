@@ -1,7 +1,7 @@
-package util.tool;
+package utils.tool;
 
 import org.reflections.Reflections;
-import util.config.ApplicationContextWrapper;
+import utils.config.ApplicationContextWrapper;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;

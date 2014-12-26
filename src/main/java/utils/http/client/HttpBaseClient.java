@@ -1,7 +1,8 @@
-package util.http.client;
+package utils.http.client;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -34,7 +35,7 @@ public abstract class HttpBaseClient {
         httpRequestBase.setURI(new URI(isNullOrEmpty(host) ? requestURI : host + requestURI));
     }
 
-    protected void generateHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
+    protected void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
         if (headerMap != null) {
             for (String key : headerMap.keySet()) {
                 httpRequestBase.addHeader(key, headerMap.get(key));
@@ -42,19 +43,25 @@ public abstract class HttpBaseClient {
         }
     }
 
+    protected abstract void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap);
+
     protected String getResponse(HttpRequestBase httpRequestBase) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
         try {
-            //DefaultHttpClient defaultHttpClient = new DefaultHttpClient();
             HttpResponse response = closeableHttpClient.execute(httpRequestBase);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 return EntityUtils.toString(entity, "UTF-8");
             }
-            closeableHttpClient.close();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                closeableHttpClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

@@ -1,4 +1,4 @@
-package util.constant;
+package constant;
 
 import com.google.common.collect.Maps;
 

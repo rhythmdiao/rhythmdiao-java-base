@@ -1,4 +1,4 @@
-package util.tool;
+package utils.tool;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

@@ -1,7 +1,7 @@
-package util.http.rest;
+package utils.http.rest;
 
 import org.eclipse.jetty.server.Request;
-import util.http.rest.response.BaseRestResult;
+import utils.http.rest.response.BaseRestResult;
 
 /**
  * Created by mayuxing on 2014/12/19.
