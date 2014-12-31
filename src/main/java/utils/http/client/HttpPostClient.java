@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HttpPostClient extends HttpBaseClient implements Client {
     private static final Logger logger = LoggerFactory.getLogger(HttpPostClient.class);
@@ -36,8 +37,8 @@ public class HttpPostClient extends HttpBaseClient implements Client {
     protected void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
         if (parameterMap != null) {
             List<NameValuePair> parameterList = Lists.newArrayList();
-            for (String key : parameterMap.keySet()) {
-                parameterList.add(new BasicNameValuePair(key, parameterMap.get(key)));
+            for (Map.Entry<String, String> parameter : parameterMap.entrySet()) {
+                parameterList.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
             }
             HttpEntity entity = null;
             try {

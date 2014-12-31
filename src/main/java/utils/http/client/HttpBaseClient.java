@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -37,8 +38,8 @@ public abstract class HttpBaseClient {
 
     protected void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
         if (headerMap != null) {
-            for (String key : headerMap.keySet()) {
-                httpRequestBase.addHeader(key, headerMap.get(key));
+            for (Map.Entry<String, String> header : headerMap.entrySet()) {
+                httpRequestBase.addHeader(header.getKey(), header.getValue());
             }
         }
     }
