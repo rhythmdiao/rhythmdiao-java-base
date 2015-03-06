@@ -4,7 +4,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class ApplicationContextWrapper implements ApplicationContextAware {
+public final class ApplicationContextWrapper implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
     public void setApplicationContext(ApplicationContext applicationContext) {
