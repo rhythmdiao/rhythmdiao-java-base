@@ -54,9 +54,9 @@ public class Dispatcher extends AbstractHandler {
         logger.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
 
         if (method.equals(HttpMethods.GET)) {
-            postPathMapper.put(uri, handler);
-        } else if (method.equals(HttpMethods.POST)) {
             getPathMapper.put(uri, handler);
+        } else if (method.equals(HttpMethods.POST)) {
+            postPathMapper.put(uri, handler);
         }
     }
 
@@ -72,7 +72,7 @@ public class Dispatcher extends AbstractHandler {
 
         if (method.equals(HttpMethods.GET)) {
             try {
-                handler = postPathMapper.getMatch(uri)
+                handler = getPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
                 logger.error("Unknown uri, and the uri is [{}]", uri);
@@ -81,7 +81,7 @@ public class Dispatcher extends AbstractHandler {
 
         } else if (method.equals(HttpMethods.POST)) {
             try {
-                handler = getPathMapper.getMatch(uri)
+                handler = postPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
                 logger.error("Unknown uri, and uri is [{}]", uri);
