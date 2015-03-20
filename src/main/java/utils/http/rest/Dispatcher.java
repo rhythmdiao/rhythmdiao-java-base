@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.config.ApplicationContextWrapper;
 import utils.http.rest.response.BaseRestResult;
-import utils.tool.Reflection;
+import utils.tool.Common;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class Dispatcher extends AbstractHandler {
     private static final PathMap postPathMapper = new PathMap(255);
 
     public void init() throws IOException {
-        Set<Class<?>> classes = Reflection.AnnotatedWith(RestfulHandler.class);
+        Set<Class<?>> classes = Common.AnnotatedWith(RestfulHandler.class);
         for (Class clazz : classes) {
             Annotation[] annotations = clazz.getAnnotations();
             for (Annotation annotation : annotations) {

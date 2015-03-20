@@ -10,9 +10,6 @@ import utils.http.rest.response.json.JsonRestResult;
 
 import java.util.Enumeration;
 
-/**
- * Created by mayuxing on 2015/3/20.
- */
 @Aspect
 public final class HandlerLogAspect {
     private static final String EXECUTION = "execution(* handlers.*.execute(..))";
@@ -20,7 +17,8 @@ public final class HandlerLogAspect {
 
     @SuppressWarnings("unchecked")
     @AfterReturning(value = EXECUTION, returning = "returnObj")
-    public void log(JoinPoint joinPoint, final JsonRestResult returnObj) throws NoSuchMethodException {
+    public void log(JoinPoint joinPoint, final JsonRestResult returnObj) {
+        logger.info("Handler:{}", joinPoint.getSignature().getDeclaringType().getSimpleName());
         for (Object o : joinPoint.getArgs()) {
             if (o instanceof Request) {
                 Request request = (Request) o;

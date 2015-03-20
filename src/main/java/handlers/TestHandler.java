@@ -14,13 +14,11 @@ import utils.http.rest.response.json.JsonRestResult;
 
 import java.util.HashMap;
 
-/**
- * Created by mayuxing on 2015/3/20.
- */
 @Controller
-@RestfulHandler(uri = "/test/test", method = HttpMethods.GET)
-public final class TestHandler implements Handler {
+@RestfulHandler(uri = "/test", method = HttpMethods.GET)
+public class TestHandler implements Handler {
     private static Logger logger = LoggerFactory.getLogger(TestHandler.class);
+
     @Override
     public BaseRestResult execute(final Request request) {
         JsonRestResult result = new JsonRestResult();
