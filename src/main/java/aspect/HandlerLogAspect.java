@@ -20,7 +20,7 @@ public final class HandlerLogAspect {
 
     @SuppressWarnings("unchecked")
     @AfterReturning(value = EXECUTION, returning = "returnObj")
-    public void log(JoinPoint joinPoint, JsonRestResult returnObj) throws NoSuchMethodException {
+    public void log(JoinPoint joinPoint, final JsonRestResult returnObj) throws NoSuchMethodException {
         for (Object o : joinPoint.getArgs()) {
             if (o instanceof Request) {
                 Request request = (Request) o;

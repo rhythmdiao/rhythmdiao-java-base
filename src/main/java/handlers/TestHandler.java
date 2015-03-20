@@ -19,10 +19,10 @@ import java.util.HashMap;
  */
 @Controller
 @RestfulHandler(uri = "/test/test", method = HttpMethods.GET)
-public class TestHandler implements Handler {
+public final class TestHandler implements Handler {
     private static Logger logger = LoggerFactory.getLogger(TestHandler.class);
     @Override
-    public BaseRestResult execute(Request request) {
+    public BaseRestResult execute(final Request request) {
         JsonRestResult result = new JsonRestResult();
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
         result.setMsg("for test");
