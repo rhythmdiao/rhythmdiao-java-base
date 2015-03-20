@@ -1,7 +1,7 @@
 package aspect;
 
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
@@ -15,25 +15,26 @@ public final class HandlerLogAspect {
     private static final String EXECUTION = "execution(* handlers.*.execute(..))";
     private static final Logger logger = LoggerFactory.getLogger(HandlerLogAspect.class);
 
-    @SuppressWarnings("unchecked")
-    @AfterReturning(value = EXECUTION, returning = "returnObj")
-    public void log(JoinPoint joinPoint, final JsonRestResult returnObj) {
-        logger.info("Handler:{}", joinPoint.getSignature().getDeclaringType().getSimpleName());
-        for (Object o : joinPoint.getArgs()) {
+    @Around(EXECUTION)
+    public JsonRestResult process(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        logger.info("Handler:{}", proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName());
+        for (Object o : proceedingJoinPoint.getArgs()) {
             if (o instanceof Request) {
                 Request request = (Request) o;
-                logger.info("--->request headers<---");
+                logger.info("request headers:");
                 Enumeration headerKeys = request.getHeaderNames();
                 while (headerKeys.hasMoreElements()) {
                     Object key = headerKeys.nextElement();
                     logger.debug("{}:{}", key, request.getHeader((String) key));
                 }
-                logger.info("--->request parameters<---");
+                logger.info("request parameters:");
                 for (Object key : request.getParameterMap().keySet()) {
                     logger.info("{}:{}", key, request.getParameter((String) key));
                 }
             }
         }
-        logger.info("response:{}", returnObj.convertToResponse());
+        JsonRestResult result = (JsonRestResult) proceedingJoinPoint.proceed();
+        logger.info("response:{}", result.convertToResponse());
+        return result;
     }
 }
