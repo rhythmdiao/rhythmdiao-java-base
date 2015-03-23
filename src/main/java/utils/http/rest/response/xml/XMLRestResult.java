@@ -3,7 +3,7 @@ package utils.http.rest.response.xml;
 import constant.Const;
 import utils.http.rest.response.BaseRestResult;
 import utils.http.rest.response.WrappedResponse;
-import utils.tool.Common;
+import utils.tool.CommonUtil;
 
 public final class XMLRestResult extends BaseRestResult {
     @Override
@@ -11,7 +11,7 @@ public final class XMLRestResult extends BaseRestResult {
         WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(),super.getResult(),super.getMsg());
         String xml = Const.EMPTY_XML;
         try {
-            xml = Common.objectToXml(wrappedResponse);
+            xml = CommonUtil.objectToXml(wrappedResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }
