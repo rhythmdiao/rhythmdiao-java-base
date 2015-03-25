@@ -1,5 +1,7 @@
 package utils.http.client;
 
+import api.http.HTTPRequest;
+import api.http.HTTPResponse;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -18,9 +20,9 @@ import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-public abstract class HttpBaseClient {
+public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpBaseClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpBaseClient.class);
 
     private String host;
 
@@ -36,7 +38,7 @@ public abstract class HttpBaseClient {
         httpRequestBase.setURI(new URI(isNullOrEmpty(host) ? requestURI : host + requestURI));
     }
 
-    protected void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
+    public void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
         if (headerMap != null) {
             for (Map.Entry<String, String> header : headerMap.entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
@@ -44,9 +46,10 @@ public abstract class HttpBaseClient {
         }
     }
 
-    protected abstract void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap);
+    public void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
+    }
 
-    protected String getResponse(HttpRequestBase httpRequestBase) {
+    public String getResponse(HttpRequestBase httpRequestBase) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
         try {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HttpPostClient extends HttpBaseClient implements Client {
-    private static final Logger logger = LoggerFactory.getLogger(HttpPostClient.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HttpPostClient.class);
 
     @Override
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
@@ -34,7 +34,7 @@ public class HttpPostClient extends HttpBaseClient implements Client {
     }
 
     @Override
-    protected void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
+    public void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
         if (parameterMap != null) {
             List<NameValuePair> parameterList = Lists.newArrayList();
             for (Map.Entry<String, String> parameter : parameterMap.entrySet()) {
