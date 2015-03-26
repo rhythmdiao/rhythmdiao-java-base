@@ -1,5 +1,6 @@
 package utils.tool;
 
+import com.google.common.base.Charsets;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import org.reflections.Reflections;
@@ -15,7 +16,7 @@ public class CommonUtil {
     }
 
     public static String objectToXml(Object object) {
-        XStream xStream = new XStream(new DomDriver("UTF-8"));
+        XStream xStream = new XStream(new DomDriver(Charsets.UTF_8.name()));
         xStream.autodetectAnnotations(true);
         return xStream.toXML(object);
     }

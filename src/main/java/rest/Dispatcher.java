@@ -2,6 +2,8 @@ package rest;
 
 import annotation.RestfulHandler;
 import api.http.Handler;
+import com.google.common.base.Charsets;
+import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.http.PathMap;
 import org.eclipse.jetty.server.Request;
@@ -18,10 +20,10 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.Set;
 
-public class Dispatcher extends AbstractHandler {
-    private static final Logger logger = LoggerFactory.getLogger(Dispatcher.class);
-    private static final PathMap getPathMapper = new PathMap(255);
-    private static final PathMap postPathMapper = new PathMap(255);
+public final class Dispatcher extends AbstractHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
+    private static final PathMap getPathMapper = new PathMap();
+    private static final PathMap postPathMapper = new PathMap();
 
     public void init() throws IOException {
         Reflections reflections = ApplicationContextWrapper.getBean("reflections", Reflections.class);
@@ -51,7 +53,7 @@ public class Dispatcher extends AbstractHandler {
                     + "is not an instance of " + Handler.class);
         }
 
-        logger.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
+        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
 
         if (method.equals(HttpMethods.GET)) {
             getPathMapper.put(uri, handler);
@@ -63,10 +65,9 @@ public class Dispatcher extends AbstractHandler {
     @Override
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        request.setCharacterEncoding("utf-8");
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html");
-
+        request.setCharacterEncoding(Charsets.UTF_8.name());
+        response.setCharacterEncoding(Charsets.UTF_8.name());
+        response.setContentType(ContentType.TEXT_HTML.getMimeType());
         final String method = baseRequest.getMethod();
         final Object handler;
 
@@ -75,7 +76,7 @@ public class Dispatcher extends AbstractHandler {
                 handler = getPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
-                logger.error("Unknown uri, and the uri is [{}]", uri);
+                LOG.error("Unknown uri, and the uri is [{}]", uri);
                 return;
             }
 
@@ -84,7 +85,7 @@ public class Dispatcher extends AbstractHandler {
                 handler = postPathMapper.getMatch(uri)
                         .getValue();
             } catch (NullPointerException e) {
-                logger.error("Unknown uri, and uri is [{}]", uri);
+                LOG.error("Unknown uri, and uri is [{}]", uri);
                 return;
             }
         } else {

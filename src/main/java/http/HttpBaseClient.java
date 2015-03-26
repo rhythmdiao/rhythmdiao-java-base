@@ -2,6 +2,8 @@ package http;
 
 import api.http.HTTPRequest;
 import api.http.HTTPResponse;
+import com.google.common.base.Charsets;
+import com.google.common.net.HostAndPort;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -24,18 +26,33 @@ public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
 
     private static final Logger LOG = LoggerFactory.getLogger(HttpBaseClient.class);
 
-    private String host;
+    private String hostAndPort;
 
-    public String getHost() {
-        return host;
+    public HttpBaseClient(String hostAndPort) {
+        this.hostAndPort = hostAndPort;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public HttpBaseClient() {
+    }
+
+    public String getHostAndPort() {
+        return hostAndPort;
+    }
+
+    public void setHostAndPort(String hostAndPort) {
+        this.hostAndPort = hostAndPort;
+    }
+
+    public String getHost() {
+        return HostAndPort.fromString(hostAndPort).getHostText();
+    }
+
+    public int getPort() {
+        return HostAndPort.fromString(hostAndPort).getPort();
     }
 
     protected void setURI(HttpRequestBase httpRequestBase, String requestURI) throws URISyntaxException {
-        httpRequestBase.setURI(new URI(isNullOrEmpty(host) ? requestURI : host + requestURI));
+        httpRequestBase.setURI(new URI("http://" + (isNullOrEmpty(hostAndPort) ? requestURI : hostAndPort + requestURI)));
     }
 
     public void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
@@ -56,7 +73,7 @@ public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
             HttpResponse response = closeableHttpClient.execute(httpRequestBase);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                return EntityUtils.toString(entity, "UTF-8");
+                return EntityUtils.toString(entity, Charsets.UTF_8.name());
             }
         } catch (IOException e) {
             e.printStackTrace();

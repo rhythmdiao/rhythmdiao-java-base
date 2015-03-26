@@ -1,5 +1,6 @@
 package http;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -18,6 +19,13 @@ import java.util.Map;
 
 public class HttpPostClient extends HttpBaseClient implements Client {
     private static final Logger LOG = LoggerFactory.getLogger(HttpPostClient.class);
+
+    public HttpPostClient() {
+    }
+
+    public HttpPostClient(String hostAndPort) {
+        super(hostAndPort);
+    }
 
     @Override
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
@@ -42,7 +50,7 @@ public class HttpPostClient extends HttpBaseClient implements Client {
             }
             HttpEntity entity = null;
             try {
-                entity = new UrlEncodedFormEntity(parameterList, "utf-8");
+                entity = new UrlEncodedFormEntity(parameterList, Charsets.UTF_8.name());
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

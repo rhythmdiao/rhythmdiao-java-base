@@ -12,6 +12,13 @@ import java.util.HashMap;
 public class HttpGetClient extends HttpBaseClient implements Client {
     private static final Logger LOG = LoggerFactory.getLogger(HttpGetClient.class);
 
+    public HttpGetClient() {
+    }
+
+    public HttpGetClient(String hostAndPort) {
+        super(hostAndPort);
+    }
+
     @Override
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
         try {

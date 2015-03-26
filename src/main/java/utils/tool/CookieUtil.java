@@ -1,5 +1,6 @@
 package utils.tool;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
 
 import javax.servlet.http.Cookie;
@@ -26,7 +27,7 @@ public final class CookieUtil {
 
     public void setCookie(final String key, String value, final int expiry) {
         try {
-            value = URLEncoder.encode(value, "utf-8");
+            value = URLEncoder.encode(value, Charsets.UTF_8.name());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -48,7 +49,7 @@ public final class CookieUtil {
                 Cookie cookie = cookies.get()[i];
                 if (key.equals(cookie.getName())) {
                     try {
-                        return URLDecoder.decode(cookie.getValue(), "utf-8");
+                        return URLDecoder.decode(cookie.getValue(), Charsets.UTF_8.name());
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
