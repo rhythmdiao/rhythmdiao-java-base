@@ -1,4 +1,4 @@
-package utils.http.rest.response;
+package rest.result;
 
 import java.io.Serializable;
 

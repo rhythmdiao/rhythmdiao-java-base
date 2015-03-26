@@ -6,9 +6,10 @@ import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 
 public final class ConfigUtil {
     private static PropertiesConfiguration propertiesConfiguration;
+
     static {
         try {
-            propertiesConfiguration = new PropertiesConfiguration("");
+            propertiesConfiguration = new PropertiesConfiguration("launcher/src/main/resources/config.properties");
             propertiesConfiguration.setReloadingStrategy(new FileChangedReloadingStrategy());
         } catch (ConfigurationException e) {
             e.printStackTrace();

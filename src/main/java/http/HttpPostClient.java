@@ -1,4 +1,4 @@
-package utils.http.client;
+package http;
 
 import com.google.common.collect.Lists;
 import org.apache.http.HttpEntity;

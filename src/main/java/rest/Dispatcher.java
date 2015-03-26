@@ -1,4 +1,4 @@
-package utils.http.rest;
+package rest;
 
 import annotation.RestfulHandler;
 import api.http.Handler;
@@ -9,7 +9,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.config.ApplicationContextWrapper;
-import utils.http.rest.response.BaseRestResult;
+import rest.result.BaseRestResult;
 import utils.tool.CommonUtil;
 
 import javax.servlet.ServletException;

@@ -1,4 +1,4 @@
-package utils.http.client;
+package http;
 
 import api.http.Client;
 import constant.Const;

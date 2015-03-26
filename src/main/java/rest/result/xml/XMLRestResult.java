@@ -1,8 +1,8 @@
-package utils.http.rest.response.xml;
+package rest.result.xml;
 
 import constant.Const;
-import utils.http.rest.response.BaseRestResult;
-import utils.http.rest.response.WrappedResponse;
+import rest.result.BaseRestResult;
+import rest.result.WrappedResponse;
 import utils.tool.CommonUtil;
 
 public final class XMLRestResult extends BaseRestResult {

@@ -1,9 +1,9 @@
-package utils.http.rest.response.json;
+package rest.result.json;
 
 import com.google.gson.Gson;
 import constant.Const;
-import utils.http.rest.response.BaseRestResult;
-import utils.http.rest.response.WrappedResponse;
+import rest.result.BaseRestResult;
+import rest.result.WrappedResponse;
 
 public final class JsonRestResult extends BaseRestResult {
     @Override

@@ -1,4 +1,4 @@
-package utils.http.rest.response;
+package rest.result;
 
 public enum CustomStatusCode {
     SUCCESS(200), NOT_FOUND(404);

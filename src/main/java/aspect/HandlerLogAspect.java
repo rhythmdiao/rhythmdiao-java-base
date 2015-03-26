@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.http.rest.response.json.JsonRestResult;
+import rest.result.json.JsonRestResult;
 
 import java.util.Enumeration;
 

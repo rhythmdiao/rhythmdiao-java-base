@@ -1,4 +1,4 @@
-package utils.http.client;
+package http;
 
 import api.http.HTTPRequest;
 import api.http.HTTPResponse;
