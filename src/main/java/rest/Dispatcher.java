@@ -6,13 +6,12 @@ import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.http.PathMap;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.config.ApplicationContextWrapper;
 import rest.result.BaseRestResult;
-import utils.tool.CommonUtil;
+import utils.config.ApplicationContextWrapper;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,7 +24,8 @@ public class Dispatcher extends AbstractHandler {
     private static final PathMap postPathMapper = new PathMap(255);
 
     public void init() throws IOException {
-        Set<Class<?>> classes = CommonUtil.AnnotatedWith(RestfulHandler.class);
+        Reflections reflections = ApplicationContextWrapper.getBean("reflections", Reflections.class);
+        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(RestfulHandler.class);
         for (Class clazz : classes) {
             Annotation[] annotations = clazz.getAnnotations();
             for (Annotation annotation : annotations) {
@@ -62,7 +62,7 @@ public class Dispatcher extends AbstractHandler {
 
     @Override
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
-            throws IOException, ServletException {
+            throws IOException {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html");
