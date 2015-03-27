@@ -42,12 +42,12 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    private static void dispatcher(Class clazz, RestfulHandler annotation)
+    private void dispatcher(final Class clazz, final RestfulHandler annotation)
             throws ClassNotFoundException {
-        String method = annotation.method();
-        String uri = annotation.uri();
+        final String method = annotation.method();
+        final String uri = annotation.uri();
+        final Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
 
-        Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
         if (!(handler instanceof Handler)) {
             throw new RuntimeException(clazz.toString()
                     + "is not an instance of " + Handler.class);

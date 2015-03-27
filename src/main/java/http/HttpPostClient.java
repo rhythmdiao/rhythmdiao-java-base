@@ -1,5 +1,6 @@
 package http;
 
+import api.http.Client;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import org.apache.http.HttpEntity;
@@ -9,7 +10,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import api.http.Client;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
@@ -39,6 +39,11 @@ public class HttpPostClient extends HttpBaseClient implements Client {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String execute(String requestURI, HashMap<String, String> headerMap) {
+        return null;
     }
 
     @Override
