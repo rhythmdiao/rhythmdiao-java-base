@@ -1,9 +1,11 @@
 package rest.result.xml;
 
+import com.google.common.base.Charsets;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import constant.Const;
 import rest.result.BaseRestResult;
 import rest.result.WrappedResponse;
-import utils.tool.CommonUtil;
 
 public final class XMLRestResult extends BaseRestResult {
     @Override
@@ -11,7 +13,9 @@ public final class XMLRestResult extends BaseRestResult {
         WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(),super.getResult(),super.getMsg());
         String xml = Const.EMPTY_XML;
         try {
-            xml = CommonUtil.objectToXml(wrappedResponse);
+            XStream xStream = new XStream(new DomDriver(Charsets.UTF_8.name()));
+            xStream.autodetectAnnotations(true);
+            xml = xStream.toXML(wrappedResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }

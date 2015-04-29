@@ -2,7 +2,8 @@ package rest.result;
 
 import java.io.Serializable;
 
-public abstract class BaseRestResult<E extends Serializable> implements Serializable {
+public abstract class BaseRestResult implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int statusCode;
     private Object result;
     private String msg;
