@@ -62,12 +62,11 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    @Override
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         request.setCharacterEncoding(Charsets.UTF_8.name());
         response.setCharacterEncoding(Charsets.UTF_8.name());
-        response.setContentType(ContentType.TEXT_HTML.getMimeType());
+        response.setContentType(ContentType.TEXT_XML.getMimeType());
         final String method = baseRequest.getMethod();
         final Object handler;
 

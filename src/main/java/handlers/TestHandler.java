@@ -4,7 +4,6 @@ import annotation.ClassInfo;
 import annotation.MethodInfo;
 import annotation.RestfulHandler;
 import api.http.Handler;
-import com.google.common.collect.Maps;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
@@ -12,9 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import rest.result.BaseRestResult;
 import rest.result.CustomStatusCode;
-import rest.result.json.JsonRestResult;
+import rest.result.xml.XMLRestResult;
 
 import java.util.HashMap;
+
+import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 
 @ClassInfo(author = "", description = "test handler", date = "2015.4.3")
 public
@@ -25,16 +26,15 @@ class TestHandler implements Handler {
 
     @MethodInfo(author = "", description = "execute method", date = "2015.4.3")
     public
-    @Override
     BaseRestResult execute(final Request request) {
-        JsonRestResult result = new JsonRestResult();
+        BaseRestResult result = new XMLRestResult();
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
         result.setMsg("for test");
-        HashMap<String, String> hashMap = Maps.newHashMapWithExpectedSize(4);
-        hashMap.put("text", request.getHeader("text"));
-        hashMap.put("num", request.getHeader("num"));
-        hashMap.put("text2", request.getParameter("text2"));
-        hashMap.put("num2", request.getParameter("num2"));
+        HashMap<String, String> hashMap = newHashMapWithExpectedSize(4);
+        hashMap.put("text", "1");
+        hashMap.put("num", "2");
+        hashMap.put("text2", "#");
+        hashMap.put("num2", "4");
         result.setResult(hashMap);
         return result;
     }

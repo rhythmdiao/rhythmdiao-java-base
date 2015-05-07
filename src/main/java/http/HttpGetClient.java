@@ -19,12 +19,10 @@ public class HttpGetClient extends HttpBaseClient implements Client {
         super(hostAndPort);
     }
 
-    @Override
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
         return null;
     }
 
-    @Override
     public String execute(String requestURI, HashMap<String, String> headerMap) {
         try {
             HttpGet httpGet = new HttpGet();

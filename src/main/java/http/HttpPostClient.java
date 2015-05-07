@@ -27,7 +27,6 @@ public class HttpPostClient extends HttpBaseClient implements Client {
         super(hostAndPort);
     }
 
-    @Override
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
         try {
             HttpPost httpPost = new HttpPost();
@@ -41,7 +40,6 @@ public class HttpPostClient extends HttpBaseClient implements Client {
         }
     }
 
-    @Override
     public String execute(String requestURI, HashMap<String, String> headerMap) {
         return null;
     }

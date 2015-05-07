@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rest.result.json.JsonRestResult;
+import rest.result.BaseRestResult;
 
 import java.util.Enumeration;
 
@@ -16,7 +16,7 @@ public final class HandlerLogAspect {
     private static final Logger logger = LoggerFactory.getLogger(HandlerLogAspect.class);
 
     @Around(EXECUTION + "&&args(request)")
-    public JsonRestResult process(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
+    public BaseRestResult process(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
         logger.info("Handler:{}", proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName());
         logger.info("request headers:");
         Enumeration headerKeys = request.getHeaderNames();
@@ -28,7 +28,7 @@ public final class HandlerLogAspect {
         for (Object key : request.getParameterMap().keySet()) {
             logger.info("{}:{}", key, request.getParameter((String) key));
         }
-        JsonRestResult result = (JsonRestResult) proceedingJoinPoint.proceed();
+        BaseRestResult result = (BaseRestResult) proceedingJoinPoint.proceed();
         logger.info("response:{}", result.convertToResponse());
         return result;
     }

@@ -1,18 +1,19 @@
 package rest.result;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public abstract class BaseRestResult implements Serializable {
     private static final long serialVersionUID = 1L;
     private int statusCode;
-    private Object result;
+    private Map result;
     private String msg;
 
-    public Object getResult() {
+    public Map getResult() {
         return result;
     }
 
-    public void setResult(Object result) {
+    public void setResult(Map result) {
         this.result = result;
     }
 
