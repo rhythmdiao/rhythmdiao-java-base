@@ -4,6 +4,7 @@ import annotation.ClassInfo;
 import annotation.MethodInfo;
 import annotation.RestfulHandler;
 import api.http.Handler;
+import entity.Entity;
 import org.eclipse.jetty.http.HttpMethods;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 @ClassInfo(author = "", description = "test handler", date = "2015.4.3")
 public
 @Controller
-@RestfulHandler(uri = "/test", method = HttpMethods.GET, identification = "mytest")
+@RestfulHandler(uri = "/test", method = HttpMethods.GET, identification = "")
 class TestHandler implements Handler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
@@ -29,11 +30,12 @@ class TestHandler implements Handler {
         BaseRestResult result = new JsonRestResult();
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
         result.setMsg("for test");
-        HashMap<String, String> hashMap = newHashMapWithExpectedSize(4);
-        hashMap.put("text", "1");
-        hashMap.put("num", "2");
-        hashMap.put("text2", "3");
-        hashMap.put("num2", "4");
+        HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
+        Entity entity = new Entity();
+        entity.setFoo(1);
+        entity.setBar("bar");
+        hashMap.put("entity", entity);
+        LOG.info("{}", entity.toString());
         result.setResult(hashMap);
         return result;
     }
