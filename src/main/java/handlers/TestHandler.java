@@ -31,9 +31,7 @@ class TestHandler implements Handler {
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
         result.setMsg("for test");
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
-        Entity entity = new Entity();
-        entity.setFoo(1);
-        entity.setBar("bar");
+        Entity entity = new Entity.EntityBuilder().withFoo(1).withBar("name").build();
         hashMap.put("entity", entity);
         LOG.info("{}", entity.toString());
         result.setResult(hashMap);
