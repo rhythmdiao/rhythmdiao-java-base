@@ -1,5 +1,7 @@
 package annotation;
 
+import org.eclipse.jetty.http.HttpMethods;
+
 import java.lang.annotation.*;
 
 @Documented
@@ -8,5 +10,7 @@ import java.lang.annotation.*;
 public @interface RestfulHandler {
     String uri();
 
-    String method();
+    String method() default HttpMethods.GET;
+
+    String identification() default "";
 }

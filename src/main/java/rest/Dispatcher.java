@@ -66,7 +66,7 @@ public final class Dispatcher extends AbstractHandler {
             throws IOException {
         request.setCharacterEncoding(Charsets.UTF_8.name());
         response.setCharacterEncoding(Charsets.UTF_8.name());
-        response.setContentType(ContentType.TEXT_XML.getMimeType());
+        response.setContentType(ContentType.TEXT_HTML.getMimeType());
         final String method = baseRequest.getMethod();
         final Object handler;
 
