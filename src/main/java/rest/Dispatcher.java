@@ -92,7 +92,7 @@ public final class Dispatcher extends AbstractHandler {
         }
         if (handler instanceof Handler) {
             BaseRestResult result = ((Handler) handler).execute(baseRequest);
-            response.getWriter().write(result.convertToResponse());
+            response.getWriter().write(((Handler) handler).convertToResponse(request,response,result));
             baseRequest.setHandled(true);
         }
     }
