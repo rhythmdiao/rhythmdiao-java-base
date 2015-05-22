@@ -8,14 +8,22 @@ import rest.result.BaseRestResult;
 import rest.result.WrappedResponse;
 
 public final class XMLRestResult extends BaseRestResult {
+    private static final XStream X_STREAM = new XStream(new DomDriver(Charsets.UTF_8.name()));
+
+    static {
+        X_STREAM.autodetectAnnotations(true);
+    }
+
+    public XMLRestResult() {
+        super();
+    }
+
     @Override
     public String convertToResponse() {
-        WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(),super.getResult(),super.getMsg());
+        WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(), super.getResult(), super.getMsg());
         String xml = Const.EMPTY_XML;
         try {
-            XStream xStream = new XStream(new DomDriver(Charsets.UTF_8.name()));
-            xStream.autodetectAnnotations(true);
-            xml = xStream.toXML(wrappedResponse);
+            xml = X_STREAM.toXML(wrappedResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }

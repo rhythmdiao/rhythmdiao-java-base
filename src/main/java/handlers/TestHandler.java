@@ -15,7 +15,15 @@ import rest.result.json.JsonRestResult;
 import java.util.HashMap;
 
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
-
+/*
+* Design the HTTP codes and responses you want
+* Common patterns:
+* Errors
+* Responses & data stubs
+* URLs
+* Versions
+* Data formats
+* */
 public
 @Controller
 @RestfulHandler(uri = "/test")

@@ -1,16 +1,13 @@
 package rest.result;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import java.io.Serializable;
 
-@XmlRootElement(name = "response")
+@XStreamAlias("response")
 public final class WrappedResponse implements Serializable {
-    @XmlElement
     private final int statusCode;
-    @XmlElement
     private final Object result;
-    @XmlElement
     private final String msg;
 
     public WrappedResponse(final int statusCode, final Object result, final String msg) {

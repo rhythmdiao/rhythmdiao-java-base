@@ -12,6 +12,8 @@ import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rest.result.BaseRestResult;
+import rest.result.json.JsonRestResult;
+import rest.result.xml.XMLRestResult;
 import utils.config.ApplicationContextWrapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,8 +67,6 @@ public final class Dispatcher extends AbstractHandler {
     public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         request.setCharacterEncoding(Charsets.UTF_8.name());
-        response.setCharacterEncoding(Charsets.UTF_8.name());
-        response.setContentType(ContentType.TEXT_HTML.getMimeType());
         final String method = baseRequest.getMethod();
         final Object handler;
 
@@ -92,7 +92,13 @@ public final class Dispatcher extends AbstractHandler {
         }
         if (handler instanceof Handler) {
             BaseRestResult result = ((Handler) handler).execute(baseRequest);
-            response.getWriter().write(((Handler) handler).convertToResponse(request,response,result));
+            response.setCharacterEncoding(Charsets.UTF_8.name());
+            if (result instanceof JsonRestResult) {
+                response.setContentType(ContentType.TEXT_HTML.getMimeType());
+            } else if (result instanceof XMLRestResult) {
+                response.setContentType(ContentType.TEXT_XML.getMimeType());
+            }
+            response.getWriter().write(((Handler) handler).convertToResponse(request, response, result));
             baseRequest.setHandled(true);
         }
     }
