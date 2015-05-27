@@ -1,12 +1,12 @@
 package http.impl;
 
-import constant.Const;
 import http.Client;
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.ConstResult;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
@@ -21,7 +21,7 @@ public class HttpGetClient extends HttpBaseClient implements Client {
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap) {
@@ -29,10 +29,12 @@ public class HttpGetClient extends HttpBaseClient implements Client {
             HttpGet httpGet = new HttpGet();
             super.setURI(httpGet, requestURI);
             super.addCustomHeader(httpGet, headerMap);
-            return super.getResponse(httpGet);
+            return super.fetchData(httpGet);
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
         }
-        return Const.EMPTY_STRING;
+        return ConstResult.STRING.getEmpty();
     }
 }

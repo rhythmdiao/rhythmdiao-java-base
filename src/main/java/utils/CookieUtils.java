@@ -1,4 +1,4 @@
-package utils.tool;
+package utils;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
@@ -12,13 +12,13 @@ import java.net.URLEncoder;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-public final class CookieUtil {
+public final class CookieUtils {
     private String domain;
     private String path;
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public CookieUtil(HttpServletRequest request, HttpServletResponse response, String domain, String path) {
+    public CookieUtils(HttpServletRequest request, HttpServletResponse response, String domain, String path) {
         this.request = request;
         this.response = response;
         this.domain = domain;

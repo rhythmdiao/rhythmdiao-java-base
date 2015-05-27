@@ -3,7 +3,7 @@ package rest.result.xml;
 import com.google.common.base.Charsets;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import constant.Const;
+import utils.ConstResult;
 import rest.result.BaseRestResult;
 import rest.result.WrappedResponse;
 
@@ -21,7 +21,7 @@ public final class XMLRestResult extends BaseRestResult {
     @Override
     public String convertToResponse() {
         WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(), super.getResult(), super.getMsg());
-        String xml = Const.EMPTY_XML;
+        String xml = ConstResult.XML.getEmpty();
         try {
             xml = X_STREAM.toXML(wrappedResponse);
         } catch (Exception e) {

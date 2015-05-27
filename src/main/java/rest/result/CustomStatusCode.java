@@ -5,7 +5,7 @@ public enum CustomStatusCode {
 
     private int statusCode;
 
-    private CustomStatusCode(int statusCode) {
+    CustomStatusCode(int statusCode) {
         this.statusCode = statusCode;
     }
 

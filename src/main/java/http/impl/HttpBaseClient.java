@@ -1,10 +1,12 @@
 package http.impl;
 
 import com.google.common.base.Charsets;
+import com.google.common.io.Closeables;
 import com.google.common.net.HostAndPort;
 import http.HttpMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -65,24 +67,22 @@ public abstract class HttpBaseClient implements HttpMessage {
     public void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
     }
 
-    public String getResponse(HttpRequestBase request) {
+    public String fetchData(HttpRequestBase request) throws IOException {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
-        try {
-            HttpResponse response = closeableHttpClient.execute(request);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                return EntityUtils.toString(entity, Charsets.UTF_8.name());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                closeableHttpClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+        HttpResponse response = closeableHttpClient.execute(request);
+
+        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+            throw new IOException("Error fetching data from " + request.getURI());
         }
+
+        HttpEntity entity = response.getEntity();
+        if (entity != null) {
+            return EntityUtils.toString(entity, Charsets.UTF_8.name());
+        }
+
+        Closeables.close(closeableHttpClient, true);
         return null;
     }
 }

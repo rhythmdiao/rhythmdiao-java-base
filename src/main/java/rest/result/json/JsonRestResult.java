@@ -2,7 +2,7 @@ package rest.result.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import constant.Const;
+import utils.ConstResult;
 import rest.result.BaseRestResult;
 import rest.result.WrappedResponse;
 
@@ -16,7 +16,7 @@ public final class JsonRestResult extends BaseRestResult {
     @Override
     public String convertToResponse() {
         WrappedResponse wrappedResponse = new WrappedResponse(super.getStatusCode(), super.getResult(), super.getMsg());
-        String json = Const.EMPTY_JSON;
+        String json = ConstResult.JSON.getEmpty();
         try {
             json = GSON.toJson(wrappedResponse);
         } catch (Exception e) {

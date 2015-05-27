@@ -3,7 +3,6 @@ package http.impl;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import http.Client;
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -12,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -34,15 +34,17 @@ public class HttpPostClient extends HttpBaseClient implements Client {
             super.setURI(httpPost, requestURI);
             super.addCustomHeader(httpPost, headerMap);
             addParameter(httpPost, parameterMap);
-            return super.getResponse(httpPost);
+            return super.fetchData(httpPost);
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
