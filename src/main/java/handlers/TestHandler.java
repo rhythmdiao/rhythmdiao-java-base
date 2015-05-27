@@ -1,8 +1,6 @@
 package handlers;
 
 import annotation.RestfulHandler;
-import api.http.Handler;
-import api.http.impl.BaseHandler;
 import entity.Entity;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;

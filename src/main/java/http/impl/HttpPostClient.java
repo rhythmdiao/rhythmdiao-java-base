@@ -1,8 +1,9 @@
-package http;
+package http.impl;
 
-import api.http.Client;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import http.Client;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -31,7 +32,7 @@ public class HttpPostClient extends HttpBaseClient implements Client {
         try {
             HttpPost httpPost = new HttpPost();
             super.setURI(httpPost, requestURI);
-            super.addHeader(httpPost, headerMap);
+            super.addCustomHeader(httpPost, headerMap);
             addParameter(httpPost, parameterMap);
             return super.getResponse(httpPost);
         } catch (URISyntaxException e) {
@@ -41,7 +42,7 @@ public class HttpPostClient extends HttpBaseClient implements Client {
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap) {
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override

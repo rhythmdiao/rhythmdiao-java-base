@@ -1,6 +1,5 @@
-package api.http.impl;
+package handlers;
 
-import api.http.Handler;
 import org.eclipse.jetty.server.Request;
 import rest.result.BaseRestResult;
 

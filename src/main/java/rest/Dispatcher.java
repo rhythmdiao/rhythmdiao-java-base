@@ -1,7 +1,7 @@
 package rest;
 
 import annotation.RestfulHandler;
-import api.http.Handler;
+import handlers.Handler;
 import com.google.common.base.Charsets;
 import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.http.HttpMethods;

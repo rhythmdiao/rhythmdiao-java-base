@@ -1,7 +1,8 @@
-package http;
+package http.impl;
 
-import api.http.Client;
 import constant.Const;
+import http.Client;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,14 +21,14 @@ public class HttpGetClient extends HttpBaseClient implements Client {
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
-        return null;
+        throw new NotImplementedException();
     }
 
     public String execute(String requestURI, HashMap<String, String> headerMap) {
         try {
             HttpGet httpGet = new HttpGet();
             super.setURI(httpGet, requestURI);
-            super.addHeader(httpGet, headerMap);
+            super.addCustomHeader(httpGet, headerMap);
             return super.getResponse(httpGet);
         } catch (URISyntaxException e) {
             e.printStackTrace();

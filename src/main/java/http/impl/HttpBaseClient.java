@@ -1,9 +1,8 @@
-package http;
+package http.impl;
 
-import api.http.HTTPRequest;
-import api.http.HTTPResponse;
 import com.google.common.base.Charsets;
 import com.google.common.net.HostAndPort;
+import http.HttpMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -22,8 +21,8 @@ import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
-
+public abstract class HttpBaseClient implements HttpMessage {
+    private static final String URI_HTTP_PREFIX = "http://";
     private static final Logger LOG = LoggerFactory.getLogger(HttpBaseClient.class);
 
     private String hostAndPort;
@@ -52,10 +51,10 @@ public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
     }
 
     protected void setURI(HttpRequestBase httpRequestBase, String requestURI) throws URISyntaxException {
-        httpRequestBase.setURI(new URI("http://" + (isNullOrEmpty(hostAndPort) ? requestURI : hostAndPort + requestURI)));
+        httpRequestBase.setURI(new URI(URI_HTTP_PREFIX + (isNullOrEmpty(hostAndPort) ? requestURI : hostAndPort + requestURI)));
     }
 
-    public void addHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
+    public void addCustomHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
         if (headerMap != null) {
             for (Map.Entry<String, String> header : headerMap.entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
@@ -66,11 +65,11 @@ public abstract class HttpBaseClient implements HTTPRequest, HTTPResponse {
     public void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
     }
 
-    public String getResponse(HttpRequestBase httpRequestBase) {
+    public String getResponse(HttpRequestBase request) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
         try {
-            HttpResponse response = closeableHttpClient.execute(httpRequestBase);
+            HttpResponse response = closeableHttpClient.execute(request);
             HttpEntity entity = response.getEntity();
             if (entity != null) {
                 return EntityUtils.toString(entity, Charsets.UTF_8.name());
