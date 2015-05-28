@@ -1,9 +1,7 @@
 package http;
 
-import java.util.HashMap;
+import http.impl.CustomRequest;
 
 public interface Client {
-    String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap);
-
-    String execute(String requestURI, HashMap<String, String> headerMap);
+    String execute(String requestURI, CustomRequest customRequest);
 }

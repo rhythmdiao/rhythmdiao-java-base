@@ -8,7 +8,6 @@ import utils.ConstResult;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 
 public class HttpGetClient extends HttpBaseClient implements Client {
     private static final Logger LOG = LoggerFactory.getLogger(HttpGetClient.class);
@@ -20,19 +19,15 @@ public class HttpGetClient extends HttpBaseClient implements Client {
         super(hostAndPort);
     }
 
-    public String execute(String requestURI, HashMap<String, String> headerMap, HashMap<String, String> parameterMap) {
-        throw new UnsupportedOperationException();
-    }
-
-    public String execute(String requestURI, HashMap<String, String> headerMap) {
+    public String execute(String requestURI, CustomRequest customRequest) {
         try {
             HttpGet httpGet = new HttpGet();
             super.setURI(httpGet, requestURI);
-            super.addCustomHeader(httpGet, headerMap);
-            return super.fetchData(httpGet);
+            super.addCustomHeader(httpGet, customRequest);
+            return super.getResponse(httpGet);
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return ConstResult.STRING.getEmpty();

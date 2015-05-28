@@ -1,15 +1,15 @@
 package http;
 
+import http.impl.CustomRequest;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 public interface HttpMessage {
-    void addCustomHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap);
+    void addCustomHeader(HttpRequestBase httpRequestBase, CustomRequest customRequest);
 
-    void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap);
+    void addParameter(HttpPost httpPost, CustomRequest customRequest);
 
-    String fetchData(HttpRequestBase httpRequestBase) throws IOException;
+    String getResponse(HttpRequestBase httpRequestBase) throws IOException;
 }

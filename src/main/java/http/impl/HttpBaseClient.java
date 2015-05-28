@@ -1,29 +1,34 @@
 package http.impl;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
 import com.google.common.net.HostAndPort;
 import http.HttpMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
-public abstract class HttpBaseClient implements HttpMessage {
+public class HttpBaseClient implements HttpMessage {
     private static final String URI_HTTP_PREFIX = "http://";
     private static final Logger LOG = LoggerFactory.getLogger(HttpBaseClient.class);
 
@@ -56,18 +61,31 @@ public abstract class HttpBaseClient implements HttpMessage {
         httpRequestBase.setURI(new URI(URI_HTTP_PREFIX + (isNullOrEmpty(hostAndPort) ? requestURI : hostAndPort + requestURI)));
     }
 
-    public void addCustomHeader(HttpRequestBase httpRequestBase, HashMap<String, String> headerMap) {
-        if (headerMap != null) {
-            for (Map.Entry<String, String> header : headerMap.entrySet()) {
+    public void addCustomHeader(HttpRequestBase httpRequestBase, CustomRequest customRequest) {
+        if (customRequest.getCustomRequestHeaders() != null) {
+            for (Map.Entry<String, String> header : customRequest.getCustomRequestHeaders().entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
             }
         }
     }
 
-    public void addParameter(HttpPost httpPost, HashMap<String, String> parameterMap) {
+    public void addParameter(HttpPost httpPost, CustomRequest customRequest) {
+        if (customRequest.getCustomRequestParameters() != null) {
+            List<NameValuePair> parameterList = Lists.newArrayList();
+            for (Map.Entry<String, String> parameter : customRequest.getCustomRequestParameters().entrySet()) {
+                parameterList.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
+            }
+            HttpEntity entity = null;
+            try {
+                entity = new UrlEncodedFormEntity(parameterList, Charsets.UTF_8.name());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            httpPost.setEntity(entity);
+        }
     }
 
-    public String fetchData(HttpRequestBase request) throws IOException {
+    public String getResponse(HttpRequestBase request) throws IOException {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
 
