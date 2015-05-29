@@ -57,15 +57,12 @@ public final class Dispatcher extends AbstractHandler {
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+
         request.setCharacterEncoding(Charsets.UTF_8.name());
         final String method = baseRequest.getMethod();
-        final Object handler;
-
-        try {
-            handler = RequestPathStorage.getPathMap().row(method).get(target);
-        } catch (NullPointerException e) {
-            LOG.error("Unknown uri, and the uri is [{}]", target);
-            return;
+        final Object handler = RequestPathStorage.getPathMap().row(method).get(target);
+        if (handler == null) {
+            LOG.info("Unknown uri, and the uri is [{}]", target);
         }
 
         if (handler instanceof Handler) {

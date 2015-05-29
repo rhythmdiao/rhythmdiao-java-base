@@ -3,6 +3,7 @@ package rest;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
+import handlers.Handler;
 
 public enum RequestPathStorage {
     instance;
@@ -14,7 +15,9 @@ public enum RequestPathStorage {
     }
 
     public void setPathMap(String method, String uri, Object handler) {
-        this.pathTable.put(method, uri, handler);
+        if (handler instanceof Handler) {
+            pathTable.put(method, uri, handler);
+        }
     }
 
     public static ImmutableTable<String, String, Object> getPathMap() {
