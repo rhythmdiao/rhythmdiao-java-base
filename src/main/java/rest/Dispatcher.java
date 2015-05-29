@@ -1,11 +1,9 @@
 package rest;
 
 import annotation.RestfulHandler;
-import handlers.Handler;
 import com.google.common.base.Charsets;
+import handlers.Handler;
 import org.apache.http.entity.ContentType;
-import org.eclipse.jetty.http.HttpMethods;
-import org.eclipse.jetty.http.PathMap;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.reflections.Reflections;
@@ -24,8 +22,6 @@ import java.util.Set;
 
 public final class Dispatcher extends AbstractHandler {
     private static final Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
-    private static final PathMap getPathMapper = new PathMap();
-    private static final PathMap postPathMapper = new PathMap();
 
     public void init() throws IOException {
         Reflections reflections = ApplicationContextWrapper.getBean("reflections", Reflections.class);
@@ -56,40 +52,22 @@ public final class Dispatcher extends AbstractHandler {
         }
 
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
-
-        if (method.equals(HttpMethods.GET)) {
-            getPathMapper.put(uri, handler);
-        } else if (method.equals(HttpMethods.POST)) {
-            postPathMapper.put(uri, handler);
-        }
+        RequestPathStorage.getInstance().setPathMap(method, uri, handler);
     }
 
-    public void handle(String uri, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
+    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         request.setCharacterEncoding(Charsets.UTF_8.name());
         final String method = baseRequest.getMethod();
         final Object handler;
 
-        if (method.equals(HttpMethods.GET)) {
-            try {
-                handler = getPathMapper.getMatch(uri)
-                        .getValue();
-            } catch (NullPointerException e) {
-                LOG.error("Unknown uri, and the uri is [{}]", uri);
-                return;
-            }
-
-        } else if (method.equals(HttpMethods.POST)) {
-            try {
-                handler = postPathMapper.getMatch(uri)
-                        .getValue();
-            } catch (NullPointerException e) {
-                LOG.error("Unknown uri, and uri is [{}]", uri);
-                return;
-            }
-        } else {
+        try {
+            handler = RequestPathStorage.getPathMap().row(method).get(target);
+        } catch (NullPointerException e) {
+            LOG.error("Unknown uri, and the uri is [{}]", target);
             return;
         }
+
         if (handler instanceof Handler) {
             BaseRestResult result = ((Handler) handler).execute(baseRequest);
             response.setCharacterEncoding(Charsets.UTF_8.name());
