@@ -62,17 +62,17 @@ public class HttpBaseClient implements HttpMessage {
     }
 
     public void addCustomHeader(HttpRequestBase httpRequestBase, CustomRequest customRequest) {
-        if (customRequest.getCustomRequestHeaders() != null) {
-            for (Map.Entry<String, String> header : customRequest.getCustomRequestHeaders().entrySet()) {
+        if (customRequest.getCustomHeaderMap() != null) {
+            for (Map.Entry<String, String> header : customRequest.getCustomHeaderMap().entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
             }
         }
     }
 
     public void addParameter(HttpPost httpPost, CustomRequest customRequest) {
-        if (customRequest.getCustomRequestParameters() != null) {
+        if (customRequest.getParameterMap() != null) {
             List<NameValuePair> parameterList = Lists.newArrayList();
-            for (Map.Entry<String, String> parameter : customRequest.getCustomRequestParameters().entrySet()) {
+            for (Map.Entry<String, String> parameter : customRequest.getParameterMap().entrySet()) {
                 parameterList.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
             }
             HttpEntity entity = null;

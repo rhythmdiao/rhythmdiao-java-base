@@ -1,39 +1,37 @@
 package http.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import java.util.Collections;
 import java.util.Map;
 
 public class CustomRequest {
-    private Map<String, String> customRequestHeaders;
-    private Map<String, String> customRequestParameters;
+    private Map<String, String> customHeaderMap;
+    private Map<String, String> parameterMap;
 
-    public Map<String, String> getCustomRequestHeaders() {
-        if (customRequestHeaders == null) {
-            return null;
-        }
-        return Collections.unmodifiableMap(customRequestHeaders);
+    public CustomRequest() {
+        customHeaderMap = Maps.newHashMap();
+        parameterMap = Maps.newHashMap();
+    }
+
+    public CustomRequest(Map<String, String> customHeaderMap, Map<String, String> parameterMap) {
+        this.customHeaderMap = customHeaderMap;
+        this.parameterMap = parameterMap;
+    }
+
+    public ImmutableMap<String, String> getCustomHeaderMap() {
+        return ImmutableMap.copyOf(customHeaderMap);
     }
 
     public String setCustomRequestHeaders(String key, String value) {
-        if (customRequestHeaders == null) {
-            customRequestHeaders = Maps.newHashMap();
-        }
-        return customRequestHeaders.put(key, value);
+        return customHeaderMap.put(key, value);
     }
 
-    public Map<String, String> getCustomRequestParameters() {
-        if (customRequestParameters == null) {
-            return null;
-        }
-        return Collections.unmodifiableMap(customRequestParameters);
+    public ImmutableMap<String, String> getParameterMap() {
+        return ImmutableMap.copyOf(parameterMap);
     }
 
     public String setCustomRequestParameters(String key, String value) {
-        if (customRequestParameters == null) {
-            customRequestParameters = Maps.newHashMap();
-        }
-        return customRequestParameters.put(key, value);
+        return parameterMap.put(key, value);
     }
 }

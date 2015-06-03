@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 @SuppressWarnings("unchecked")
 public final class CacheWrapper<K, V> {
-    private static CacheWrapper instance = null;
+    private volatile static CacheWrapper instance;
 
     private ConcurrentMap<String, Cache<K, V>> cacheMap;
 
@@ -17,7 +17,7 @@ public final class CacheWrapper<K, V> {
         cacheMap = Maps.newConcurrentMap();
     }
 
-    public synchronized static CacheWrapper getInstance() {
+    public static CacheWrapper getInstance() {
         if (instance == null) {
             instance = new CacheWrapper();
         }

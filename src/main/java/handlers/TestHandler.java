@@ -25,10 +25,9 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 public
 @Controller
 @RestfulHandler(uri = "/test")
-class TestHandler extends BaseHandler implements Handler {
+class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
-    @Override
     public BaseRestResult execute(final Request request) {
         BaseRestResult result = new JsonRestResult();
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());

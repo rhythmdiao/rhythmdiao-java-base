@@ -1,5 +1,6 @@
 package rest.result;
 
+import com.google.common.base.MoreObjects;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
@@ -26,5 +27,14 @@ public final class WrappedResponse implements Serializable {
 
     public String getMsg() {
         return msg;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("statusCode", statusCode)
+                .add("msg", msg)
+                .add("result", result)
+                .toString();
     }
 }
