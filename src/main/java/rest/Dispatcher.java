@@ -60,7 +60,7 @@ public final class Dispatcher extends AbstractHandler {
 
         request.setCharacterEncoding(Charsets.UTF_8.name());
         final String method = baseRequest.getMethod();
-        final Object handler = RequestPathStorage.getPathMap().row(method).get(target);
+        final Object handler = RequestPathStorage.getInstance().getPathMap().row(method).get(target);
         if (handler == null) {
             LOG.info("Unknown uri, and the uri is [{}]", target);
         }

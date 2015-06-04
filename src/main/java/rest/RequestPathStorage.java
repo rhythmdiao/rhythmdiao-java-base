@@ -20,8 +20,8 @@ public enum RequestPathStorage {
         }
     }
 
-    public static ImmutableTable<String, String, Object> getPathMap() {
-        return ImmutableTable.copyOf(getInstance().pathTable);
+    public ImmutableTable<String, String, Object> getPathMap() {
+        return ImmutableTable.copyOf(pathTable);
     }
 
     public static RequestPathStorage getInstance() {
