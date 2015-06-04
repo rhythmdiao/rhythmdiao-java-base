@@ -1,4 +1,16 @@
-rhythmdiao-java-base
+#rhythmdiao base for JAVA development
 ====================
+##Features
+--------------------
+*   easy-to-use embed jetty server and deamons assembler for building and running application.
+*   provides annotated handlers to demonstrate simple restful webservice API.
+*   wrapped json and xml result to generate http response.
+*   wrapped cache and path map to manage application level cache and uri.
+*   custom HTTP clients to fetch data from outside.
+*   build passing.
+*   and more!
 
-self base utils for JAVA programming, consists of a simple wrapped http client for RPC and embed jetty dispatcher for Restful Webservice.
+##Getting Started
+--------------------
+*   using maven is the recommended way to install this for your JAVA application.
+*   using "general" package as a module or developing code at the entire project are all ready to go.
