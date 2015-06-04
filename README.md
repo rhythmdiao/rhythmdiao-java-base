@@ -1,5 +1,5 @@
 #rhythmdiao base for JAVA development
-====================
+--------------------
 ##Features
 --------------------
 *   easy-to-use embed jetty server and deamons assembler for building and running application.
