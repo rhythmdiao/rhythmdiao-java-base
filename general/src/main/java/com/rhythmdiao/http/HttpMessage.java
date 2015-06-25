@@ -11,5 +11,5 @@ public interface HttpMessage {
 
     void addParameter(HttpPost httpPost, CustomRequest customRequest);
 
-    String getResponse(HttpRequestBase httpRequestBase) throws IOException;
+    String sendAndReceive(HttpRequestBase httpRequestBase) throws IOException;
 }

@@ -24,7 +24,7 @@ public class HttpGetClient extends HttpBaseClient implements Client {
             HttpGet httpGet = new HttpGet();
             super.setURI(httpGet, requestURI);
             super.addCustomHeader(httpGet, customRequest);
-            return super.getResponse(httpGet);
+            return super.sendAndReceive(httpGet);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {

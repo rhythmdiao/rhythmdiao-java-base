@@ -15,7 +15,7 @@ public enum RequestPathStorage {
     }
 
     public void setPathMap(String method, String uri, Object handler) {
-        if (handler instanceof Handler) {
+        if (Handler.class.isInstance(handler)) {
             pathTable.put(method, uri, handler);
         }
     }

@@ -1,18 +1,18 @@
 package com.rhythmdiao.rest;
 
-import com.rhythmdiao.annotation.RestfulHandler;
 import com.google.common.base.Charsets;
+import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handlers.Handler;
+import com.rhythmdiao.rest.result.BaseRestResult;
+import com.rhythmdiao.rest.result.json.JsonRestResult;
+import com.rhythmdiao.rest.result.xml.XMLRestResult;
+import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.rhythmdiao.rest.result.BaseRestResult;
-import com.rhythmdiao.rest.result.json.JsonRestResult;
-import com.rhythmdiao.rest.result.xml.XMLRestResult;
-import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ public final class Dispatcher extends AbstractHandler {
         for (Class clazz : classes) {
             Annotation[] annotations = clazz.getAnnotations();
             for (Annotation annotation : annotations) {
-                if (annotation instanceof RestfulHandler) {
+                if (RestfulHandler.class.isInstance(annotation)) {
                     try {
                         dispatcher(clazz, (RestfulHandler) annotation);
                     } catch (ClassNotFoundException e) {
@@ -46,7 +46,7 @@ public final class Dispatcher extends AbstractHandler {
         final String uri = annotation.uri();
         final Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
 
-        if (!(handler instanceof Handler)) {
+        if (!(Handler.class.isInstance(handler))) {
             throw new RuntimeException(clazz.toString()
                     + "is not an instance of " + Handler.class);
         }
@@ -65,12 +65,12 @@ public final class Dispatcher extends AbstractHandler {
             LOG.info("Unknown uri, and the uri is [{}]", target);
         }
 
-        if (handler instanceof Handler) {
+        if (Handler.class.isInstance(handler)) {
             BaseRestResult result = ((Handler) handler).execute(baseRequest);
             response.setCharacterEncoding(Charsets.UTF_8.name());
-            if (result instanceof JsonRestResult) {
+            if (JsonRestResult.class.isInstance(result)) {
                 response.setContentType(ContentType.TEXT_HTML.getMimeType());
-            } else if (result instanceof XMLRestResult) {
+            } else if (XMLRestResult.class.isInstance(result)) {
                 response.setContentType(ContentType.TEXT_XML.getMimeType());
             }
             response.getWriter().write(((Handler) handler).convertToResponse(request, response, result));

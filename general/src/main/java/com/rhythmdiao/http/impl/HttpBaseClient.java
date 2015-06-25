@@ -85,7 +85,7 @@ public class HttpBaseClient implements HttpMessage {
         }
     }
 
-    public String getResponse(HttpRequestBase request) throws IOException {
+    public String sendAndReceive(HttpRequestBase request) throws IOException {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
 

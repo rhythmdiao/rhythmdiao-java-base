@@ -24,7 +24,7 @@ public class HttpPostClient extends HttpBaseClient implements Client {
             super.setURI(httpPost, requestURI);
             super.addCustomHeader(httpPost, customRequest);
             super.addParameter(httpPost, customRequest);
-            return super.getResponse(httpPost);
+            return super.sendAndReceive(httpPost);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (IOException e) {
