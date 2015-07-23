@@ -6,7 +6,7 @@ import com.google.common.collect.Table;
 import com.rhythmdiao.handlers.Handler;
 
 public enum RequestPathStorage {
-    instance;
+    INSTANCE;
 
     private Table<String, String, Object> pathTable;
 
@@ -22,9 +22,5 @@ public enum RequestPathStorage {
 
     public ImmutableTable<String, String, Object> getPathMap() {
         return ImmutableTable.copyOf(pathTable);
-    }
-
-    public static RequestPathStorage getInstance() {
-        return instance;
     }
 }

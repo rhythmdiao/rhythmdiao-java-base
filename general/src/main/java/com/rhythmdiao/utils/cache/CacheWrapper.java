@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
 public final class CacheWrapper<K, V> {
-    private volatile static CacheWrapper instance;
+    private static CacheWrapper instance = new CacheWrapper();
 
     private ConcurrentMap<String, Cache<K, V>> cacheMap;
 
@@ -19,9 +19,6 @@ public final class CacheWrapper<K, V> {
     }
 
     public static CacheWrapper getInstance() {
-        if (instance == null) {
-            instance = new CacheWrapper();
-        }
         return instance;
     }
 
