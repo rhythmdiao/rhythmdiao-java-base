@@ -1,11 +1,12 @@
 package com.rhythmdiao.injection;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.rhythmdiao.handlers.HandlerInfo;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -24,11 +25,9 @@ public enum FieldInjection {
         return ImmutableList.copyOf(fieldInjectionList);
     }
 
-    public Map<String, Object> injectField(HandlerInfo handlerInfo, HttpServletRequest request) throws IllegalAccessException, InstantiationException {
-        Map<String, Object> injectedFieldMap = Maps.newHashMap();
+    public void injectField(ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap) throws IllegalAccessException, InstantiationException {
         for (Class<? extends AbstractInjection> fieldInjection : getFieldInjectionList()) {
-            fieldInjection.newInstance().injectField(handlerInfo, request, injectedFieldMap);
+            fieldInjection.newInstance().injectField(annotatedFieldMap, request, fieldMap);
         }
-        return injectedFieldMap;
     }
 }

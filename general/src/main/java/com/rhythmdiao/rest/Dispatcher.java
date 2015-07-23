@@ -1,12 +1,13 @@
 package com.rhythmdiao.rest;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handlers.BaseHandler;
 import com.rhythmdiao.handlers.Handler;
 import com.rhythmdiao.handlers.HandlerInfo;
-import com.rhythmdiao.injection.AnnotationStorage;
+import com.rhythmdiao.injection.FieldAnnotationStorage;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.rest.result.BaseRestResult;
 import com.rhythmdiao.rest.result.json.JsonRestResult;
@@ -48,12 +49,13 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    private void addHandlerInfo(Class clazz, BaseHandler handler) throws ClassNotFoundException {
-        HandlerInfo handlerInfo = new HandlerInfo();
-        for (Field field : clazz.getDeclaredFields()) {
-            for (Class<? extends Annotation> annotation : AnnotationStorage.getInstance().getCustomAnnotationList())
+    private void setHandlerInfo(Class clazz, BaseHandler handler) throws ClassNotFoundException {
+        final Field[] fields = clazz.getDeclaredFields();
+        HandlerInfo handlerInfo = new HandlerInfo(fields.length);
+        for (Field field : fields) {
+            for (Class<? extends Annotation> annotation : FieldAnnotationStorage.INSTANCE.getFieldAnnotationList())
                 if (field.isAnnotationPresent(annotation)) {
-                    handlerInfo.setFieldwithAnnotationMap(annotation, handlerInfo.new FieldWithAnnotation(field, field.getAnnotation(annotation)));
+                    handlerInfo.setAnnotatedFieldMap(field, annotation);
                 }
         }
         handler.setHandlerInfo(handlerInfo);
@@ -69,8 +71,8 @@ public final class Dispatcher extends AbstractHandler {
             throw new RuntimeException(clazz.toString()
                     + "is not an instance of " + Handler.class);
         }
-        addHandlerInfo(clazz, (BaseHandler) handler);
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
+        setHandlerInfo(clazz, (BaseHandler) handler);
         RequestPathStorage.INSTANCE.setPathMap(method, uri, handler);
     }
 
@@ -87,15 +89,16 @@ public final class Dispatcher extends AbstractHandler {
         if (Handler.class.isInstance(handler)) {
             BaseHandler baseHandler = (BaseHandler) handler;
             BeanMap beanMap = BeanMap.create(baseHandler);
-            Map<String, Object> injectedFieldMap = Maps.newHashMap();
+            ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap = baseHandler.getHandlerInfo().getAnnotatedFieldMap();
+            Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFieldMap.size());
             try {
-                injectedFieldMap = FieldInjection.INSTANCE.injectField(baseHandler.getHandlerInfo(), request);
+                FieldInjection.INSTANCE.injectField(annotatedFieldMap, request, fieldMap);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
-            beanMap.putAll(injectedFieldMap);
+            beanMap.putAll(fieldMap);
             BaseRestResult result = baseHandler.execute(baseRequest);
             response.setCharacterEncoding(Charsets.UTF_8.name());
             if (JsonRestResult.class.isInstance(result)) {

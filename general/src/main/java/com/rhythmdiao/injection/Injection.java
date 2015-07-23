@@ -1,10 +1,12 @@
 package com.rhythmdiao.injection;
 
-import com.rhythmdiao.handlers.HandlerInfo;
+import com.google.common.collect.ImmutableMap;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.Map;
 
 public interface Injection {
-    void injectField(HandlerInfo handlerInfo, HttpServletRequest request, Map<String, Object> injectedFieldMap);
+    void injectField(ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap);
 }
