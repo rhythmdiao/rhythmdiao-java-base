@@ -7,7 +7,7 @@ import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handlers.BaseHandler;
 import com.rhythmdiao.handlers.Handler;
 import com.rhythmdiao.handlers.HandlerInfo;
-import com.rhythmdiao.injection.FieldAnnotationStorage;
+import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.rest.result.BaseRestResult;
 import com.rhythmdiao.rest.result.json.JsonRestResult;
@@ -49,14 +49,21 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    private void setHandlerInfo(Class clazz, BaseHandler handler) throws ClassNotFoundException {
-        final Field[] fields = clazz.getDeclaredFields();
+    private void setHandlerInfo(Field[] fields, BaseHandler handler) throws ClassNotFoundException {
         HandlerInfo handlerInfo = new HandlerInfo(fields.length);
         for (Field field : fields) {
-            for (Class<? extends Annotation> annotation : FieldAnnotationStorage.INSTANCE.getFieldAnnotationList())
-                if (field.isAnnotationPresent(annotation)) {
-                    handlerInfo.setAnnotatedFieldMap(field, annotation);
+            for (Class<? extends AbstractInjector> clazz : FieldInjection.INSTANCE.getInjectorList()) {
+                try {
+                    final Class<? extends Annotation> annotation = clazz.newInstance().getAnnotation();
+                    if (field.isAnnotationPresent(annotation)) {
+                        handlerInfo.setAnnotatedFieldMap(field, annotation);
+                    }
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
+            }
         }
         handler.setHandlerInfo(handlerInfo);
     }
@@ -72,7 +79,7 @@ public final class Dispatcher extends AbstractHandler {
                     + "is not an instance of " + Handler.class);
         }
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
-        setHandlerInfo(clazz, (BaseHandler) handler);
+        setHandlerInfo(clazz.getDeclaredFields(), (BaseHandler) handler);
         RequestPathStorage.INSTANCE.setPathMap(method, uri, handler);
     }
 

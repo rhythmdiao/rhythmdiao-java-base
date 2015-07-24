@@ -32,13 +32,10 @@ class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
     @RequestHeader
-    private String field1 = "foo";
+    private String field1 = "911";
 
-    @RequestHeader
-    private String field2 = "1";
-
-    @RequestParameter("field3")
-    private String field3 = "bar";
+    @RequestParameter
+    private String field2 = "bar";
 
     @Override
     public BaseRestResult execute(final Request request) {
@@ -46,7 +43,7 @@ class TestHandler extends BaseHandler {
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
         result.setMsg("for test");
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
-        Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field2)).withBar(field1).build();
+        Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field1)).withBar(field2).build();
         hashMap.put("entity", entity);
         result.setResult(hashMap);
         return result;
@@ -58,9 +55,5 @@ class TestHandler extends BaseHandler {
 
     public void setField2(String field2) {
         this.field2 = field2;
-    }
-
-    public void setField3(String field3) {
-        this.field3 = field3;
     }
 }
