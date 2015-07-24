@@ -21,16 +21,16 @@ public final class HandlerLogAspect {
 
     @Around(EXECUTION + "&&args(request)")
     public BaseRestResult processExecution(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
-        LOG.info("Handler:{}", proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName());
-        LOG.info("request headers:");
+        LOG.debug("Handler:{}", proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName());
+        LOG.debug("request headers:");
         Enumeration headerKeys = request.getHeaderNames();
         while (headerKeys.hasMoreElements()) {
             Object key = headerKeys.nextElement();
             LOG.debug("{}:{}", key, request.getHeader((String) key));
         }
-        LOG.info("request parameters:");
+        LOG.debug("request parameters:");
         for (Object key : request.getParameterMap().keySet()) {
-            LOG.info("{}:{}", key, request.getParameter((String) key));
+            LOG.debug("{}:{}", key, request.getParameter((String) key));
         }
         RestfulHandler restfulHandler = (RestfulHandler) proceedingJoinPoint.getSignature().getDeclaringType().getAnnotation(RestfulHandler.class);
         final String identification = restfulHandler.identification();

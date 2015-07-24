@@ -37,7 +37,6 @@ class TestHandler extends BaseHandler {
     @RequestParameter
     private String field2 = "bar";
 
-    @Override
     public BaseRestResult execute(final Request request) {
         BaseRestResult result = new JsonRestResult();
         result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());

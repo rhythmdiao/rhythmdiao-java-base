@@ -14,8 +14,8 @@ import java.util.Map;
 
 @Injector
 public final class RequestHeaderInjector extends AbstractInjector {
-    public Class<RequestHeader> getAnnotation() {
-        return RequestHeader.class;
+    public RequestHeaderInjector() {
+        super(RequestHeader.class);
     }
 
     public void injectField(ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap) {
