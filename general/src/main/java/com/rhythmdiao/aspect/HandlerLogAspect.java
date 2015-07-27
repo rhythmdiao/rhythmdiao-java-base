@@ -43,7 +43,7 @@ public final class HandlerLogAspect {
         } else {
             result = new JsonRestResult();
         }
-        LOG.info("response:\n{}", result.convertToResponse());
+        LOG.info("response:\n{}", result.convertResult());
         return result;
     }
 }

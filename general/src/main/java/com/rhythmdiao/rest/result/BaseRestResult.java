@@ -1,45 +1,71 @@
 package com.rhythmdiao.rest.result;
 
+import com.google.common.base.MoreObjects;
+
 import java.io.Serializable;
 import java.util.Map;
 
-import static com.google.common.collect.Maps.newHashMap;
-
-public abstract class BaseRestResult implements Serializable {
+public abstract class BaseRestResult implements Serializable,Result {
     private static final long serialVersionUID = 1L;
-    private int statusCode;
-    private Map result;
-    private String msg;
+    private String apiVersion;
+    private String context;
+    private String id;
+    private Map data;
+    private Map error;
 
     public BaseRestResult() {
-        statusCode = CustomStatusCode.UNKNOWN_HTTP_SOURCE.getStatusCode();
-        msg = "UNKNOWN HTTP SOURCE";
-        result = newHashMap();
+        this.apiVersion = "1.0";
+        this.context = "default";
     }
 
-    public Map getResult() {
-        return result;
+    public String getApiVersion() {
+        return apiVersion;
     }
 
-    public void setResult(Map result) {
-        this.result = result;
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public String getContext() {
+        return context;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void setContext(String context) {
+        this.context = context;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getId() {
+        return id;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public abstract String convertToResponse();
+    public Map getData() {
+        return data;
+    }
+
+    public void setData(Map data) {
+        this.data = data;
+    }
+
+    public Map getError() {
+        return error;
+    }
+
+    public void setError(Map error) {
+        this.error = error;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).omitNullValues()
+                .add("id", id)
+                .add("apiVersion", apiVersion)
+                .add("context", context)
+                .add("data", data)
+                .add("error", error)
+                .toString();
+    }
 }

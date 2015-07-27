@@ -5,7 +5,6 @@ import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
 import com.rhythmdiao.rest.result.BaseRestResult;
-import com.rhythmdiao.rest.result.CustomStatusCode;
 import com.rhythmdiao.rest.result.json.JsonRestResult;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
@@ -39,12 +38,10 @@ class TestHandler extends BaseHandler {
 
     public BaseRestResult execute(final Request request) {
         BaseRestResult result = new JsonRestResult();
-        result.setStatusCode(CustomStatusCode.SUCCESS.getStatusCode());
-        result.setMsg("for test");
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field1)).withBar(field2).build();
-        hashMap.put("entity", entity);
-        result.setResult(hashMap);
+        hashMap.put("items", entity);
+        result.setData(hashMap);
         return result;
     }
 

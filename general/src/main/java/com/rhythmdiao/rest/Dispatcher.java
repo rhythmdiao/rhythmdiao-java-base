@@ -113,7 +113,7 @@ public final class Dispatcher extends AbstractHandler {
             } else if (XMLRestResult.class.isInstance(result)) {
                 response.setContentType(ContentType.TEXT_XML.getMimeType());
             }
-            response.getWriter().write(((Handler) handler).convertToResponse(request, response, result));
+            response.getWriter().write(((Handler) handler).convertResult(request, response, result));
             baseRequest.setHandled(true);
         }
     }

@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class BaseHandler implements Handler {
     private HandlerInfo handlerInfo;
 
-    public String convertToResponse(HttpServletRequest request, HttpServletResponse response, BaseRestResult result) {
-        return result.convertToResponse();
+    public String convertResult(HttpServletRequest request, HttpServletResponse response, BaseRestResult result) {
+        return result.convertResult();
     }
 
     public HandlerInfo getHandlerInfo() {

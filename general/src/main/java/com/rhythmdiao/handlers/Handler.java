@@ -9,5 +9,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface Handler {
     BaseRestResult execute(Request request);
 
-    String convertToResponse(HttpServletRequest request, HttpServletResponse response, BaseRestResult result);
+    String convertResult(HttpServletRequest request, HttpServletResponse response, BaseRestResult result);
 }
