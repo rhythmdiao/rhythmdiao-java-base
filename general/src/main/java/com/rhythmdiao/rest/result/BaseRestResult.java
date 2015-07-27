@@ -5,11 +5,13 @@ import com.google.common.base.MoreObjects;
 import java.io.Serializable;
 import java.util.Map;
 
-public abstract class BaseRestResult implements Serializable,Result {
+public abstract class BaseRestResult implements Serializable, Result {
     private static final long serialVersionUID = 1L;
     private String apiVersion;
     private String context;
     private String id;
+    private int statusCode;
+    private String statusMsg;
     private Map data;
     private Map error;
 
@@ -42,6 +44,22 @@ public abstract class BaseRestResult implements Serializable,Result {
         this.id = id;
     }
 
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
     public Map getData() {
         return data;
     }
@@ -61,9 +79,11 @@ public abstract class BaseRestResult implements Serializable,Result {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues()
+                .add("statusCode", statusCode)
                 .add("id", id)
                 .add("apiVersion", apiVersion)
                 .add("context", context)
+                .add("statusMsg", statusMsg)
                 .add("data", data)
                 .add("error", error)
                 .toString();
