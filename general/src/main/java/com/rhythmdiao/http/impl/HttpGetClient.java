@@ -4,9 +4,7 @@ import com.rhythmdiao.http.Client;
 import org.apache.http.client.methods.HttpGet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.rhythmdiao.utils.ConstResult;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class HttpGetClient extends HttpBaseClient implements Client {
@@ -27,9 +25,7 @@ public class HttpGetClient extends HttpBaseClient implements Client {
             return super.sendAndReceive(httpGet);
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return ConstResult.STRING.getEmpty();
+        return null;
     }
 }

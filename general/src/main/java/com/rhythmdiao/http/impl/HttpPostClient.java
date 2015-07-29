@@ -5,7 +5,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class HttpPostClient extends HttpBaseClient implements Client {
@@ -26,8 +25,6 @@ public class HttpPostClient extends HttpBaseClient implements Client {
             super.addParameter(httpPost, customRequest);
             return super.sendAndReceive(httpPost);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;

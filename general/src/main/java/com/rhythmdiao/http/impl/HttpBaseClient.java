@@ -85,22 +85,30 @@ public class HttpBaseClient implements HttpMessage {
         }
     }
 
-    public String sendAndReceive(HttpRequestBase request) throws IOException {
+    public String sendAndReceive(HttpRequestBase request) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
 
-        HttpResponse response = closeableHttpClient.execute(request);
+        HttpResponse response;
+        try {
+            response = closeableHttpClient.execute(request);
+            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                throw new IOException("Error fetching data from " + request.getURI());
+            }
 
-        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-            throw new IOException("Error fetching data from " + request.getURI());
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                return EntityUtils.toString(entity, Charsets.UTF_8.name());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                Closeables.close(closeableHttpClient, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-        HttpEntity entity = response.getEntity();
-        if (entity != null) {
-            return EntityUtils.toString(entity, Charsets.UTF_8.name());
-        }
-
-        Closeables.close(closeableHttpClient, true);
         return null;
     }
 }
