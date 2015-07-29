@@ -9,7 +9,7 @@ public final class ConfigUtil {
 
     static {
         try {
-            propertiesConfiguration = new PropertiesConfiguration("launcher/src/main/resources/config.properties");
+            propertiesConfiguration = new PropertiesConfiguration("conf/config.properties");
             propertiesConfiguration.setReloadingStrategy(new FileChangedReloadingStrategy());
         } catch (ConfigurationException e) {
             e.printStackTrace();
