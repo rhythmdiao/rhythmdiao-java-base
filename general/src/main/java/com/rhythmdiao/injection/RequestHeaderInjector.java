@@ -2,7 +2,6 @@ package com.rhythmdiao.injection;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.Injector;
 import com.rhythmdiao.annotation.RequestHeader;
@@ -18,8 +17,8 @@ public final class RequestHeaderInjector extends AbstractInjector {
         super(RequestHeader.class);
     }
 
-    public void injectField(ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap) {
-        for (ImmutableMap.Entry<Field, Class<? extends Annotation>> entry :
+    public void injectField(Map<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap) {
+        for (Map.Entry<Field, Class<? extends Annotation>> entry :
                 Maps.filterValues(annotatedFieldMap, new Predicate<Class<? extends Annotation>>() {
                     public boolean apply(Class<? extends Annotation> annotation) {
                         return annotation.equals(RequestHeader.class);

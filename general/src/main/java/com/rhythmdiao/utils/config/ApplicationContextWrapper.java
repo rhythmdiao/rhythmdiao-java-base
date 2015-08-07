@@ -19,7 +19,7 @@ public final class ApplicationContextWrapper implements ApplicationContextAware 
         return applicationContext.getBean(name, clazz);
     }
 
-    public static Object getBeanByClass(Class<?> clazz) throws BeansException, ClassNotFoundException {
+    public static <T> T getBean(Class<T> clazz) throws BeansException, ClassNotFoundException {
         return applicationContext.getBean(clazz);
     }
 }

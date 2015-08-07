@@ -1,17 +1,12 @@
 package com.rhythmdiao.injection;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.rhythmdiao.annotation.Injector;
 import org.reflections.Reflections;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public enum FieldInjection {
     INSTANCE;
@@ -22,22 +17,22 @@ public enum FieldInjection {
     FieldInjection() {
         Reflections reflections = new Reflections("com.rhythmdiao.injection");
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Injector.class);
-        injectorList = Lists.newArrayListWithExpectedSize(classes.size());
-        for (Class<?> clazz : classes) {
-            if (clazz.getSuperclass().equals(AbstractInjector.class)) {
-                final Class<? extends AbstractInjector> injector = (Class<? extends AbstractInjector>) clazz;
+        injectorList = new ArrayList<Class<? extends AbstractInjector>>(classes.size());
+        for (Class<?> cls : classes) {
+            if (cls.getSuperclass().equals(AbstractInjector.class)) {
+                final Class<? extends AbstractInjector> injector = (Class<? extends AbstractInjector>) cls;
                 injectorList.add(injector);
             }
         }
     }
 
-    public ImmutableList<Class<? extends AbstractInjector>> getInjectorList() {
-        return ImmutableList.copyOf(injectorList);
+    public List<Class<? extends AbstractInjector>> getInjectorList() {
+       return Collections.unmodifiableList(injectorList);
     }
 
-    public void injectField(ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap, HttpServletRequest request, Map<String, Object> fieldMap) throws IllegalAccessException, InstantiationException {
+    public void injectField(Map<Field, Class<? extends Annotation>> annotatedFields, HttpServletRequest request, Map<String, Object> fieldMap) throws IllegalAccessException, InstantiationException {
         for (Class<? extends AbstractInjector> fieldInjector : getInjectorList()) {
-            fieldInjector.newInstance().injectField(annotatedFieldMap, request, fieldMap);
+            fieldInjector.newInstance().injectField(annotatedFields, request, fieldMap);
         }
     }
 }

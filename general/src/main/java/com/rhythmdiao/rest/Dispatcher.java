@@ -1,12 +1,11 @@
 package com.rhythmdiao.rest;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handlers.BaseHandler;
 import com.rhythmdiao.handlers.Handler;
-import com.rhythmdiao.handlers.HandlerInfo;
+import com.rhythmdiao.handlers.HandlerMetaData;
 import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.rest.result.BaseRestResult;
@@ -33,14 +32,14 @@ public final class Dispatcher extends AbstractHandler {
     private static final Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
 
     public void init() throws IOException {
-        Reflections reflections = ApplicationContextWrapper.getBean("reflections", Reflections.class);
+        Reflections reflections = new Reflections("com.rhythmdiao.handlers");
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(RestfulHandler.class);
-        for (Class clazz : classes) {
-            Annotation[] annotations = clazz.getAnnotations();
+        for (Class cls : classes) {
+            Annotation[] annotations = cls.getAnnotations();
             for (Annotation annotation : annotations) {
                 if (RestfulHandler.class.isInstance(annotation)) {
                     try {
-                        dispatcher(clazz, (RestfulHandler) annotation);
+                        dispatcher(cls, (RestfulHandler) annotation);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -49,14 +48,14 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    private void setHandlerInfo(Field[] fields, BaseHandler handler) throws ClassNotFoundException {
-        HandlerInfo handlerInfo = new HandlerInfo(fields.length);
+    private void addHandlerMetaData(Field[] fields, BaseHandler handler) throws ClassNotFoundException {
+        HandlerMetaData handlerMetaData = new HandlerMetaData(fields.length);
         for (Field field : fields) {
-            for (Class<? extends AbstractInjector> clazz : FieldInjection.INSTANCE.getInjectorList()) {
+            for (Class<? extends AbstractInjector> cls : FieldInjection.INSTANCE.getInjectorList()) {
                 try {
-                    final Class<? extends Annotation> annotation = clazz.newInstance().getAnnotation();
+                    final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
                     if (field.isAnnotationPresent(annotation)) {
-                        handlerInfo.setAnnotatedFieldMap(field, annotation);
+                        handlerMetaData.putAnnotatedFields(field, annotation);
                     }
                 } catch (InstantiationException e) {
                     e.printStackTrace();
@@ -65,21 +64,21 @@ public final class Dispatcher extends AbstractHandler {
                 }
             }
         }
-        handler.setHandlerInfo(handlerInfo);
+        handler.setHandlerMetaData(handlerMetaData);
     }
 
-    private void dispatcher(final Class clazz, final RestfulHandler annotation)
+    private void dispatcher(final Class cls, final RestfulHandler annotation)
             throws ClassNotFoundException {
         final String method = annotation.method();
         final String uri = annotation.uri();
-        final Object handler = ApplicationContextWrapper.getBeanByClass(clazz);
+        final Object handler = ApplicationContextWrapper.getBean(cls);
 
         if (!(Handler.class.isInstance(handler))) {
-            throw new RuntimeException(clazz.toString()
+            throw new RuntimeException(cls.toString()
                     + "is not an instance of " + Handler.class);
         }
-        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, clazz.getName()));
-        setHandlerInfo(clazz.getDeclaredFields(), (BaseHandler) handler);
+        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
+        addHandlerMetaData(cls.getDeclaredFields(), (BaseHandler) handler);
         RequestPathStorage.INSTANCE.setPathMap(method, uri, handler);
     }
 
@@ -96,10 +95,10 @@ public final class Dispatcher extends AbstractHandler {
         if (Handler.class.isInstance(handler)) {
             BaseHandler baseHandler = (BaseHandler) handler;
             BeanMap beanMap = BeanMap.create(baseHandler);
-            ImmutableMap<Field, Class<? extends Annotation>> annotatedFieldMap = baseHandler.getHandlerInfo().getAnnotatedFieldMap();
-            Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFieldMap.size());
+            Map<Field, Class<? extends Annotation>> annotatedFields = baseHandler.getHandlerMetaData().getAnnotatedFields();
+            Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
             try {
-                FieldInjection.INSTANCE.injectField(annotatedFieldMap, request, fieldMap);
+                FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {

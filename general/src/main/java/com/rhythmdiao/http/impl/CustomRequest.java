@@ -1,8 +1,7 @@
 package com.rhythmdiao.http.impl;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
-
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CustomRequest {
@@ -10,8 +9,8 @@ public class CustomRequest {
     private Map<String, String> parameterMap;
 
     public CustomRequest() {
-        customHeaderMap = Maps.newHashMap();
-        parameterMap = Maps.newHashMap();
+        customHeaderMap = new HashMap<String, String>();
+        parameterMap = new HashMap<String, String>();
     }
 
     public CustomRequest(Map<String, String> customHeaderMap, Map<String, String> parameterMap) {
@@ -19,16 +18,16 @@ public class CustomRequest {
         this.parameterMap = parameterMap;
     }
 
-    public ImmutableMap<String, String> getCustomHeaderMap() {
-        return ImmutableMap.copyOf(customHeaderMap);
+    public Map<String, String> getCustomHeaderMap() {
+        return Collections.unmodifiableMap(customHeaderMap);
     }
 
     public String setCustomRequestHeaders(String key, String value) {
         return customHeaderMap.put(key, value);
     }
 
-    public ImmutableMap<String, String> getParameterMap() {
-        return ImmutableMap.copyOf(parameterMap);
+    public Map<String, String> getParameterMap() {
+        return Collections.unmodifiableMap(parameterMap);
     }
 
     public String setCustomRequestParameters(String key, String value) {

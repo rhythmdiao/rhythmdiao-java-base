@@ -6,17 +6,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class BaseHandler implements Handler {
-    private HandlerInfo handlerInfo;
+    private HandlerMetaData handlerMetaData;
 
     public String convertResult(HttpServletRequest request, HttpServletResponse response, BaseRestResult result) {
         return result.convertResult();
     }
 
-    public HandlerInfo getHandlerInfo() {
-        return handlerInfo;
+    public HandlerMetaData getHandlerMetaData() {
+        return handlerMetaData;
     }
 
-    public void setHandlerInfo(HandlerInfo handlerInfo) {
-        this.handlerInfo = handlerInfo;
+    public void setHandlerMetaData(HandlerMetaData handlerMetaData) {
+        this.handlerMetaData = handlerMetaData;
     }
 }
