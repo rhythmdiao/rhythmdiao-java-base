@@ -1,7 +1,9 @@
 package com.rhythmdiao.injection;
 
 import com.rhythmdiao.annotation.Injector;
-import org.reflections.Reflections;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -15,11 +17,18 @@ public enum FieldInjection {
 
     @SuppressWarnings("unchecked")
     FieldInjection() {
-        Reflections reflections = new Reflections("com.rhythmdiao.injection");
-        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Injector.class);
-        injectorList = new ArrayList<Class<? extends AbstractInjector>>(classes.size());
-        for (Class<?> cls : classes) {
-            if (cls.getSuperclass().equals(AbstractInjector.class)) {
+        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new AnnotationTypeFilter(Injector.class));
+        Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents("com.rhythmdiao.injection");
+        injectorList = new ArrayList<Class<? extends AbstractInjector>>(beanDefinitions.size());
+        for (BeanDefinition beanDefinition : beanDefinitions) {
+            Class cls = null;
+            try {
+                cls = Class.forName(beanDefinition.getBeanClassName());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (cls != null && cls.getSuperclass().equals(AbstractInjector.class)) {
                 final Class<? extends AbstractInjector> injector = (Class<? extends AbstractInjector>) cls;
                 injectorList.add(injector);
             }
@@ -27,7 +36,7 @@ public enum FieldInjection {
     }
 
     public List<Class<? extends AbstractInjector>> getInjectorList() {
-       return Collections.unmodifiableList(injectorList);
+        return Collections.unmodifiableList(injectorList);
     }
 
     public void injectField(Map<Field, Class<? extends Annotation>> annotatedFields, HttpServletRequest request, Map<String, Object> fieldMap) throws IllegalAccessException, InstantiationException {

@@ -15,10 +15,12 @@ import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.reflections.Reflections;
 import org.skife.config.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,20 +33,13 @@ import java.util.Set;
 public final class Dispatcher extends AbstractHandler {
     private static final Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
 
-    public void init() throws IOException {
-        Reflections reflections = new Reflections("com.rhythmdiao.handlers");
-        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(RestfulHandler.class);
-        for (Class cls : classes) {
-            Annotation[] annotations = cls.getAnnotations();
-            for (Annotation annotation : annotations) {
-                if (RestfulHandler.class.isInstance(annotation)) {
-                    try {
-                        dispatcher(cls, (RestfulHandler) annotation);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+    public void init() throws IOException, ClassNotFoundException {
+        ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+        provider.addIncludeFilter(new AnnotationTypeFilter(RestfulHandler.class));
+        Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents("com.rhythmdiao.handlers");
+        for (BeanDefinition beanDefinition : beanDefinitions) {
+            Class cls = Class.forName(beanDefinition.getBeanClassName());
+            dispatcher(cls);
         }
     }
 
@@ -67,8 +62,8 @@ public final class Dispatcher extends AbstractHandler {
         handler.setHandlerMetaData(handlerMetaData);
     }
 
-    private void dispatcher(final Class cls, final RestfulHandler annotation)
-            throws ClassNotFoundException {
+    private void dispatcher(final Class cls) throws ClassNotFoundException {
+        final RestfulHandler annotation = (RestfulHandler) cls.getAnnotation(RestfulHandler.class);
         final String method = annotation.method();
         final String uri = annotation.uri();
         final Object handler = ApplicationContextWrapper.getBean(cls);
@@ -79,7 +74,7 @@ public final class Dispatcher extends AbstractHandler {
         }
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
         addHandlerMetaData(cls.getDeclaredFields(), (BaseHandler) handler);
-        RequestPathStorage.INSTANCE.setPathMap(method, uri, handler);
+        RequestPath.INSTANCE.setPathMap(method, uri, handler);
     }
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
@@ -87,7 +82,7 @@ public final class Dispatcher extends AbstractHandler {
 
         request.setCharacterEncoding(Charsets.UTF_8.name());
         final String method = baseRequest.getMethod();
-        final Object handler = RequestPathStorage.INSTANCE.getPathMap().row(method).get(target);
+        final Object handler = RequestPath.INSTANCE.getPathMap().row(method).get(target);
         if (handler == null) {
             LOG.info("Unknown uri, and the uri is [{}]", target);
         }

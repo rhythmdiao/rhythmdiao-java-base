@@ -5,12 +5,12 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
 import com.rhythmdiao.handlers.Handler;
 
-public enum RequestPathStorage {
+public enum RequestPath {
     INSTANCE;
 
     private Table<String, String, Object> pathTable;
 
-    RequestPathStorage() {
+    RequestPath() {
         pathTable = HashBasedTable.create();
     }
 
