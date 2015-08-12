@@ -1,9 +1,5 @@
 package com.rhythmdiao.http.impl;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
-import com.google.common.io.Closeables;
-import com.google.common.net.HostAndPort;
 import com.rhythmdiao.http.HttpMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,22 +12,16 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.base.Strings.isNullOrEmpty;
-
 public class HttpBaseClient implements HttpMessage {
-    private static final String URI_HTTP_PREFIX = "http://";
-    private static final Logger LOG = LoggerFactory.getLogger(HttpBaseClient.class);
-
     private String hostAndPort;
 
     public HttpBaseClient(String hostAndPort) {
@@ -49,35 +39,31 @@ public class HttpBaseClient implements HttpMessage {
         this.hostAndPort = hostAndPort;
     }
 
-    public String getHost() {
-        return HostAndPort.fromString(hostAndPort).getHostText();
+    protected void setURI(HttpRequestBase httpRequestBase, String requestURI){
+        try {
+            httpRequestBase.setURI(new URI("http://" + ((hostAndPort == null || "".equals(hostAndPort)) ? requestURI : hostAndPort + requestURI)));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
-    public int getPort() {
-        return HostAndPort.fromString(hostAndPort).getPort();
-    }
-
-    protected void setURI(HttpRequestBase httpRequestBase, String requestURI) throws URISyntaxException {
-        httpRequestBase.setURI(new URI(URI_HTTP_PREFIX + (isNullOrEmpty(hostAndPort) ? requestURI : hostAndPort + requestURI)));
-    }
-
-    public void addCustomHeader(HttpRequestBase httpRequestBase, CustomRequest customRequest) {
-        if (customRequest.getCustomHeaderMap() != null) {
-            for (Map.Entry<String, String> header : customRequest.getCustomHeaderMap().entrySet()) {
+    public void addHeader(HttpRequestBase httpRequestBase, HttpRequest httpRequest) {
+        if (httpRequest.getHeaderMap() != null) {
+            for (Map.Entry<String, String> header : httpRequest.getHeaderMap().entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
             }
         }
     }
 
-    public void addParameter(HttpPost httpPost, CustomRequest customRequest) {
-        if (customRequest.getParameterMap() != null) {
-            List<NameValuePair> parameterList = Lists.newArrayList();
-            for (Map.Entry<String, String> parameter : customRequest.getParameterMap().entrySet()) {
-                parameterList.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
+    public void addParameter(HttpPost httpPost, HttpRequest httpRequest) {
+        if (httpRequest.getParameterMap() != null) {
+            List<NameValuePair> parameters = new LinkedList<NameValuePair>();
+            for (Map.Entry<String, String> parameter : httpRequest.getParameterMap().entrySet()) {
+                parameters.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
             }
             HttpEntity entity = null;
             try {
-                entity = new UrlEncodedFormEntity(parameterList, Charsets.UTF_8.name());
+                entity = new UrlEncodedFormEntity(parameters, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -98,13 +84,13 @@ public class HttpBaseClient implements HttpMessage {
 
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                return EntityUtils.toString(entity, Charsets.UTF_8.name());
+                return EntityUtils.toString(entity, "UTF-8");
             }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                Closeables.close(closeableHttpClient, true);
+                closeableHttpClient.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,7 @@
 package com.rhythmdiao.http;
 
-import com.rhythmdiao.http.impl.CustomRequest;
+import com.rhythmdiao.http.impl.HttpRequest;
 
 public interface Client {
-    String execute(String requestURI, CustomRequest customRequest);
+    String execute(String requestURI, HttpRequest httpRequest);
 }
