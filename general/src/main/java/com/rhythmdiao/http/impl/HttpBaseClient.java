@@ -39,7 +39,7 @@ public class HttpBaseClient implements HttpMessage {
         this.hostAndPort = hostAndPort;
     }
 
-    protected void setURI(HttpRequestBase httpRequestBase, String requestURI){
+    protected void setURI(HttpRequestBase httpRequestBase, String requestURI) {
         try {
             httpRequestBase.setURI(new URI("http://" + ((hostAndPort == null || "".equals(hostAndPort)) ? requestURI : hostAndPort + requestURI)));
         } catch (URISyntaxException e) {
