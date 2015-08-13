@@ -1,6 +1,6 @@
-package com.rhythmdiao.handlers;
+package com.rhythmdiao.handler;
 
-import com.rhythmdiao.rest.result.BaseRestResult;
+import com.rhythmdiao.result.AbstractResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class BaseHandler implements Handler {
     private HandlerMetaData handlerMetaData;
 
-    public String convertResult(HttpServletRequest request, HttpServletResponse response, BaseRestResult result) {
+    public String convertResult(HttpServletRequest request, HttpServletResponse response, AbstractResult result) {
         return result.convertResult();
     }
 

@@ -1,11 +1,11 @@
-package com.rhythmdiao.rest.result;
+package com.rhythmdiao.result;
 
 import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 import java.util.Map;
 
-public abstract class BaseRestResult implements Serializable, Result {
+public abstract class AbstractResult implements Serializable, Result {
     private static final long serialVersionUID = 1L;
     private String apiVersion;
     private String context;
@@ -15,7 +15,7 @@ public abstract class BaseRestResult implements Serializable, Result {
     private Map data;
     private Map error;
 
-    public BaseRestResult() {
+    public AbstractResult() {
         this.apiVersion = "1.0";
         this.context = "default";
     }

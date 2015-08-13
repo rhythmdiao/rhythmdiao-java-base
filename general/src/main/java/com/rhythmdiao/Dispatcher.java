@@ -1,16 +1,16 @@
-package com.rhythmdiao.rest;
+package com.rhythmdiao;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
-import com.rhythmdiao.handlers.BaseHandler;
-import com.rhythmdiao.handlers.Handler;
-import com.rhythmdiao.handlers.HandlerMetaData;
+import com.rhythmdiao.handler.BaseHandler;
+import com.rhythmdiao.handler.Handler;
+import com.rhythmdiao.handler.HandlerMetaData;
 import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
-import com.rhythmdiao.rest.result.BaseRestResult;
-import com.rhythmdiao.rest.result.json.JsonRestResult;
-import com.rhythmdiao.rest.result.xml.XMLRestResult;
+import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.json.JsonResult;
+import com.rhythmdiao.result.xml.XMLResult;
 import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.server.Request;
@@ -100,11 +100,11 @@ public final class Dispatcher extends AbstractHandler {
                 e.printStackTrace();
             }
             beanMap.putAll(fieldMap);
-            BaseRestResult result = baseHandler.execute(baseRequest);
+            AbstractResult result = baseHandler.execute(baseRequest);
             response.setCharacterEncoding(Charsets.UTF_8.name());
-            if (JsonRestResult.class.isInstance(result)) {
+            if (JsonResult.class.isInstance(result)) {
                 response.setContentType(ContentType.TEXT_HTML.getMimeType());
-            } else if (XMLRestResult.class.isInstance(result)) {
+            } else if (XMLResult.class.isInstance(result)) {
                 response.setContentType(ContentType.TEXT_XML.getMimeType());
             }
             response.getWriter().write(((Handler) handler).convertResult(request, response, result));

@@ -1,4 +1,4 @@
-package com.rhythmdiao.handlers;
+package com.rhythmdiao.handler;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

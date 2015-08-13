@@ -4,8 +4,9 @@ import com.rhythmdiao.annotation.RequestHeader;
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
-import com.rhythmdiao.rest.result.BaseRestResult;
-import com.rhythmdiao.rest.result.json.JsonRestResult;
+import com.rhythmdiao.handler.BaseHandler;
+import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.json.JsonResult;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +37,8 @@ class TestHandler extends BaseHandler {
     @RequestParameter
     private String field2 = "bar";
 
-    public BaseRestResult execute(final Request request) {
-        BaseRestResult result = new JsonRestResult();
+    public AbstractResult execute(final Request request) {
+        AbstractResult result = new JsonResult();
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field1)).withBar(field2).build();
         hashMap.put("items", entity);

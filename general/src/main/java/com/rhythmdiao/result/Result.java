@@ -1,4 +1,4 @@
-package com.rhythmdiao.rest.result;
+package com.rhythmdiao.result;
 
 public interface Result {
     String convertResult();

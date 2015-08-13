@@ -1,9 +1,9 @@
-package com.rhythmdiao.rest;
+package com.rhythmdiao;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.rhythmdiao.handlers.Handler;
+import com.rhythmdiao.handler.Handler;
 
 public enum RequestPath {
     INSTANCE;

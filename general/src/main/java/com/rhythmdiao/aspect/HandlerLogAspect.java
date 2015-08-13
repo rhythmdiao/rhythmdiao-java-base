@@ -2,8 +2,8 @@ package com.rhythmdiao.aspect;
 
 import com.google.common.base.Strings;
 import com.rhythmdiao.annotation.RestfulHandler;
-import com.rhythmdiao.rest.result.BaseRestResult;
-import com.rhythmdiao.rest.result.json.JsonRestResult;
+import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.json.JsonResult;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +19,7 @@ public final class HandlerLogAspect {
     private static final Logger LOG = LoggerFactory.getLogger(HandlerLogAspect.class);
 
     @Around(EXECUTION + "&&args(request)")
-    public BaseRestResult processExecution(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
+    public AbstractResult processExecution(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
         Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
         
         if (LOG.isDebugEnabled()) {
@@ -39,13 +39,13 @@ public final class HandlerLogAspect {
         RestfulHandler restfulHandler = (RestfulHandler) clazz.getAnnotation(RestfulHandler.class);
         final String identification = restfulHandler.identification();
         final String requestIdentification = request.getParameter("identification");
-        BaseRestResult result;
+        AbstractResult result;
         if (Strings.isNullOrEmpty(identification)) {
-            result = (BaseRestResult) proceedingJoinPoint.proceed();
+            result = (AbstractResult) proceedingJoinPoint.proceed();
         } else if (!Strings.isNullOrEmpty(identification) && !Strings.isNullOrEmpty(requestIdentification) && identification.equals(requestIdentification)) {
-            result = (BaseRestResult) proceedingJoinPoint.proceed();
+            result = (AbstractResult) proceedingJoinPoint.proceed();
         } else {
-            result = new JsonRestResult();
+            result = new JsonResult();
         }
         LOG.info("response:\n{}", result.convertResult());
         return result;
