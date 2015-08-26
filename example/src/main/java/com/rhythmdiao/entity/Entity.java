@@ -1,6 +1,7 @@
 package com.rhythmdiao.entity;
 
 import com.google.common.base.MoreObjects;
+import com.rhythmdiao.Builder;
 
 import java.io.Serializable;
 
@@ -22,7 +23,7 @@ public class Entity implements Serializable {
         this.bar = builder.bar;
     }
 
-    public static class EntityBuilder {
+    public static class EntityBuilder implements Builder{
         private int foo;
         private String bar;
 

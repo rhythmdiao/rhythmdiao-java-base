@@ -15,7 +15,6 @@ public enum FieldInjection {
 
     private final List<Class<? extends AbstractInjector>> injectorList;
 
-    @SuppressWarnings("unchecked")
     FieldInjection() {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(Injector.class));
@@ -29,7 +28,7 @@ public enum FieldInjection {
                 e.printStackTrace();
             }
             if (cls != null && cls.getSuperclass().equals(AbstractInjector.class)) {
-                final Class<? extends AbstractInjector> injector = (Class<? extends AbstractInjector>) cls;
+                @SuppressWarnings("unchecked") final Class<? extends AbstractInjector> injector = (Class<? extends AbstractInjector>) cls;
                 injectorList.add(injector);
             }
         }

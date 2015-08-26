@@ -22,15 +22,15 @@ public class HttpRequest {
         return Collections.unmodifiableMap(headerMap);
     }
 
-    public String setHeader(String key, String value) {
-        return headerMap.put(key, value);
+    public void setHeader(String key, String value) {
+        headerMap.put(key, value);
     }
 
     public Map<String, String> getParameterMap() {
         return Collections.unmodifiableMap(parameterMap);
     }
 
-    public String setParameter(String key, String value) {
-        return parameterMap.put(key, value);
+    public void setParameter(String key, String value) {
+        parameterMap.put(key, value);
     }
 }
