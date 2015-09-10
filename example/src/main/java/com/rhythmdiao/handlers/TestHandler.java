@@ -1,5 +1,6 @@
 package com.rhythmdiao.handlers;
 
+import com.rhythmdiao.annotation.CookieParameter;
 import com.rhythmdiao.annotation.RequestHeader;
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
@@ -37,7 +38,10 @@ class TestHandler extends BaseHandler {
     @RequestParameter
     private String field2 = "bar";
 
-    public AbstractResult execute(final Request request) {
+    @CookieParameter
+    private String field3 = "cookie";
+
+    public AbstractResult execute(Request request) {
         AbstractResult result = new JsonResult();
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field1)).withBar(field2).build();
@@ -52,5 +56,9 @@ class TestHandler extends BaseHandler {
 
     public void setField2(String field2) {
         this.field2 = field2;
+    }
+
+    public void setField3(String field3) {
+        this.field3 = field3;
     }
 }

@@ -24,9 +24,10 @@ public final class RequestParameterInjector extends AbstractInjector {
                         return annotation.equals(RequestParameter.class);
                     }
                 }).entrySet()) {
-            String field = entry.getKey().getAnnotation(RequestParameter.class).value();
-            field = Strings.isNullOrEmpty(field) ? entry.getKey().getName() : field;
-            final String value = request.getParameter(field);
+            String key = entry.getKey().getAnnotation(RequestParameter.class).value();
+            String field = entry.getKey().getName();
+            key = Strings.isNullOrEmpty(key) ? field : key;
+            final String value = request.getParameter(key);
             if (!Strings.isNullOrEmpty(value)) {
                 fieldMap.put(field, value);
             }
