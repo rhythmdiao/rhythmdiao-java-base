@@ -3,10 +3,9 @@ package com.rhythmdiao;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
+import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.handler.Handler;
-import com.rhythmdiao.handler.HandlerMetaData;
-import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.result.json.JsonResult;
@@ -36,29 +35,16 @@ public final class Dispatcher extends AbstractHandler {
     public void init() throws IOException, ClassNotFoundException {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(RestfulHandler.class));
-        Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents("com.rhythmdiao.handlers");
+        Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents("com.rhythmdiao.handler");
         for (BeanDefinition beanDefinition : beanDefinitions) {
             Class cls = Class.forName(beanDefinition.getBeanClassName());
             dispatcher(cls);
         }
     }
 
-    private void addHandlerMetaData(Field[] fields, BaseHandler handler) throws ClassNotFoundException {
-        HandlerMetaData handlerMetaData = new HandlerMetaData(fields.length);
-        for (Field field : fields) {
-            for (Class<? extends AbstractInjector> cls : FieldInjection.INSTANCE.getInjectorList()) {
-                try {
-                    final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
-                    if (field.isAnnotationPresent(annotation)) {
-                        handlerMetaData.putAnnotatedFields(field, annotation);
-                    }
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    private void addHandlerMetaData(Field[] fields, BaseHandler handler, String method, String uri) throws ClassNotFoundException {
+        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, method, uri, fields.length);
+        handlerMetaData.putAnnotatedFields(fields);
         handler.setHandlerMetaData(handlerMetaData);
     }
 
@@ -73,7 +59,7 @@ public final class Dispatcher extends AbstractHandler {
                     + "is not an instance of " + Handler.class);
         }
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
-        addHandlerMetaData(cls.getDeclaredFields(), (BaseHandler) handler);
+        addHandlerMetaData(cls.getDeclaredFields(), (BaseHandler) handler, method, uri);
         RequestPath.INSTANCE.setPathMap(method, uri, handler);
     }
 
@@ -83,13 +69,12 @@ public final class Dispatcher extends AbstractHandler {
         request.setCharacterEncoding(Charsets.UTF_8.name());
         final String method = baseRequest.getMethod();
         final Object handler = RequestPath.INSTANCE.getPathMap().row(method).get(target);
-        if (handler == null) {
+        if (handler == null && !"/favicon.ico".equals(target)) {
             LOG.info("Unknown uri, and the uri is [{}]", target);
         }
 
         if (Handler.class.isInstance(handler)) {
             BaseHandler baseHandler = (BaseHandler) handler;
-            BeanMap beanMap = BeanMap.create(baseHandler);
             Map<Field, Class<? extends Annotation>> annotatedFields = baseHandler.getHandlerMetaData().getAnnotatedFields();
             Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
             try {
@@ -99,6 +84,7 @@ public final class Dispatcher extends AbstractHandler {
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
+            BeanMap beanMap = BeanMap.create(baseHandler);
             beanMap.putAll(fieldMap);
             AbstractResult result = baseHandler.execute(baseRequest);
             response.setCharacterEncoding(Charsets.UTF_8.name());

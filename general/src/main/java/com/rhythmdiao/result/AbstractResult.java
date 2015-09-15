@@ -1,18 +1,25 @@
 package com.rhythmdiao.result;
 
-import com.google.common.base.MoreObjects;
+import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.util.Map;
 
 public abstract class AbstractResult implements Serializable, Result {
     private static final long serialVersionUID = 1L;
+    @Expose
     private String apiVersion;
+    @Expose
     private String context;
+    @Expose
     private String id;
+    @Expose
     private int statusCode;
+    @Expose
     private String statusMsg;
+    @Expose
     private Map data;
+    @Expose
     private Map error;
 
     public AbstractResult() {
@@ -78,14 +85,14 @@ public abstract class AbstractResult implements Serializable, Result {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("statusCode", statusCode)
-                .add("id", id)
-                .add("apiVersion", apiVersion)
-                .add("context", context)
-                .add("statusMsg", statusMsg)
-                .add("data", data)
-                .add("error", error)
-                .toString();
+        return "AbstractResult{" +
+                "apiVersion='" + apiVersion + '\'' +
+                ", context='" + context + '\'' +
+                ", id='" + id + '\'' +
+                ", statusCode=" + statusCode +
+                ", statusMsg='" + statusMsg + '\'' +
+                ", data=" + data +
+                ", error=" + error +
+                '}';
     }
 }

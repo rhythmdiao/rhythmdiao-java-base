@@ -1,5 +1,6 @@
 package com.rhythmdiao.handler;
 
+import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.result.AbstractResult;
 
 import javax.servlet.http.HttpServletRequest;

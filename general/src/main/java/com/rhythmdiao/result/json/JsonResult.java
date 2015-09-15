@@ -6,10 +6,17 @@ import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.utils.ConstResult;
 
 public final class JsonResult extends AbstractResult {
-    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static Gson GSON;
 
     public JsonResult() {
         super();
+        GSON = new GsonBuilder().setPrettyPrinting().create();
+    }
+
+    public JsonResult(boolean excludeFieldsWithoutExposeAnnotation) {
+        super();
+        GSON = excludeFieldsWithoutExposeAnnotation ? new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create()
+                : new GsonBuilder().setPrettyPrinting().create();
     }
 
     public String convertResult() {

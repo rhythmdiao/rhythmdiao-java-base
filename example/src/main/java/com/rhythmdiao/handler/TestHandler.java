@@ -1,11 +1,10 @@
-package com.rhythmdiao.handlers;
+package com.rhythmdiao.handler;
 
 import com.rhythmdiao.annotation.CookieParameter;
 import com.rhythmdiao.annotation.RequestHeader;
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
-import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.result.json.JsonResult;
 import org.eclipse.jetty.server.Request;
@@ -33,10 +32,10 @@ class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
     @RequestHeader
-    private String field1 = "911";
+    private int field1;
 
     @RequestParameter
-    private String field2 = "bar";
+    private String field2;
 
     @CookieParameter
     private String field3 = "cookie";
@@ -44,13 +43,13 @@ class TestHandler extends BaseHandler {
     public AbstractResult execute(Request request) {
         AbstractResult result = new JsonResult();
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
-        Entity entity = new Entity.EntityBuilder().withFoo(Integer.parseInt(field1)).withBar(field2).build();
+        Entity entity = new Entity.EntityBuilder().withFoo(field1).withBar(field2).build();
         hashMap.put("items", entity);
         result.setData(hashMap);
         return result;
     }
 
-    public void setField1(String field1) {
+    public void setField1(int field1) {
         this.field1 = field1;
     }
 

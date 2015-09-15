@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.CookieParameter;
 import com.rhythmdiao.annotation.Injector;
 import com.rhythmdiao.utils.CookieUtil;
+import com.rhythmdiao.utils.TypeConverter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -31,7 +32,7 @@ public final class CookieInjector extends AbstractInjector {
             key = Strings.isNullOrEmpty(key) ? field : key;
             final String value = new CookieUtil(request, null, cookie.domain(), cookie.path()).getCookie(key);
             if (!Strings.isNullOrEmpty(value)) {
-                fieldMap.put(field, value);
+                fieldMap.put(field, TypeConverter.convert(value, entry.getKey().getType()));
             }
         }
     }

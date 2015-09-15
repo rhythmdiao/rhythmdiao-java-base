@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.Injector;
 import com.rhythmdiao.annotation.RequestParameter;
+import com.rhythmdiao.utils.TypeConverter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -29,7 +30,7 @@ public final class RequestParameterInjector extends AbstractInjector {
             key = Strings.isNullOrEmpty(key) ? field : key;
             final String value = request.getParameter(key);
             if (!Strings.isNullOrEmpty(value)) {
-                fieldMap.put(field, value);
+                fieldMap.put(field, TypeConverter.convert(value, entry.getKey().getType()));
             }
         }
     }
