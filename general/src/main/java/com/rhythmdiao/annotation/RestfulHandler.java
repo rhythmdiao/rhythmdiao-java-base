@@ -13,4 +13,6 @@ public @interface RestfulHandler {
     String method() default HttpMethods.GET;
 
     String identification() default "";
+
+    String description();
 }

@@ -27,7 +27,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 * */
 public
 @Controller
-@RestfulHandler(uri = "/test")
+@RestfulHandler(uri = "/test", description = "test handler")
 class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 

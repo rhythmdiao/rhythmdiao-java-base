@@ -1,6 +1,7 @@
 package com.rhythmdiao.entity;
 
 import com.google.gson.annotations.Expose;
+import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
@@ -14,35 +15,37 @@ import java.util.Map;
 
 public final class HandlerMetaData implements Serializable {
     private static final long serialVersionUID = 1L;
-    private BaseHandler handler;
 
     @Expose
-    private String name;
+    private String uri;
     @Expose
     private String method;
     @Expose
-    private String uri;
-
-    private Map<Field, Class<? extends Annotation>> annotatedFields;
+    private String description;
     @Expose
-    private Map<String, String> fields;
+    private Map<String, String> parameters;
 
-    public HandlerMetaData(BaseHandler handler, String method, String uri, int fieldSize) {
-        this.name = handler.getClass().getSimpleName();
-        this.method = method;
-        this.uri = uri;
+    private BaseHandler handler;
+    private Map<Field, Class<? extends Annotation>> annotatedFields;
+
+    public HandlerMetaData(BaseHandler handler, int fieldSize) {
+        RestfulHandler annotation = handler.getClass().getAnnotation(RestfulHandler.class);
+        this.method = annotation.method();
+        this.uri = annotation.uri();
+        this.description = annotation.description();
         this.handler = handler;
         this.annotatedFields = new HashMap<Field, Class<? extends Annotation>>(fieldSize);
-        this.fields = new HashMap<String, String>(fieldSize);
+        this.parameters = new HashMap<String, String>(fieldSize);
     }
 
-    public void putAnnotatedFields(Field[] fields) {
+    public void putFields(Field[] fields) {
         for (Field field : fields) {
             for (Class<? extends AbstractInjector> cls : FieldInjection.INSTANCE.getInjectorList()) {
                 try {
                     final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
                     if (field.isAnnotationPresent(annotation)) {
-                        this.annotatedFields.put(field, annotation);
+                        annotatedFields.put(field, annotation);
+                        this.parameters.put(field.getName(), field.getType().getSimpleName() + ";@" + annotation.getSimpleName());
                     }
                 } catch (InstantiationException e) {
                     e.printStackTrace();
@@ -50,13 +53,6 @@ public final class HandlerMetaData implements Serializable {
                     e.printStackTrace();
                 }
             }
-        }
-        putFieldsDescription();
-    }
-
-    private void putFieldsDescription() {
-        for (Map.Entry<Field, Class<? extends Annotation>> field : getAnnotatedFields().entrySet()) {
-            fields.put(field.getKey().getName(), field.getKey().getType().getSimpleName() + ";@" + field.getValue().getSimpleName());
         }
     }
 

@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public
 @Controller
-@RestfulHandler(uri = "/")
+@RestfulHandler(uri = "/", description = "all apis description handler")
 final class ApiDescriptionHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ApiDescriptionHandler.class);
 

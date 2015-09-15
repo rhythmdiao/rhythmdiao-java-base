@@ -42,33 +42,28 @@ public final class Dispatcher extends AbstractHandler {
         }
     }
 
-    private void addHandlerMetaData(Field[] fields, BaseHandler handler, String method, String uri) throws ClassNotFoundException {
-        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, method, uri, fields.length);
-        handlerMetaData.putAnnotatedFields(fields);
-        handler.setHandlerMetaData(handlerMetaData);
+    private void dispatcher(Class cls) throws ClassNotFoundException {
+        RestfulHandler annotation = (RestfulHandler) cls.getAnnotation(RestfulHandler.class);
+        String method = annotation.method();
+        String uri = annotation.uri();
+        BaseHandler handler = (BaseHandler) ApplicationContextWrapper.getBean(cls);
+        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
+        RequestPath.INSTANCE.setPathMap(method, uri, handler);
+        addHandlerMetaData(handler, cls.getDeclaredFields());
     }
 
-    private void dispatcher(final Class cls) throws ClassNotFoundException {
-        final RestfulHandler annotation = (RestfulHandler) cls.getAnnotation(RestfulHandler.class);
-        final String method = annotation.method();
-        final String uri = annotation.uri();
-        final Object handler = ApplicationContextWrapper.getBean(cls);
-
-        if (!(Handler.class.isInstance(handler))) {
-            throw new RuntimeException(cls.toString()
-                    + "is not an instance of " + Handler.class);
-        }
-        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
-        addHandlerMetaData(cls.getDeclaredFields(), (BaseHandler) handler, method, uri);
-        RequestPath.INSTANCE.setPathMap(method, uri, handler);
+    private void addHandlerMetaData(BaseHandler handler, Field[] fields) {
+        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, fields.length);
+        handlerMetaData.putFields(fields);
+        handler.setHandlerMetaData(handlerMetaData);
     }
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
         request.setCharacterEncoding(Charsets.UTF_8.name());
-        final String method = baseRequest.getMethod();
-        final Object handler = RequestPath.INSTANCE.getPathMap().row(method).get(target);
+        String method = baseRequest.getMethod();
+        Object handler = RequestPath.INSTANCE.getPathMap().row(method).get(target);
         if (handler == null && !"/favicon.ico".equals(target)) {
             LOG.info("Unknown uri, and the uri is [{}]", target);
         }
