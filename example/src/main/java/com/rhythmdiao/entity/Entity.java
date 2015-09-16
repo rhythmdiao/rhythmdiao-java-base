@@ -1,8 +1,5 @@
 package com.rhythmdiao.entity;
 
-import com.google.common.base.MoreObjects;
-import com.rhythmdiao.Builder;
-
 import java.io.Serializable;
 
 public class Entity implements Serializable {
@@ -23,7 +20,7 @@ public class Entity implements Serializable {
         this.bar = builder.bar;
     }
 
-    public static class EntityBuilder implements Builder{
+    public static class EntityBuilder implements Builder {
         private int foo;
         private String bar;
 
@@ -44,9 +41,9 @@ public class Entity implements Serializable {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("foo", foo)
-                .add("bar", bar)
-                .toString();
+        return "Entity{" +
+                "foo=" + foo +
+                ", bar='" + bar + '\'' +
+                '}';
     }
 }

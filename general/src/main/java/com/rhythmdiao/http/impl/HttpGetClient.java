@@ -4,17 +4,19 @@ import com.rhythmdiao.http.Client;
 import org.apache.http.client.methods.HttpGet;
 
 public class HttpGetClient extends HttpBaseClient implements Client {
-    public HttpGetClient() {
+
+    public HttpGetClient(String authority) {
+        super(authority);
     }
 
-    public HttpGetClient(String hostAndPort) {
-        super(hostAndPort);
+    public HttpGetClient(String scheme, String authority) {
+        super(scheme, authority);
     }
 
-    public String execute(String requestURI, HttpRequest httpRequest) {
+    public String execute(String path, HttpRequest httpRequest) {
         HttpGet httpGet = new HttpGet();
-        super.setURI(httpGet, requestURI);
-        super.addHeader(httpGet, httpRequest);
-        return super.sendAndReceive(httpGet);
+        setURI(httpGet, path);
+        addHeader(httpGet, httpRequest);
+        return sendAndReceive(httpGet);
     }
 }
