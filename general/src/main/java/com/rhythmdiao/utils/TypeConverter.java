@@ -9,6 +9,7 @@ public enum TypeConverter {
     private static final Map<Class, Type> map = new HashMap<Class, Type>(11);
 
     static {
+        map.put(String.class, Type.STRING);
         map.put(int.class, Type.INT);
         map.put(Integer.class, Type.INT);
         map.put(double.class, Type.DOUBLE);
@@ -38,6 +39,7 @@ public enum TypeConverter {
                 return Boolean.parseBoolean(s);
             case DATE:
                 //TODO
+            case STRING:
             default:
                 break;
         }
@@ -45,6 +47,6 @@ public enum TypeConverter {
     }
 
     private enum Type {
-        INT, DOUBLE, FLOAT, LONG, BOOLEAN, DATE
+        STRING, INT, DOUBLE, FLOAT, LONG, BOOLEAN, DATE
     }
 }

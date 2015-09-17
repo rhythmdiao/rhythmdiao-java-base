@@ -65,7 +65,8 @@ public class HttpBaseClient implements HttpMessage {
 
     protected void setURI(HttpRequestBase httpRequestBase, String path) {
         try {
-            httpRequestBase.setURI(new URI(("https".equals(scheme) ? "https://" : "http://") + ((authority == null || "".equals(authority)) ? path : authority + path)));
+            httpRequestBase.setURI(new URI(("https".equals(scheme) ? "https://" : "http://")
+                    + ((authority == null || "".equals(authority)) ? path : authority + path)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
