@@ -15,13 +15,13 @@ import java.util.Enumeration;
 
 @Aspect
 public final class HandlerLogAspect {
-    private static final String EXECUTION = "execution(* com.rhythmdiao.handlers.*.execute(..))";
+    private static final String EXECUTION = "execution(* com.rhythmdiao.handler.*.execute(..))";
     private static final Logger LOG = LoggerFactory.getLogger(HandlerLogAspect.class);
 
     @Around(EXECUTION + "&&args(request)")
-    public AbstractResult processExecution(ProceedingJoinPoint proceedingJoinPoint, final Request request) throws Throwable {
+    public AbstractResult processExecution(ProceedingJoinPoint proceedingJoinPoint, Request request) throws Throwable {
         Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
-        
+
         if (LOG.isDebugEnabled()) {
             LOG.debug("Handler:{}", clazz.getSimpleName());
             LOG.debug("request headers:");
