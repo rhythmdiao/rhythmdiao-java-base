@@ -1,12 +1,11 @@
 package com.rhythmdiao.aspect;
 
-import com.google.common.base.Strings;
-import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.result.AbstractResult;
-import com.rhythmdiao.result.json.JsonResult;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +17,14 @@ public final class HandlerLogAspect {
     private static final String EXECUTION = "execution(* com.rhythmdiao.handler.*.execute(..))";
     private static final Logger LOG = LoggerFactory.getLogger(HandlerLogAspect.class);
 
-    @Around(EXECUTION + "&&args(request)")
-    public AbstractResult processExecution(ProceedingJoinPoint proceedingJoinPoint, Request request) throws Throwable {
-        Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
+    @Pointcut(value = EXECUTION + "&&args(request)", argNames = "request")
+    public void pointcut(Request request) {
+    }
 
+    @Before(value = "pointcut(request)", argNames = "jointPoint, request")
+    public void before(JoinPoint jointPoint, Request request) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Handler:{}", clazz.getSimpleName());
+            LOG.debug("Handler:{}", jointPoint.getSignature().getDeclaringType().getSimpleName());
             LOG.debug("request headers:");
             Enumeration headerKeys = request.getHeaderNames();
             while (headerKeys.hasMoreElements()) {
@@ -35,19 +36,12 @@ public final class HandlerLogAspect {
                 LOG.debug("{}:{}", key, request.getParameter((String) key));
             }
         }
+    }
 
-        RestfulHandler restfulHandler = (RestfulHandler) clazz.getAnnotation(RestfulHandler.class);
-        final String identification = restfulHandler.identification();
-        final String requestIdentification = request.getParameter("identification");
-        AbstractResult result;
-        if (Strings.isNullOrEmpty(identification)) {
-            result = (AbstractResult) proceedingJoinPoint.proceed();
-        } else if (!Strings.isNullOrEmpty(identification) && !Strings.isNullOrEmpty(requestIdentification) && identification.equals(requestIdentification)) {
-            result = (AbstractResult) proceedingJoinPoint.proceed();
-        } else {
-            result = new JsonResult();
+    @AfterReturning(value = EXECUTION, argNames = "result", returning = "result")
+    public void afterReturning(AbstractResult result) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("response:\n{}", result.convertResult());
         }
-        LOG.info("response:\n{}", result.convertResult());
-        return result;
     }
 }

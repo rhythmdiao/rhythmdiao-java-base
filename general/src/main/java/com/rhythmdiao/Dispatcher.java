@@ -55,14 +55,11 @@ public final class Dispatcher extends AbstractHandler {
         RestfulHandler annotation = (RestfulHandler) cls.getAnnotation(RestfulHandler.class);
         String method = annotation.method();
         String uri = annotation.uri();
-        BaseHandler handler;
-        handler = (BaseHandler) ApplicationContextWrapper.getBean(cls);
+        BaseHandler handler = (BaseHandler) ApplicationContextWrapper.getBean(cls);
         RequestPath.INSTANCE.setPathMap(method, uri, handler);
-        if (AopUtils.isAopProxy(handler)) {
-            handler = AopUtil.getCglibProxyTargetObject(handler);
-        }
+        BaseHandler targetHandler = AopUtils.isAopProxy(handler) ? AopUtil.getCglibProxyTargetObject(handler) : handler;
         LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
-        addHandlerMetaData(handler, cls.getDeclaredFields());
+        addHandlerMetaData(targetHandler, cls.getDeclaredFields());
     }
 
     private void addHandlerMetaData(BaseHandler handler, Field[] fields) {
