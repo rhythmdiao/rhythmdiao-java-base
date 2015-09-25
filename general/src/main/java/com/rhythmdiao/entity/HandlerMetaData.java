@@ -17,7 +17,7 @@ public final class HandlerMetaData implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Expose
-    private String uri;
+    private String target;
     @Expose
     private String method;
     @Expose
@@ -30,7 +30,7 @@ public final class HandlerMetaData implements Serializable {
     public HandlerMetaData(BaseHandler handler, int fieldSize) {
         RestfulHandler annotation = handler.getClass().getAnnotation(RestfulHandler.class);
         this.method = annotation.method();
-        this.uri = annotation.target();
+        this.target = annotation.target();
         this.description = annotation.description();
         this.annotatedFields = new HashMap<Field, Class<? extends Annotation>>(fieldSize);
         this.parameters = new HashMap<String, String>(fieldSize);
@@ -56,5 +56,17 @@ public final class HandlerMetaData implements Serializable {
 
     public Map<Field, Class<? extends Annotation>> getAnnotatedFields() {
         return Collections.unmodifiableMap(annotatedFields);
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

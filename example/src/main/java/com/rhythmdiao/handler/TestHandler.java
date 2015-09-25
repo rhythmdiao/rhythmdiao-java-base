@@ -7,7 +7,6 @@ import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
 import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.result.json.JsonResult;
-import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -43,10 +42,10 @@ class TestHandler extends BaseHandler {
     private String field3 = "cookie";
 
     @RequestParameter
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
-    public AbstractResult execute(Request request) {
+    public AbstractResult execute() {
         AbstractResult result = new JsonResult();
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(field1).withBar(field2).build();

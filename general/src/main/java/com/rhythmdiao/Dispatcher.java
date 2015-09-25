@@ -78,19 +78,21 @@ public final class Dispatcher extends AbstractHandler {
         } else {
             try {
                 BaseHandler baseHandler = (BaseHandler) Class.forName(handler.getClass().getName()).newInstance();
+                baseHandler.setRequest(baseRequest);
+                baseHandler.setHandlerMetaData(handler.getHandlerMetaData());
                 Map<Field, Class<? extends Annotation>> annotatedFields = handler.getHandlerMetaData().getAnnotatedFields();
                 Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
                 FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);
                 BeanMap beanMap = BeanMap.create(baseHandler);
                 beanMap.putAll(fieldMap);
-                AbstractResult result = baseHandler.execute(baseRequest);
+                AbstractResult result = baseHandler.execute();
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 if (JsonResult.class.isInstance(result)) {
                     response.setContentType(ContentType.TEXT_HTML.getMimeType());
                 } else if (XMLResult.class.isInstance(result)) {
                     response.setContentType(ContentType.TEXT_XML.getMimeType());
                 }
-                response.getWriter().write(handler.convertResult(request, response, result));
+                response.getWriter().write(result.specificTo());
                 baseRequest.setHandled(true);
             } catch (InstantiationException e) {
                 e.printStackTrace();

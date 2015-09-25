@@ -41,7 +41,7 @@ public final class HandlerLogAspect {
     @AfterReturning(value = EXECUTION, argNames = "result", returning = "result")
     public void afterReturning(AbstractResult result) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("response:\n{}", result.convertResult());
+            LOG.debug("response:\n{}", result.specificTo());
         }
     }
 }

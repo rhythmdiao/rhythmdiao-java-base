@@ -6,7 +6,6 @@ import com.rhythmdiao.entity.HandlerMetaDataList;
 import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.result.StatusCode;
 import com.rhythmdiao.result.json.JsonResult;
-import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ class ApiDescriptionHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(ApiDescriptionHandler.class);
 
     @Override
-    public AbstractResult execute(Request request) {
+    public AbstractResult execute() {
         AbstractResult result = new JsonResult(true);
         for (Object o : RequestPath.INSTANCE.getPathMap().values()) {
             BaseHandler handler = (BaseHandler) o;

@@ -19,7 +19,7 @@ public final class JsonResult extends AbstractResult {
                 : new GsonBuilder().setPrettyPrinting().create();
     }
 
-    public String convertResult() {
+    public String specificTo() {
         String json = ConstResult.JSON.getEmpty();
         try {
             json = GSON.toJson(this);
