@@ -10,8 +10,10 @@ import com.rhythmdiao.result.json.JsonResult;
 import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
@@ -27,7 +29,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 * */
 public
 @Controller
-@RestfulHandler(uri = "/test", description = "test handler")
+@RestfulHandler(target = "/test", description = "test handler")
 class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
@@ -39,6 +41,10 @@ class TestHandler extends BaseHandler {
 
     @CookieParameter
     private String field3 = "cookie";
+
+    @RequestParameter
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date date;
 
     public AbstractResult execute(Request request) {
         AbstractResult result = new JsonResult();
@@ -59,5 +65,9 @@ class TestHandler extends BaseHandler {
 
     public void setField3(String field3) {
         this.field3 = field3;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

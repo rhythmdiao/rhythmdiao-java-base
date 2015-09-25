@@ -25,15 +25,13 @@ public final class HandlerMetaData implements Serializable {
     @Expose
     private Map<String, String> parameters;
 
-    private BaseHandler handler;
     private Map<Field, Class<? extends Annotation>> annotatedFields;
 
     public HandlerMetaData(BaseHandler handler, int fieldSize) {
         RestfulHandler annotation = handler.getClass().getAnnotation(RestfulHandler.class);
         this.method = annotation.method();
-        this.uri = annotation.uri();
+        this.uri = annotation.target();
         this.description = annotation.description();
-        this.handler = handler;
         this.annotatedFields = new HashMap<Field, Class<? extends Annotation>>(fieldSize);
         this.parameters = new HashMap<String, String>(fieldSize);
     }

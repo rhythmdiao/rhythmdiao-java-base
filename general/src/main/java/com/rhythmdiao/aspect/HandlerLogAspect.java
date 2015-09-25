@@ -14,7 +14,7 @@ import java.util.Enumeration;
 
 @Aspect
 public final class HandlerLogAspect {
-    private static final String EXECUTION = "execution(* com.rhythmdiao.handler.*.execute(..))";
+    private static final String EXECUTION = "execution(* com.rhythmdiao.handler.BaseHandler.execute(..))";
     private static final Logger LOG = LoggerFactory.getLogger(HandlerLogAspect.class);
 
     @Pointcut(value = EXECUTION + "&&args(request)", argNames = "request")

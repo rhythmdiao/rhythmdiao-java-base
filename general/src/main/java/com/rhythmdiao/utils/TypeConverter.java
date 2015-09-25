@@ -1,5 +1,7 @@
 package com.rhythmdiao.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,32 +23,45 @@ public enum TypeConverter {
         map.put(boolean.class, Type.BOOLEAN);
         map.put(Boolean.class, Type.BOOLEAN);
         map.put(Date.class, Type.DATE);
+        map.put(Calendar.class, Type.CALENDAR);
     }
 
 
-    public static Object convert(String s, Class cls) {
-        Type type = map.get(cls);
-        switch (type) {
-            case INT:
-                return Integer.parseInt(s);
-            case DOUBLE:
-                return Double.parseDouble(s);
-            case FLOAT:
-                return Float.parseFloat(s);
-            case LONG:
-                return Long.parseLong(s);
-            case BOOLEAN:
-                return Boolean.parseBoolean(s);
-            case DATE:
-                //TODO
-            case STRING:
-            default:
-                break;
+    public static Object convert(String s, Class targetType) {
+        return convert(s, targetType, null);
+    }
+
+    public static Object convert(String s, Class targetType, String format) {
+        try {
+            Type type = map.get(targetType);
+            switch (type) {
+                case INT:
+                    return Integer.parseInt(s);
+                case DOUBLE:
+                    return Double.parseDouble(s);
+                case FLOAT:
+                    return Float.parseFloat(s);
+                case LONG:
+                    return Long.parseLong(s);
+                case BOOLEAN:
+                    return Boolean.parseBoolean(s);
+                case DATE:
+                    return new SimpleDateFormat(format).parse(s);
+                case CALENDAR:
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new SimpleDateFormat(format).parse(s));
+                    return calendar;
+                case STRING:
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return s;
+        return null;
     }
 
     private enum Type {
-        STRING, INT, DOUBLE, FLOAT, LONG, BOOLEAN, DATE
+        STRING, INT, DOUBLE, FLOAT, LONG, BOOLEAN, DATE, CALENDAR
     }
 }

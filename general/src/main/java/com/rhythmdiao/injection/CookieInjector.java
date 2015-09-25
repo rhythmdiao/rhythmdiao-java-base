@@ -7,6 +7,7 @@ import com.rhythmdiao.annotation.CookieParameter;
 import com.rhythmdiao.annotation.Injector;
 import com.rhythmdiao.utils.CookieUtil;
 import com.rhythmdiao.utils.TypeConverter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -26,13 +27,21 @@ public final class CookieInjector extends AbstractInjector {
                         return annotation.equals(CookieParameter.class);
                     }
                 }).entrySet()) {
-            CookieParameter cookie = entry.getKey().getAnnotation(CookieParameter.class);
+            Field field = entry.getKey();
+            CookieParameter cookie = field.getAnnotation(CookieParameter.class);
             String key = cookie.value();
-            String field = entry.getKey().getName();
-            key = Strings.isNullOrEmpty(key) ? field : key;
-            final String value = new CookieUtil(request, null, cookie.domain(), cookie.path()).getCookie(key);
-            if (!Strings.isNullOrEmpty(value)) {
-                fieldMap.put(field, TypeConverter.convert(value, entry.getKey().getType()));
+            key = Strings.isNullOrEmpty(key) ? field.getName() : key;
+            final String source = new CookieUtil(request, null, cookie.domain(), cookie.path()).getCookie(key);
+            if (!Strings.isNullOrEmpty(source)) {
+                Object value;
+                if (field.getAnnotation(DateTimeFormat.class) != null) {
+                    value = TypeConverter.convert(source, field.getType(), field.getAnnotation(DateTimeFormat.class).pattern());
+                } else {
+                    value = TypeConverter.convert(source, field.getType());
+                }
+                if (value != null) {
+                    fieldMap.put(key, value);
+                }
             }
         }
     }

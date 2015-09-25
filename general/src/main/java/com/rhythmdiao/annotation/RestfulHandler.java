@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RestfulHandler {
-    String uri();
+    String target();
 
     String method() default HttpMethods.GET;
 

@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.Injector;
 import com.rhythmdiao.annotation.RequestHeader;
 import com.rhythmdiao.utils.TypeConverter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -25,12 +26,20 @@ public final class RequestHeaderInjector extends AbstractInjector {
                         return annotation.equals(RequestHeader.class);
                     }
                 }).entrySet()) {
-            String key = entry.getKey().getAnnotation(RequestHeader.class).value();
-            String field = entry.getKey().getName();
-            key = Strings.isNullOrEmpty(key) ? field : key;
-            final String value = request.getHeader(key);
-            if (!Strings.isNullOrEmpty(value)) {
-                fieldMap.put(field, TypeConverter.convert(value, entry.getKey().getType()));
+            Field field = entry.getKey();
+            String key = field.getAnnotation(RequestHeader.class).value();
+            key = Strings.isNullOrEmpty(key) ? field.getName() : key;
+            String source = request.getHeader(key);
+            if (!Strings.isNullOrEmpty(source)) {
+                Object value;
+                if (field.getAnnotation(DateTimeFormat.class) != null) {
+                    value = TypeConverter.convert(source, field.getType(), field.getAnnotation(DateTimeFormat.class).pattern());
+                } else {
+                    value = TypeConverter.convert(source, field.getType());
+                }
+                if (value != null) {
+                    fieldMap.put(key, value);
+                }
             }
         }
     }
