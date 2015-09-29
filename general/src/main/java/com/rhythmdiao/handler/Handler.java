@@ -7,4 +7,6 @@ public interface Handler {
     AbstractResult execute(Request request);
 
     AbstractResult execute();
+
+    void describeRequest(String... keys);
 }

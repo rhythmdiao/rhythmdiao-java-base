@@ -78,7 +78,8 @@ public final class Dispatcher extends AbstractHandler {
         } else {
             try {
                 BaseHandler baseHandler = (BaseHandler) Class.forName(handler.getClass().getName()).newInstance();
-                baseHandler.setRequest(baseRequest);
+                baseHandler.setRequest(request);
+                baseHandler.setResponse(response);
                 baseHandler.setHandlerMetaData(handler.getHandlerMetaData());
                 Map<Field, Class<? extends Annotation>> annotatedFields = handler.getHandlerMetaData().getAnnotatedFields();
                 Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());

@@ -7,9 +7,14 @@ import org.eclipse.jetty.server.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+
 public abstract class BaseHandler implements Handler {
     private static final Logger LOG = LoggerFactory.getLogger("requestParam");
-    private Request request;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
     private HandlerMetaData handlerMetaData;
 
     public AbstractResult execute(Request request) {
@@ -42,12 +47,26 @@ public abstract class BaseHandler implements Handler {
         }
     }
 
-    public Request getRequest() {
+    public void addResponseHeader(Map<String, String> headers) {
+        for (Map.Entry<String, String> header : headers.entrySet()) {
+            response.addHeader(header.getKey(), header.getValue());
+        }
+    }
+
+    public HttpServletRequest getRequest() {
         return request;
     }
 
-    public void setRequest(Request request) {
+    public void setRequest(HttpServletRequest request) {
         this.request = request;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
     }
 
     public HandlerMetaData getHandlerMetaData() {
