@@ -65,7 +65,7 @@ public class HttpClientCustomBuilder {
     private CloseableHttpClient build() {
         HttpClientBuilder clientBuilder = HttpClients.custom().setConnectionManager(connectionManager);
 
-        SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(5000).build();
+        SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(5000).setTcpNoDelay(true).build();
 
         clientBuilder.setDefaultSocketConfig(socketConfig);
         clientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));

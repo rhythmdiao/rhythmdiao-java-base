@@ -1,10 +1,10 @@
 package com.rhythmdiao.http;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -68,7 +68,7 @@ public class HttpBaseClient implements HttpMessage {
     public String sendAndReceive(HttpRequestBase request) {
         CloseableHttpClient client = new HttpClientCustomBuilder().getClient();
 
-        HttpResponse response;
+        CloseableHttpResponse response = null;
         try {
             response = client.execute(request);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
@@ -83,6 +83,7 @@ public class HttpBaseClient implements HttpMessage {
             e.printStackTrace();
         } finally {
             try {
+                if (response != null) EntityUtils.consume(response.getEntity());
                 client.close();
             } catch (IOException e) {
                 e.printStackTrace();
