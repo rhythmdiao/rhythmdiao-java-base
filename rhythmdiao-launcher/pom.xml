@@ -9,19 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>launcher</artifactId>
+    <artifactId>rhythmdiao-launcher</artifactId>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
             <groupId>com.rhythmdiao.base</groupId>
-            <artifactId>general</artifactId>
+            <artifactId>rhythmdiao-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.rhythmdiao.base</groupId>
-            <artifactId>example</artifactId>
+            <artifactId>rhythmdiao-sample</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rhythmdiao.base</groupId>
+            <artifactId>rhythmdiao-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -1,6 +1,5 @@
-package com.rhythmdiao.http.impl;
+package com.rhythmdiao.http;
 
-import com.rhythmdiao.http.Client;
 import org.apache.http.client.methods.HttpPost;
 
 public class HttpPostClient extends HttpBaseClient implements Client {

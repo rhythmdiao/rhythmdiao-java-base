@@ -11,7 +11,6 @@ import com.rhythmdiao.result.json.JsonResult;
 import com.rhythmdiao.result.xml.XMLResult;
 import com.rhythmdiao.utils.AopUtil;
 import com.rhythmdiao.utils.config.ApplicationContextWrapper;
-import org.apache.http.entity.ContentType;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.skife.config.cglib.beans.BeanMap;
@@ -89,9 +88,9 @@ public final class Dispatcher extends AbstractHandler {
                 AbstractResult result = baseHandler.execute();
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 if (JsonResult.class.isInstance(result)) {
-                    response.setContentType(ContentType.TEXT_HTML.getMimeType());
+                    response.setContentType("text/html");
                 } else if (XMLResult.class.isInstance(result)) {
-                    response.setContentType(ContentType.TEXT_XML.getMimeType());
+                    response.setContentType("text/xml");
                 }
                 response.getWriter().write(result.specificTo());
                 baseRequest.setHandled(true);

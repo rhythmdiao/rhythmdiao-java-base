@@ -1,6 +1,5 @@
-package com.rhythmdiao.http.impl;
+package com.rhythmdiao.http;
 
-import com.rhythmdiao.http.HttpMessage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -11,6 +10,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -65,6 +65,7 @@ public class HttpBaseClient implements HttpMessage {
 
     protected void setURI(HttpRequestBase httpRequestBase, String path) {
         try {
+            ContentType.TEXT_HTML.getMimeType();
             httpRequestBase.setURI(new URI(("https".equals(scheme) ? "https://" : "http://")
                     + ((authority == null || "".equals(authority)) ? path : authority + path)));
         } catch (URISyntaxException e) {

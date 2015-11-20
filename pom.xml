@@ -9,9 +9,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>general</module>
-        <module>launcher</module>
-        <module>example</module>
+        <module>rhythmdiao-core</module>
+        <module>rhythmdiao-launcher</module>
+        <module>rhythmdiao-sample</module>
+        <module>rhythmdiao-client</module>
     </modules>
 
     <properties>
@@ -69,12 +70,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
         </dependency>
 
         <dependency>

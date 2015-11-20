@@ -1,4 +1,4 @@
-package com.rhythmdiao.http.impl;
+package com.rhythmdiao.http;
 
 import java.util.Collections;
 import java.util.HashMap;
