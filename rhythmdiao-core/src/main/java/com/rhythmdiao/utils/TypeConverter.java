@@ -53,7 +53,7 @@ public enum TypeConverter {
                     return calendar;
                 case STRING:
                 default:
-                    break;
+                    return s;
             }
         } catch (Exception e) {
             e.printStackTrace();
