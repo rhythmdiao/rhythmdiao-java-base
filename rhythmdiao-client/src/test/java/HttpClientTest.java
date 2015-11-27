@@ -8,7 +8,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Map;
 
 public class HttpClientTest {
@@ -21,7 +22,7 @@ public class HttpClientTest {
         httpRequest
                 .setHeader("field1", "886")
                 .setParameter("field2", "rhythmdiao")
-                .setParameter("date", new Date().toString());
+                .setParameter("date", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime()));
         String response = httpGetClient.execute("/test", httpRequest);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Map jsonObject = (LinkedTreeMap) gson.fromJson(response, Object.class);
@@ -35,7 +36,7 @@ public class HttpClientTest {
         httpRequest
                 .setHeader("field1", "886")
                 .setParameter("field2", "rhythmdiao")
-                .setParameter("date", new Date().toString());
+                .setParameter("date", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime()));
         String response = httpPostClient.execute("/test", httpRequest);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Map jsonObject = (LinkedTreeMap) gson.fromJson(response, Object.class);
