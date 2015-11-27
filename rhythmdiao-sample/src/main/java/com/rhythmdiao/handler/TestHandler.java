@@ -6,6 +6,7 @@ import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
 import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.StatusCode;
 import com.rhythmdiao.result.json.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ class TestHandler extends BaseHandler {
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(field1).withBar(field2).build();
         hashMap.put("items", entity);
+        result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
         return result;
     }

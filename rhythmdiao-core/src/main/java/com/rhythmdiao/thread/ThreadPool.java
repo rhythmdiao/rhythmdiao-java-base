@@ -28,17 +28,18 @@ public class ThreadPool {
     };
 
     public ThreadPool(int thread) {
-        this.thread = thread;
-        this.executorService = Executors.newFixedThreadPool(thread);
+        this(thread, Executors.newFixedThreadPool(thread));
         this.time = 10;
         this.timeUnit = TimeUnit.MILLISECONDS;
     }
 
-    public ThreadPool() {
+    public ThreadPool(int thread, ExecutorService executorService) {
+        this.thread = thread;
+        this.executorService = executorService;
     }
 
     public void execute(final Runnable task) {
-        if (executorService.isShutdown()) {
+        if (isShutDown()) {
             LOG.info("The threadPool has been shut down");
             return;
         }

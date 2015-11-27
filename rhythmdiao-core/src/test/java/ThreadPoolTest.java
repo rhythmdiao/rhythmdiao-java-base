@@ -13,7 +13,7 @@ public class ThreadPoolTest {
     public void testThreadPool() {
         long before = System.currentTimeMillis();
         ThreadPool threadPool = new ThreadPool(1);
-        ThreadPool threadPool2 = new ThreadPool().time(100).timeUnit(TimeUnit.MILLISECONDS).executorService(Executors.newFixedThreadPool(1));
+        ThreadPool threadPool2 = new ThreadPool(1, Executors.newFixedThreadPool(1)).time(10).timeUnit(TimeUnit.MILLISECONDS);
         for (int i = 1; i < 10; i++) {
             final int j = i;
             threadPool2.execute(new Runnable() {
