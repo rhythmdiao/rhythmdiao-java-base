@@ -12,6 +12,7 @@ public abstract class BaseHandler implements Handler {
     private HttpServletRequest request;
     private HttpServletResponse response;
     private HandlerMetaData handlerMetaData;
+    private Switch status = Switch.ON;
 
     public AbstractResult execute(Request request) {
         return execute();
@@ -45,5 +46,27 @@ public abstract class BaseHandler implements Handler {
 
     public void setHandlerMetaData(HandlerMetaData handlerMetaData) {
         this.handlerMetaData = handlerMetaData;
+    }
+
+    public Switch getStatus() {
+        return status;
+    }
+
+    public void setStatus(Switch status) {
+        this.status = status;
+    }
+
+    public enum Switch {
+        ON(true), OFF(false);
+
+        public boolean value() {
+            return status;
+        }
+
+        Switch(boolean status) {
+            this.status = status;
+        }
+
+        private boolean status;
     }
 }

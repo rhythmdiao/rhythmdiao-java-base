@@ -11,6 +11,7 @@ import com.rhythmdiao.result.json.JsonResult;
 import com.rhythmdiao.result.xml.XMLResult;
 import com.rhythmdiao.utils.AopUtil;
 import com.rhythmdiao.utils.config.ApplicationContextWrapper;
+import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.skife.config.cglib.beans.BeanMap;
@@ -73,7 +74,11 @@ public final class Dispatcher extends AbstractHandler {
         String method = baseRequest.getMethod();
         BaseHandler handler = (BaseHandler) RequestPath.INSTANCE.getPathMap().row(method).get(target);
         if (handler == null) {
-            LOG.info("Unknown target, and the target is [{}]", target);
+            LOG.debug("Unknown target, and the target is [{}]", target);
+            response.setStatus(HttpStatus.NOT_FOUND_404);
+        } else if (handler.getStatus() == BaseHandler.Switch.OFF) {
+            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", handler.getClass().getCanonicalName(), method, target);
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
         } else {
             try {
                 BaseHandler baseHandler = (BaseHandler) Class.forName(handler.getClass().getName()).newInstance();
@@ -93,7 +98,6 @@ public final class Dispatcher extends AbstractHandler {
                     response.setContentType("text/xml");
                 }
                 response.getWriter().write(result.specificTo());
-                baseRequest.setHandled(true);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -102,5 +106,6 @@ public final class Dispatcher extends AbstractHandler {
                 e.printStackTrace();
             }
         }
+        baseRequest.setHandled(true);
     }
 }

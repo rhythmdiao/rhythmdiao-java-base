@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean name="servletContextHandler" class="org.eclipse.jetty.servlet.ServletContextHandler">
+        <property name="contextPath" value="/"/>
+    </bean>
+
+    <bean name="server" class="org.eclipse.jetty.server.Server"
+          init-method="start" destroy-method="stop">
+        <property name="threadPool">
+            <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+                <property name="minThreads" value="5" />
+                <property name="maxThreads" value="10" />
+            </bean>
+        </property>
+        <property name="connectors">
+            <list>
+                <bean name="connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                    <property name="port" value="8081" />
+                    <property name="maxIdleTime" value="30000" />
+                    <property name="lowResourcesConnections" value="5000" />
+                    <property name="lowResourcesMaxIdleTime" value="5000" />
+                    <property name="acceptors" value="4" />
+                    <property name="statsOn" value="false" />
+                    <property name="acceptQueueSize" value="500" />
+                </bean>
+            </list>
+        </property>
+        <property name="handler">
+            <bean class="org.eclipse.jetty.server.handler.HandlerList">
+                <property name="handlers">
+                    <list>
+                        <ref bean="dispatcher"/>
+                        <bean class="org.eclipse.jetty.server.handler.DefaultHandler" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
