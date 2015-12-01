@@ -7,13 +7,13 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <name>rhythmdiao-base</name>
     <description>for java development</description>
 
     <groupId>com.rhythmdiao.base</groupId>
-    <artifactId>base</artifactId>
+    <artifactId>rhythmdiao-base</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
     <modules>
         <module>rhythmdiao-core</module>
         <module>rhythmdiao-launcher</module>
@@ -176,56 +176,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.9</version>
-                <executions>
-                    <execution>
-                        <id>rhythmdiao-scripts</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>generate-daemons</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <target>${project.build.directory}/assembler</target>
-                    <configurationDirectory>conf</configurationDirectory>
-                    <configurationSourceDirectory>${project.basedir}/rhythmdiao-launcher/src/main/resources</configurationSourceDirectory>
-                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <repositoryLayout>flat</repositoryLayout>
-                    <repositoryName>lib</repositoryName>
-                    <logsDirectory>logs</logsDirectory>
-                    <daemons>
-                        <daemon>
-                            <id>rhythmdiao</id>
-                            <mainClass>com.rhythmdiao.Launcher</mainClass>
-                            <jvmSettings>
-                                <initialMemorySize>256M</initialMemorySize>
-                                <maxMemorySize>512M</maxMemorySize>
-                            </jvmSettings>
-                            <generatorConfigurations>
-                                <generatorConfiguration>
-                                    <generator>jsw</generator>
-                                    <includes>
-                                        <include>linux-x86-64</include>
-                                    </includes>
-                                    <configuration>
-                                        <property>
-                                            <name>wrapper.logfile</name>
-                                            <value>log/rhythmdiao.log</value>
-                                        </property>
-                                    </configuration>
-                                </generatorConfiguration>
-                            </generatorConfigurations>
-                            <platforms>
-                                <platform>jsw</platform>
-                            </platforms>
-                        </daemon>
-                    </daemons>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
