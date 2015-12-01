@@ -1,7 +1,10 @@
 language: java
 sudo: false
 jdk:
+  - oraclejdk8
+  - oraclejkd7
   - openjdk7
+  - openjdk6
 notifications:
   email:
     - rhythmdiao@gmail.com
