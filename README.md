@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base.svg)](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base)
 
 #Features 特征
-*   easy-to-use embed jetty server and deamons assembler for building and running application
+*   easy-to-use embed jetty server and deamon assembler for building and running application
 *   嵌入式jetty服务器以及deamon模式构建应用程序
 *   provides annotated handlers to demonstrate simple restful webservice API, handler switch
 *   Restful风格自定义接口，注解方式注射请求参数，接口降级开关
@@ -30,11 +30,12 @@
 *   launcher包封装了启动主模块和配置文件，可以当做主程序启动应用   
 
 #Usage 使用
-In your code for handlers, you can simply do as below
+For handler, you can simply do as below
 ```java
+public
 @Controller
 @RestfulHandler(target = "/test", method = HttpMethods.GET)
-public class TestHandler extends BaseHandler {
+class TestHandler extends BaseHandler {
     @RequestHeader//request header injection,注入请求头到变量
     private int field1;
 
@@ -64,13 +65,13 @@ public class TestHandler extends BaseHandler {
 }
 ```
 --------------------
-In your code for http client, you can simply do as below
+For http client, you can simply do as below
 ```java
-        HttpGetClient httpGetClient = new HttpGetClient("http", "localhost:8080");
-        HttpRequest httpRequest = new HttpRequest();
-        httpRequest
-                .setHeader("field1", "123")
-                .setParameter("field2", "test");
-        String response = httpGetClient.execute("/test", httpRequest);
-        //do sothing with the response
+    HttpGetClient httpGetClient = new HttpGetClient("http", "localhost:8080");
+    HttpRequest httpRequest = new HttpRequest();
+    httpRequest
+            .setHeader("field1", "123")
+            .setParameter("field2", "test");
+    String response = httpGetClient.execute("/test", httpRequest);
+    //do something with the response
 ```
