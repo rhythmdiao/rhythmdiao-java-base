@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
+    <name>base pom</name>
+    <description>for java development</description>
 
     <groupId>com.rhythmdiao.base</groupId>
     <artifactId>base</artifactId>
@@ -32,6 +38,12 @@
         <junit.version>4.11</junit.version>
         <aspect.version>1.6.11</aspect.version>
     </properties>
+
+    <scm>
+        <connection>scm:git://git@github.com:Rhythmdiao/rhythmdiao-java-base.git</connection>
+        <developerConnection>scn:git:https://github.com/Rhythmdiao/rhythmdiao-java-base</developerConnection>
+    </scm>
+
     <dependencies>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
