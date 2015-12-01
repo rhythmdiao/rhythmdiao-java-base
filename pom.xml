@@ -7,7 +7,7 @@
         <maven>3.0</maven>
     </prerequisites>
 
-    <name>base pom</name>
+    <name>rhythmdiao-base</name>
     <description>for java development</description>
 
     <groupId>com.rhythmdiao.base</groupId>
