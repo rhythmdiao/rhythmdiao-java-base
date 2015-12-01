@@ -1,8 +1,7 @@
-##Build Status
+#Build Status
 [![Build Status](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base.svg)](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base)
 
-##Features 特征
---------------------
+#Features 特征
 *   easy-to-use embed jetty server and deamons assembler for building and running application
 *   嵌入式jetty服务器以及deamon模式构建应用程序
 *   provides annotated handlers to demonstrate simple restful webservice API, handler switch
@@ -20,8 +19,7 @@
 *   and more!
 *   更多
 
-##Getting Started 开始
---------------------
+#Getting Started 开始
 *   rhythmdiao-core, the core functionality offered by the framework
 *   core包提供框架核心功能
 *   rhythmdiao-client, a wrapped module of http client 
@@ -31,8 +29,7 @@
 *   rhythmdiao-launcher, main module of the framework, launching it as an application 
 *   launcher包封装了启动主模块和配置文件，可以当做主程序启动应用   
 
-##Usage 使用
---------------------
+#Usage 使用
 In your code for handlers, you can simply do as below
 ```java
 @Controller
@@ -66,6 +63,7 @@ public class TestHandler extends BaseHandler {
     }
 }
 ```
+--------------------
 In your code for http client, you can simply do as below
 ```java
         HttpGetClient httpGetClient = new HttpGetClient("http", "localhost:8080");
