@@ -1,5 +1,6 @@
-#rhythmdiao base for JAVA development
---------------------
+##Build Status
+[![Build Status](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base.svg)](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base)
+
 ##Features
 --------------------
 *   easy-to-use embed jetty server and deamons assembler for building and running application.
