@@ -8,9 +8,9 @@
     </prerequisites>
 
     <description>for java development</description>
-    <url>https://github.com/Rhythmdiao/rhythmdiao-java-base</url>
+    <url>https://github.com/rhythmdiao/rhythmdiao-java-base</url>
 
-    <groupId>com.rhythmdiao.base</groupId>
+    <groupId>com.github.rhythmdiao</groupId>
     <artifactId>rhythmdiao-base</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -34,11 +34,12 @@
         <guava.version>18.0</guava.version>
         <junit.version>4.11</junit.version>
         <aspect.version>1.6.11</aspect.version>
+        <config-magic.version>0.14</config-magic.version>
     </properties>
 
     <scm>
-        <connection>scm:git://git@github.com:Rhythmdiao/rhythmdiao-java-base.git</connection>
-        <developerConnection>scn:git:https://github.com/Rhythmdiao/rhythmdiao-java-base</developerConnection>
+        <connection>scm:git://git@github.com:rhythmdiao/rhythmdiao-java-base.git</connection>
+        <developerConnection>scm:git:https://github.com/rhythmdiao/rhythmdiao-java-base</developerConnection>
     </scm>
 
     <dependencies>
@@ -97,7 +98,7 @@
         <dependency>
             <groupId>org.skife.config</groupId>
             <artifactId>config-magic</artifactId>
-            <version>0.14</version>
+            <version>${config-magic.version}</version>
         </dependency>
 
         <dependency>

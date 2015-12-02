@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>rhythmdiao-base</artifactId>
-        <groupId>com.rhythmdiao.base</groupId>
+        <groupId>com.github.rhythmdiao</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -15,17 +15,17 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.rhythmdiao.base</groupId>
+            <groupId>com.github.rhythmdiao</groupId>
             <artifactId>rhythmdiao-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.rhythmdiao.base</groupId>
+            <groupId>com.github.rhythmdiao</groupId>
             <artifactId>rhythmdiao-sample</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.rhythmdiao.base</groupId>
+            <groupId>com.github.rhythmdiao</groupId>
             <artifactId>rhythmdiao-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
