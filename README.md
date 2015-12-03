@@ -1,5 +1,5 @@
 #Build Status
-[![Build Status](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base.svg)](https://travis-ci.org/Rhythmdiao/rhythmdiao-java-base)
+[![Build Status](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base.svg?branch=master)](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base)
 
 #Features 特征
 *   easy-to-use embed jetty server and deamon assembler for building and running application
