@@ -1,6 +1,5 @@
 package com.rhythmdiao.handler;
 
-import com.rhythmdiao.RequestPath;
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.result.AbstractResult;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Controller;
 
 public
 @Controller
-@RestfulHandler(target = "/switch", description = "switch for handlers", method = HttpMethods.POST)
+@RestfulHandler(target = "/switch", description = "接口开关", method = HttpMethods.POST)
 class SwitchHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(SwitchHandler.class);
 
@@ -26,12 +25,17 @@ class SwitchHandler extends BaseHandler {
     @Override
     public AbstractResult execute() {
         JsonResult result = new JsonResult();
-        BaseHandler handler = (BaseHandler) RequestPath.INSTANCE.getPathMap().row(method).get(target);
-        if (handler != null) {
-            handler.setStatus(handler.getStatus().value() ? Switch.OFF : Switch.ON);
-            result.setStatusMsg("Switch handler (method: [" + method + "] target: [" + target + "]) to " + handler.getStatus().name());
+        if (target.equalsIgnoreCase("/switch")) {
+            result.setStatusMsg("The switch handler can not be turned off!");
         } else {
-            result.setStatusMsg("Unknown handler (method: [" + method + "] target: [" + target + "])");
+            Register registeredHandler = HandlerPath.INSTANCE.getPath().row(method).get(target);
+
+            if (registeredHandler != null) {
+                registeredHandler.setStatus(registeredHandler.getStatus().value() ? Register.Switch.OFF : Register.Switch.ON);
+                result.setStatusMsg("Switch handler (method: [" + method + "] target: [" + target + "]) to " + registeredHandler.getStatus().name());
+            } else {
+                result.setStatusMsg("Unknown handler (method: [" + method + "] target: [" + target + "])");
+            }
         }
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         return result;

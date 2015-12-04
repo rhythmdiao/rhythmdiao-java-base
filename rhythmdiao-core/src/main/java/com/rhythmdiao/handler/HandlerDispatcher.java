@@ -1,15 +1,13 @@
-package com.rhythmdiao;
+package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.HandlerMetaData;
-import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.AbstractResult;
 import com.rhythmdiao.result.json.JsonResult;
 import com.rhythmdiao.result.xml.XMLResult;
-import com.rhythmdiao.utils.AopUtil;
 import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
@@ -17,7 +15,6 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.skife.config.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -30,8 +27,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
-public final class Dispatcher extends AbstractHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(Dispatcher.class);
+public final class HandlerDispatcher extends AbstractHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(HandlerDispatcher.class);
 
     public void init() {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
@@ -55,16 +52,11 @@ public final class Dispatcher extends AbstractHandler {
         String method = annotation.method();
         String uri = annotation.target();
         BaseHandler handler = (BaseHandler) ApplicationContextWrapper.getBean(cls);
-        RequestPath.INSTANCE.setPathMap(method, uri, handler);
-        BaseHandler targetHandler = AopUtils.isAopProxy(handler) ? AopUtil.getCglibProxyTargetObject(handler) : handler;
-        LOG.info(String.format("Dispatching %s %s on handler: %s", method, uri, cls.getName()));
-        addHandlerMetaData(targetHandler, cls.getDeclaredFields());
-    }
-
-    private void addHandlerMetaData(BaseHandler handler, Field[] fields) {
-        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, fields.length);
-        handlerMetaData.putFields(fields);
+        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, cls.getDeclaredFields().length);
+        handlerMetaData.putFields(cls.getDeclaredFields());
         handler.setHandlerMetaData(handlerMetaData);
+        HandlerPath.INSTANCE.setPathMap(method, uri, handler);
+        LOG.info(String.format("Dispatching [%s, %s] on handler: %s", method, uri, cls.getSimpleName()));
     }
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
@@ -72,20 +64,21 @@ public final class Dispatcher extends AbstractHandler {
         if ("/favicon.ico".equals(target)) return;
         request.setCharacterEncoding(Charsets.UTF_8.name());
         String method = baseRequest.getMethod();
-        BaseHandler handler = (BaseHandler) RequestPath.INSTANCE.getPathMap().row(method).get(target);
-        if (handler == null) {
+        Register registeredHandler = HandlerPath.INSTANCE.getPath().row(method).get(target);
+        if (registeredHandler == null) {
             LOG.debug("Unknown target, and the target is [{}]", target);
             response.setStatus(HttpStatus.NOT_FOUND_404);
-        } else if (handler.getStatus() == BaseHandler.Switch.OFF) {
-            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", handler.getClass().getCanonicalName(), method, target);
+        } else if (registeredHandler.getStatus() == Register.Switch.OFF) {
+            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandler().getClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
         } else {
             try {
-                BaseHandler baseHandler = (BaseHandler) Class.forName(handler.getClass().getName()).newInstance();
+                BaseHandler baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandler().getClass().getName()).newInstance();
                 baseHandler.setRequest(request);
                 baseHandler.setResponse(response);
-                baseHandler.setHandlerMetaData(handler.getHandlerMetaData());
-                Map<Field, Class<? extends Annotation>> annotatedFields = handler.getHandlerMetaData().getAnnotatedFields();
+                HandlerMetaData metaData = registeredHandler.getHandler().getHandlerMetaData();
+                baseHandler.setHandlerMetaData(metaData);
+                Map<Field, Class<? extends Annotation>> annotatedFields = metaData.getAnnotatedFields();
                 Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
                 FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);
                 BeanMap beanMap = BeanMap.create(baseHandler);

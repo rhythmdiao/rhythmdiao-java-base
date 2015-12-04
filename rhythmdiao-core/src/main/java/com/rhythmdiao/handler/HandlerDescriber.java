@@ -1,6 +1,7 @@
 package com.rhythmdiao.handler;
 
 import com.google.common.base.Strings;
+import com.rhythmdiao.annotation.RestfulHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,7 @@ public class HandlerDescriber {
 
     public void describeRequest(String... keys) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("target={}", handler.getHandlerMetaData().getTarget());
+            LOG.debug("target={}", handler.getClass().getAnnotation(RestfulHandler.class).target());
             describeHeader(keys);
             describeParameter(keys);
         }

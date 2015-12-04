@@ -9,14 +9,15 @@ public final class JsonResult extends AbstractResult {
     private static Gson GSON;
 
     public JsonResult() {
-        super();
-        GSON = new GsonBuilder().setPrettyPrinting().create();
+        this(false);
     }
 
     public JsonResult(boolean excludeFieldsWithoutExposeAnnotation) {
         super();
-        GSON = excludeFieldsWithoutExposeAnnotation ? new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create()
-                : new GsonBuilder().setPrettyPrinting().create();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        if (excludeFieldsWithoutExposeAnnotation)
+            builder.excludeFieldsWithoutExposeAnnotation();
+        GSON = builder.create();
     }
 
     public String specificTo() {

@@ -1,6 +1,5 @@
 package com.rhythmdiao.handler;
 
-import com.rhythmdiao.RequestPath;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.HandlerMetaDataList;
 import com.rhythmdiao.result.AbstractResult;
@@ -14,15 +13,15 @@ import java.util.HashMap;
 
 public
 @Controller
-@RestfulHandler(target = "/", description = "all apis description handler")
-class ApiDescriptionHandler extends BaseHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(ApiDescriptionHandler.class);
+@RestfulHandler(target = "/description", description = "接口元数据")
+class DescriptionHandler extends BaseHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(DescriptionHandler.class);
 
     @Override
     public AbstractResult execute() {
         AbstractResult result = new JsonResult(true);
-        for (Object o : RequestPath.INSTANCE.getPathMap().values()) {
-            BaseHandler handler = (BaseHandler) o;
+        for (Register registeredHandler : HandlerPath.INSTANCE.getPath().values()) {
+            BaseHandler handler = registeredHandler.getHandler();
             HandlerMetaDataList.INSTANCE.add(handler.getHandlerMetaData());
         }
 

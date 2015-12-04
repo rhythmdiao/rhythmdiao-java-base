@@ -23,7 +23,7 @@ public final class HandlerMetaData implements Serializable {
     @Expose
     private String description;
     @Expose
-    private Map<String, String> parameters;
+    private Map<String, String> fields;
 
     private Map<Field, Class<? extends Annotation>> annotatedFields;
 
@@ -33,7 +33,7 @@ public final class HandlerMetaData implements Serializable {
         this.target = annotation.target();
         this.description = annotation.description();
         this.annotatedFields = new HashMap<Field, Class<? extends Annotation>>(fieldSize);
-        this.parameters = new HashMap<String, String>(fieldSize);
+        this.fields = new HashMap<String, String>(fieldSize);
     }
 
     public void putFields(Field[] fields) {
@@ -43,7 +43,7 @@ public final class HandlerMetaData implements Serializable {
                     final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
                     if (field.isAnnotationPresent(annotation)) {
                         annotatedFields.put(field, annotation);
-                        this.parameters.put(field.getName(), field.getType().getSimpleName() + ";@" + annotation.getSimpleName());
+                        this.fields.put(field.getName(), field.getType().getSimpleName() + ";@" + annotation.getSimpleName());
                     }
                 } catch (InstantiationException e) {
                     e.printStackTrace();

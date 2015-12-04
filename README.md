@@ -8,8 +8,8 @@
 *   Restful风格自定义接口，注解方式注射请求参数，接口降级开关
 *   wrapped json and xml result to generate http response
 *   json和xml格式请求响应
-*   wrapped cache and path map to manage application level cache and uri
-*   封装过的缓存管理器，使用guava
+*   wrapped local cache and request path map to manage application level cache and uri
+*   封装过的本地缓存管理器，使用guava
 *   custom HTTP clients to fetch data from outside
 *   封装过的Http client用于远程调用
 *   thread pool with monitor

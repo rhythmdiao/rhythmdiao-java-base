@@ -29,7 +29,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 * */
 public
 @Controller
-@RestfulHandler(target = "/test", description = "test handler")
+@RestfulHandler(target = "/test", description = "测试接口")
 class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
