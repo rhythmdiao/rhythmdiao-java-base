@@ -27,8 +27,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Set;
 
-public final class HandlerDispatcher extends AbstractHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(HandlerDispatcher.class);
+public final class DispatchHandler extends AbstractHandler {
+    private static final Logger LOG = LoggerFactory.getLogger("dispatchHandler");
 
     public void init() {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);

@@ -1,6 +1,7 @@
 package com.rhythmdiao.entity;
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.JsonAdapter;
+import com.rhythmdiao.adapter.HandlerMetaDataAdapter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.injection.AbstractInjector;
@@ -13,18 +14,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@JsonAdapter(HandlerMetaDataAdapter.class)
 public final class HandlerMetaData implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Expose
     private String target;
-    @Expose
     private String method;
-    @Expose
     private String description;
-    @Expose
-    private Map<String, String> fields;
-
     private Map<Field, Class<? extends Annotation>> annotatedFields;
 
     public HandlerMetaData(BaseHandler handler, int fieldSize) {
@@ -33,7 +29,6 @@ public final class HandlerMetaData implements Serializable {
         this.target = annotation.target();
         this.description = annotation.description();
         this.annotatedFields = new HashMap<Field, Class<? extends Annotation>>(fieldSize);
-        this.fields = new HashMap<String, String>(fieldSize);
     }
 
     public void putFields(Field[] fields) {
@@ -43,7 +38,6 @@ public final class HandlerMetaData implements Serializable {
                     final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
                     if (field.isAnnotationPresent(annotation)) {
                         annotatedFields.put(field, annotation);
-                        this.fields.put(field.getName(), field.getType().getSimpleName() + ";@" + annotation.getSimpleName());
                     }
                 } catch (InstantiationException e) {
                     e.printStackTrace();

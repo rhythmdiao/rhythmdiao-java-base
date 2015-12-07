@@ -18,6 +18,7 @@
     </appender>
 
     <logger name="handlerDescriber" level="debug"/>
+    <logger name="dispatchHandler" level="debug"/>
     <root level="info">
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="fileAppender" />
