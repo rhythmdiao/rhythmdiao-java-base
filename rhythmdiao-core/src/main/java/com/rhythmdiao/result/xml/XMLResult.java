@@ -19,7 +19,7 @@ public final class XMLResult extends AbstractResult {
         super();
     }
 
-    public String specificTo() {
+    public String to() {
         String xml = ConstResult.XML.getEmpty();
         try {
             xml = X_STREAM.toXML(this);

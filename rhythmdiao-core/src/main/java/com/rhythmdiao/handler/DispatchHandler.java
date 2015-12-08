@@ -90,7 +90,7 @@ public final class DispatchHandler extends AbstractHandler {
                 } else if (XMLResult.class.isInstance(result)) {
                     response.setContentType("text/xml");
                 }
-                response.getWriter().write(result.specificTo());
+                response.getWriter().write(result.to());
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {

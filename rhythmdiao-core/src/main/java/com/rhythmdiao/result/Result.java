@@ -1,5 +1,5 @@
 package com.rhythmdiao.result;
 
 public interface Result {
-    String specificTo();
+    String to();
 }

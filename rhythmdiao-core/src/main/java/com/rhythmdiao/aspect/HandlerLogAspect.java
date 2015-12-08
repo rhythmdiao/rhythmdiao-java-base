@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Enumeration;
 
+@Deprecated
 @Aspect
 public final class HandlerLogAspect {
     private static final String EXECUTION = "execution(* com.rhythmdiao.handler.BaseHandler.execute(..))";
@@ -41,7 +42,7 @@ public final class HandlerLogAspect {
     @AfterReturning(value = EXECUTION, argNames = "result", returning = "result")
     public void afterReturning(AbstractResult result) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("response:\n{}", result.specificTo());
+            LOG.debug("response:\n{}", result.to());
         }
     }
 }

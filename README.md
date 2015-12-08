@@ -2,16 +2,16 @@
 [![Build Status](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base.svg?branch=master)](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base)
 
 #Features 特征
-*   easy-to-use embed jetty server and deamon assembler for building and running application
+*   easy-to-use embedded jetty 8 server and deamon assembler for building and running application
 *   嵌入式jetty服务器以及deamon模式构建应用程序
-*   provides annotated handlers to demonstrate simple restful webservice API, handler switch
+*   provides annotated handlers to demonstrate simple restful like API, handler switch
 *   Restful风格自定义接口，注解方式注射请求参数，接口降级开关
 *   wrapped json and xml result to generate http response
 *   json和xml格式请求响应
 *   wrapped local cache and request path map to manage application level cache and uri
-*   封装过的本地缓存管理器，使用guava
-*   custom HTTP clients to fetch data from outside
-*   封装过的Http client用于远程调用
+*   封装过的本地缓存管理器和接口管理器，使用guava
+*   wrapped Apache http client 4.3 to fetch data from outside
+*   封装过的http client用于远程调用
 *   thread pool with monitor
 *   自定义线程池，监视任务提交
 *   build passing
@@ -22,7 +22,7 @@
 #Getting Started 开始
 *   rhythmdiao-core, the core functionality offered by the framework
 *   core包提供框架核心功能
-*   rhythmdiao-client, a wrapped module of http client 
+*   rhythmdiao-client, a wrapped module of apache http client
 *   client包封装了一个http client
 *   rhythmdiao-sample, example of handlers
 *   sample包提供了框架接口样例
@@ -75,3 +75,10 @@ For http client, you can simply do as below
     String response = httpGetClient.execute("/test", httpRequest);
     //do something with the response
 ```
+
+#License
+*   Copyright(c) 2014-2015 Yuxing Ma
+
+#Author
+*   rhythmdiao@163.com
+*   If any questions, freely contact me

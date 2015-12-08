@@ -14,13 +14,17 @@ public final class JsonResult extends AbstractResult {
 
     public JsonResult(boolean excludeFieldsWithoutExposeAnnotation) {
         super();
-        GsonBuilder builder = new GsonBuilder().setPrettyPrinting();
+        GsonBuilder builder = new GsonBuilder().setPrettyPrinting().enableComplexMapKeySerialization();
         if (excludeFieldsWithoutExposeAnnotation)
             builder.excludeFieldsWithoutExposeAnnotation();
         GSON = builder.create();
     }
 
-    public String specificTo() {
+    public JsonResult(GsonBuilder builder) {
+        GSON = builder.create();
+    }
+
+    public String to() {
         String json = ConstResult.JSON.getEmpty();
         try {
             json = GSON.toJson(this);
