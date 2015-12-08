@@ -6,13 +6,13 @@
         </encoder>
     </appender>
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>log/rhythmdiao_base.log</file>
+        <file>logs/rhythmdiao_base.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{[MM/dd/yyyy HH:mm:ss]} [%t] %-5level %logger.%M:%L - %m%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>log/rhythmdiao_base.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/rhythmdiao_base.log.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>1</maxHistory>
         </rollingPolicy>
     </appender>

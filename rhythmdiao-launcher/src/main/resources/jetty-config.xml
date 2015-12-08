@@ -11,20 +11,20 @@
           init-method="start" destroy-method="stop">
         <property name="threadPool">
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
-                <property name="minThreads" value="5" />
-                <property name="maxThreads" value="10" />
+                <property name="minThreads" value="${jetty.pool.minThreads}" />
+                <property name="maxThreads" value="${jetty.pool.maxThreads}" />
             </bean>
         </property>
         <property name="connectors">
             <list>
                 <bean name="connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                    <property name="port" value="8081" />
-                    <property name="maxIdleTime" value="30000" />
-                    <property name="lowResourcesConnections" value="5000" />
-                    <property name="lowResourcesMaxIdleTime" value="5000" />
-                    <property name="acceptors" value="4" />
-                    <property name="statsOn" value="false" />
-                    <property name="acceptQueueSize" value="500" />
+                    <property name="port" value="${jetty.connector.port}" />
+                    <property name="maxIdleTime" value="${jetty.connector.maxIdleTime}" />
+                    <property name="lowResourcesConnections" value="${jetty.connector.lowResourcesConnections}" />
+                    <property name="lowResourcesMaxIdleTime" value="${jetty.connector.lowResourcesMaxIdleTime}" />
+                    <property name="acceptors" value="${jetty.connector.acceptors}" />
+                    <property name="statsOn" value="${jetty.connector.statsOn}" />
+                    <property name="acceptQueueSize" value="${jetty.connector.acceptQueueSize}" />
                 </bean>
             </list>
         </property>
