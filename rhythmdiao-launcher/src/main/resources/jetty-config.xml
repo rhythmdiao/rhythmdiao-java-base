@@ -11,20 +11,20 @@
           init-method="start" destroy-method="stop">
         <property name="threadPool">
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
-                <property name="minThreads" value="${jetty.pool.minThreads}" />
-                <property name="maxThreads" value="${jetty.pool.maxThreads}" />
+                <property name="minThreads" value="${jetty.pool.minThreads}"/>
+                <property name="maxThreads" value="${jetty.pool.maxThreads}"/>
             </bean>
         </property>
         <property name="connectors">
             <list>
                 <bean name="connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                    <property name="port" value="${jetty.connector.port}" />
-                    <property name="maxIdleTime" value="${jetty.connector.maxIdleTime}" />
-                    <property name="lowResourcesConnections" value="${jetty.connector.lowResourcesConnections}" />
-                    <property name="lowResourcesMaxIdleTime" value="${jetty.connector.lowResourcesMaxIdleTime}" />
-                    <property name="acceptors" value="${jetty.connector.acceptors}" />
-                    <property name="statsOn" value="${jetty.connector.statsOn}" />
-                    <property name="acceptQueueSize" value="${jetty.connector.acceptQueueSize}" />
+                    <property name="port" value="${jetty.connector.port}"/>
+                    <property name="maxIdleTime" value="${jetty.connector.maxIdleTime}"/>
+                    <property name="lowResourcesConnections" value="${jetty.connector.lowResourcesConnections}"/>
+                    <property name="lowResourcesMaxIdleTime" value="${jetty.connector.lowResourcesMaxIdleTime}"/>
+                    <property name="acceptors" value="${jetty.connector.acceptors}"/>
+                    <property name="statsOn" value="${jetty.connector.statsOn}"/>
+                    <property name="acceptQueueSize" value="${jetty.connector.acceptQueueSize}"/>
                 </bean>
             </list>
         </property>
@@ -33,7 +33,7 @@
                 <property name="handlers">
                     <list>
                         <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init"/>
-                        <bean class="org.eclipse.jetty.server.handler.DefaultHandler" />
+                        <bean class="org.eclipse.jetty.server.handler.DefaultHandler"/>
                     </list>
                 </property>
             </bean>

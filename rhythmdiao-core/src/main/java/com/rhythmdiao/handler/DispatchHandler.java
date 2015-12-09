@@ -70,10 +70,19 @@ public final class DispatchHandler extends AbstractHandler {
             response.setStatus(HttpStatus.NOT_FOUND_404);
         } else if (registeredHandler.getStatus() == Register.Switch.OFF) {
             LOG.debug("Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandler().getClass().getCanonicalName(), method, target);
-            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR_500);
+            response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
+            BaseHandler baseHandler = null;
             try {
-                BaseHandler baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandler().getClass().getName()).newInstance();
+                baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandler().getClass().getName()).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            if (baseHandler != null) {
                 baseHandler.setRequest(request);
                 baseHandler.setResponse(response);
                 HandlerMetaData metaData = registeredHandler.getHandler().getHandlerMetaData();
@@ -91,12 +100,6 @@ public final class DispatchHandler extends AbstractHandler {
                     response.setContentType("text/xml");
                 }
                 response.getWriter().write(result.to());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
         baseRequest.setHandled(true);

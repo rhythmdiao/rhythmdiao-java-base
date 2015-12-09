@@ -33,16 +33,10 @@ public final class HandlerMetaData implements Serializable {
 
     public void putFields(Field[] fields) {
         for (Field field : fields) {
-            for (Class<? extends AbstractInjector> cls : FieldInjection.INSTANCE.getInjectorList()) {
-                try {
-                    final Class<? extends Annotation> annotation = cls.newInstance().getAnnotation();
-                    if (field.isAnnotationPresent(annotation)) {
-                        annotatedFields.put(field, annotation);
-                    }
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+            for (AbstractInjector injector : FieldInjection.INSTANCE.getInjectorList()) {
+                final Class<? extends Annotation> annotation = injector.getAnnotation();
+                if (field.isAnnotationPresent(annotation)) {
+                    annotatedFields.put(field, annotation);
                 }
             }
         }
