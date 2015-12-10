@@ -21,10 +21,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-public class HttpClientCustomBuilder {
+public class ClientBuilder {
     private PoolingHttpClientConnectionManager connectionManager;
 
-    public HttpClientCustomBuilder() {
+    public ClientBuilder() {
         try {
             Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
                     .register("http", PlainConnectionSocketFactory.INSTANCE)
@@ -48,12 +48,12 @@ public class HttpClientCustomBuilder {
         }
     }
 
-    public HttpClientCustomBuilder setMaxTotal(int maxTotal) {
+    public ClientBuilder setMaxTotal(int maxTotal) {
         connectionManager.setMaxTotal(maxTotal);
         return this;
     }
 
-    public HttpClientCustomBuilder setDefaultMaxPerRoute(int maxPerRoute) {
+    public ClientBuilder setDefaultMaxPerRoute(int maxPerRoute) {
         connectionManager.setDefaultMaxPerRoute(maxPerRoute);
         return this;
     }

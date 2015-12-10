@@ -19,29 +19,35 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class HttpBaseClient implements HttpMessage {
-    private String scheme = "http";
+public abstract class HttpBaseClient implements Client{
+    private String scheme;
     private String authority;
+    private ClientBuilder builder;
 
-    public HttpBaseClient(String authority) {
-        this.authority = authority;
+    protected HttpBaseClient(String authority) {
+        this(null, authority);
     }
 
-    public HttpBaseClient(String scheme, String authority) {
-        this.scheme = scheme;
+    protected HttpBaseClient(String scheme, String authority) {
+        this(scheme, authority, new ClientBuilder());
+    }
+
+    protected HttpBaseClient(String scheme, String authority, ClientBuilder builder) {
+        this.scheme = scheme != null && scheme.equals("https") ? scheme : "http";
         this.authority = authority;
+        this.builder = builder;
     }
 
     protected void setURI(HttpRequestBase httpRequestBase, String path) {
         try {
-            httpRequestBase.setURI(new URI(("https".equals(scheme) ? "https://" : "http://")
+            httpRequestBase.setURI(new URI(scheme + "://"
                     + ((authority == null || "".equals(authority)) ? path : authority + path)));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
     }
 
-    public void addHeader(HttpRequestBase httpRequestBase, HttpRequest httpRequest) {
+    protected void addHeader(HttpRequestBase httpRequestBase, HttpRequest httpRequest) {
         if (httpRequest.getHeaderMap() != null) {
             for (Map.Entry<String, String> header : httpRequest.getHeaderMap().entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
@@ -49,7 +55,7 @@ public class HttpBaseClient implements HttpMessage {
         }
     }
 
-    public void addParameter(HttpPost httpPost, HttpRequest httpRequest) {
+    protected void addParameter(HttpPost httpPost, HttpRequest httpRequest) {
         if (httpRequest.getParameterMap() != null) {
             List<NameValuePair> parameters = new LinkedList<NameValuePair>();
             for (Map.Entry<String, String> parameter : httpRequest.getParameterMap().entrySet()) {
@@ -65,8 +71,8 @@ public class HttpBaseClient implements HttpMessage {
         }
     }
 
-    public String sendAndReceive(HttpRequestBase request) {
-        CloseableHttpClient client = new HttpClientCustomBuilder().getClient();
+    protected String execute(HttpRequestBase request) {
+        CloseableHttpClient client = this.builder.getClient();
 
         CloseableHttpResponse response = null;
         try {
