@@ -21,10 +21,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-public class ClientBuilder {
+public enum ConnectionManager {
+    INSTANCE;
     private PoolingHttpClientConnectionManager connectionManager;
 
-    public ClientBuilder() {
+    ConnectionManager() {
         try {
             Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
                     .register("http", PlainConnectionSocketFactory.INSTANCE)
@@ -37,8 +38,6 @@ public class ClientBuilder {
                     .build();
 
             connectionManager = new PoolingHttpClientConnectionManager(registry);
-            connectionManager.setMaxTotal(1);
-            connectionManager.setDefaultMaxPerRoute(1);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (KeyManagementException e) {
@@ -48,27 +47,11 @@ public class ClientBuilder {
         }
     }
 
-    public ClientBuilder setMaxTotal(int maxTotal) {
-        connectionManager.setMaxTotal(maxTotal);
-        return this;
-    }
-
-    public ClientBuilder setDefaultMaxPerRoute(int maxPerRoute) {
-        connectionManager.setDefaultMaxPerRoute(maxPerRoute);
-        return this;
-    }
-
     public CloseableHttpClient getClient() {
-        return build();
-    }
-
-    private CloseableHttpClient build() {
-        HttpClientBuilder clientBuilder = HttpClients.custom().setConnectionManager(connectionManager);
-
+        HttpClientBuilder builder = HttpClients.custom().setConnectionManager(connectionManager);
         SocketConfig socketConfig = SocketConfig.custom().setSoTimeout(5000).setTcpNoDelay(true).build();
-
-        clientBuilder.setDefaultSocketConfig(socketConfig);
-        clientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
-        return clientBuilder.build();
+        builder.setDefaultSocketConfig(socketConfig);
+        builder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
+        return builder.build();
     }
 }

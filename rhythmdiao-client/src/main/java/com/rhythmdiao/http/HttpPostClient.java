@@ -4,16 +4,12 @@ import org.apache.http.client.methods.HttpPost;
 
 public class HttpPostClient extends HttpBaseClient {
 
-    public HttpPostClient(String authority) {
-        super(authority);
+    public HttpPostClient(String context) {
+        super(context);
     }
 
-    public HttpPostClient(String scheme, String authority) {
-        super(scheme, authority);
-    }
-
-    public HttpPostClient(String scheme, String authority, ClientBuilder builder) {
-        super(scheme, authority, builder);
+    public HttpPostClient(String scheme, String context) {
+        super(scheme, context);
     }
 
     public String execute(String path, HttpRequest httpRequest) {

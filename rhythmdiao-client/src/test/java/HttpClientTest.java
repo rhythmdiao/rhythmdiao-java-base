@@ -27,6 +27,7 @@ public class HttpClientTest {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Map jsonObject = (LinkedTreeMap) gson.fromJson(response, Object.class);
         LOG.info(jsonObject.toString());
+        httpGetClient.close();
     }
 
     @Test

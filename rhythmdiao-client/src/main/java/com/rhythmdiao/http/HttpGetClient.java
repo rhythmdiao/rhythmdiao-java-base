@@ -4,16 +4,12 @@ import org.apache.http.client.methods.HttpGet;
 
 public class HttpGetClient extends HttpBaseClient {
 
-    public HttpGetClient(String authority) {
-        super(authority);
+    public HttpGetClient(String context) {
+        super(context);
     }
 
-    public HttpGetClient(String scheme, String authority) {
-        super(scheme, authority);
-    }
-
-    public HttpGetClient(String scheme, String authority, ClientBuilder builder) {
-        super(scheme, authority, builder);
+    public HttpGetClient(String scheme, String context) {
+        super(scheme, context);
     }
 
     public String execute(String path, HttpRequest httpRequest) {
