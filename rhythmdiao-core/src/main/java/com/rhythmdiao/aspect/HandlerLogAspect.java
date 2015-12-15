@@ -1,6 +1,6 @@
 package com.rhythmdiao.aspect;
 
-import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.Parser;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -39,10 +39,10 @@ public final class HandlerLogAspect {
         }
     }
 
-    @AfterReturning(value = EXECUTION, argNames = "result", returning = "result")
-    public void afterReturning(AbstractResult result) {
+    @AfterReturning(value = EXECUTION, argNames = "parser", returning = "parser")
+    public void afterReturning(Parser parser) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("response:\n{}", result.to());
+            LOG.debug("response:\n{}", parser.toString());
         }
     }
 }

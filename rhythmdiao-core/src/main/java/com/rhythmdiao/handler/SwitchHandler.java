@@ -2,9 +2,10 @@ package com.rhythmdiao.handler;
 
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
-import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.GsonParser;
+import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import com.rhythmdiao.result.json.JsonResult;
 import org.eclipse.jetty.http.HttpMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ class SwitchHandler extends BaseHandler {
     private String target;
 
     @Override
-    public AbstractResult execute() {
-        JsonResult result = new JsonResult();
+    public Parser execute() {
+        Result result = new Result();
         if (target.equalsIgnoreCase("/switch")) {
             result.setStatusMsg("The switch handler can not be turned off!");
         } else {
@@ -38,7 +39,7 @@ class SwitchHandler extends BaseHandler {
             }
         }
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
-        return result;
+        return new GsonParser(result);
     }
 
     public void setMethod(String method) {

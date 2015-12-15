@@ -46,9 +46,10 @@ class TestHandler extends BaseHandler {
     private String field3;
 
     public AbstractResult execute() {
-        AbstractResult result = new JsonResult();
+        Result result = new Result();
         //do something
-        return result;
+        //return a parser as return type with result
+        return new GsonParser(result);
     }
     //setter is nesscery，变量修改器不能少，注射必要
     public void setField1(int field1) {

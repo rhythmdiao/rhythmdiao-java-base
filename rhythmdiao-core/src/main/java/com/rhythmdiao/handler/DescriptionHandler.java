@@ -2,9 +2,10 @@ package com.rhythmdiao.handler;
 
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.HandlerMetaDataList;
-import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.GsonParser;
+import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import com.rhythmdiao.result.json.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,8 +19,8 @@ class DescriptionHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(DescriptionHandler.class);
 
     @Override
-    public AbstractResult execute() {
-        AbstractResult result = new JsonResult(true);
+    public Parser execute() {
+        Result result = new Result();
         for (Register registeredHandler : HandlerPath.INSTANCE.getPath().values()) {
             BaseHandler handler = registeredHandler.getHandler();
             HandlerMetaDataList.INSTANCE.add(handler.getHandlerMetaData());
@@ -29,6 +30,6 @@ class DescriptionHandler extends BaseHandler {
         data.put("API", HandlerMetaDataList.INSTANCE.get());
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(data);
-        return result;
+        return new GsonParser(result);
     }
 }

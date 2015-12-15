@@ -5,9 +5,7 @@ import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
-import com.rhythmdiao.result.AbstractResult;
-import com.rhythmdiao.result.json.JsonResult;
-import com.rhythmdiao.result.xml.XMLResult;
+import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.utils.config.ApplicationContextWrapper;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
@@ -92,14 +90,10 @@ public final class DispatchHandler extends AbstractHandler {
                 FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);
                 BeanMap beanMap = BeanMap.create(baseHandler);
                 beanMap.putAll(fieldMap);
-                AbstractResult result = baseHandler.execute();
+                Parser parser = baseHandler.execute();
                 response.setCharacterEncoding(Charsets.UTF_8.name());
-                if (JsonResult.class.isInstance(result)) {
-                    response.setContentType("text/html");
-                } else if (XMLResult.class.isInstance(result)) {
-                    response.setContentType("text/xml");
-                }
-                response.getWriter().write(result.to());
+                response.setContentType(parser.getContentType());
+                response.getWriter().write(parser.toString());
             }
         }
         baseRequest.setHandled(true);

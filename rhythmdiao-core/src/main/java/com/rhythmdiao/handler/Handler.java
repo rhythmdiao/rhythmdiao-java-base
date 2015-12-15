@@ -1,7 +1,7 @@
 package com.rhythmdiao.handler;
 
-import com.rhythmdiao.result.AbstractResult;
+import com.rhythmdiao.result.Parser;
 
 public interface Handler {
-    AbstractResult execute();
+    Parser execute();
 }

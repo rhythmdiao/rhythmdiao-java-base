@@ -5,9 +5,7 @@ import com.rhythmdiao.annotation.RequestHeader;
 import com.rhythmdiao.annotation.RequestParameter;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.entity.Entity;
-import com.rhythmdiao.result.AbstractResult;
-import com.rhythmdiao.result.StatusCode;
-import com.rhythmdiao.result.json.JsonResult;
+import com.rhythmdiao.result.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,14 +44,14 @@ class TestHandler extends BaseHandler {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
-    public AbstractResult execute() {
-        AbstractResult result = new JsonResult();
+    public Parser execute() {
+        Result result = new Result();
         HashMap<String, Object> hashMap = newHashMapWithExpectedSize(1);
         Entity entity = new Entity.EntityBuilder().withFoo(field1).withBar(field2).build();
         hashMap.put("items", entity);
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
-        return result;
+        return new XmlParser(result);
     }
 
     public void setField1(int field1) {
