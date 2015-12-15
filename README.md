@@ -45,7 +45,7 @@ class TestHandler extends BaseHandler {
     @CookieParameter//cookie value injection,注入cookie到变量
     private String field3;
 
-    public AbstractResult execute() {
+    public Parser execute() {
         Result result = new Result();
         //do something
         //return a parser as return type with result
