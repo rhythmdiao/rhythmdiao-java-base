@@ -47,6 +47,7 @@
         <module>rhythmdiao-launcher</module>
         <module>rhythmdiao-sample</module>
         <module>rhythmdiao-client</module>
+        <module>rhythmdiao-leetcode</module>
     </modules>
 
     <properties>
@@ -148,29 +149,28 @@
                 </executions>
             </plugin>
 
-<!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.8</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <goals>deploy</goals>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <tagNameFormat>release-@{project.version}</tagNameFormat>
-                </configuration>
-            </plugin>
+            <!--            <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.8</version>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>jar</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-release-plugin</artifactId>
+                            <version>2.5</version>
+                            <configuration>
+                                <goals>deploy</goals>
+                                <autoVersionSubmodules>true</autoVersionSubmodules>
+                                <tagNameFormat>release-@{project.version}</tagNameFormat>
+                            </configuration>
+                        </plugin>
+                        </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -26,6 +26,8 @@
 *   client包封装了一个http client
 *   rhythmdiao-sample, example of handlers
 *   sample包提供了框架接口样例
+*   rhythmdiao-leetcode, ignore this, just for code practice
+*   leetcode包是个人练习，不用管
 *   rhythmdiao-launcher, main module of the framework, launching it as an application 
 *   launcher包封装了启动主模块和配置文件，可以当做主程序启动应用   
 

@@ -4,6 +4,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.net.URL;
+
 public final class ApplicationContextWrapper implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
@@ -21,5 +23,9 @@ public final class ApplicationContextWrapper implements ApplicationContextAware 
 
     public static <T> T getBean(Class<T> clazz) throws BeansException, ClassNotFoundException {
         return applicationContext.getBean(clazz);
+    }
+
+    public static URL getResource(String name) {
+        return applicationContext.getClassLoader().getResource(name);
     }
 }

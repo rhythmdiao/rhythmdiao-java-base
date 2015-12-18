@@ -1,10 +1,12 @@
 package com.rhythmdiao.result;
 
 import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
 import java.util.Map;
 
+@XStreamAlias(value = "result")
 public class Result implements Serializable {
     private static final long serialVersionUID = 1L;
     @Expose

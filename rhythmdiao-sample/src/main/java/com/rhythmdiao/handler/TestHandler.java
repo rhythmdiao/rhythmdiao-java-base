@@ -51,7 +51,7 @@ class TestHandler extends BaseHandler {
         hashMap.put("items", entity);
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
-        return new XmlParser(result);
+        return new GsonParser(result);
     }
 
     public void setField1(int field1) {
