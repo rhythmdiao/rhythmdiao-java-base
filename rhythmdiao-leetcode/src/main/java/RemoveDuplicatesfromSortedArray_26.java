@@ -1,5 +1,4 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 /**
  * Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
@@ -13,13 +12,16 @@ public final class RemoveDuplicatesfromSortedArray_26 {
     public static int removeDuplicates(int[] nums) {
         int length = nums.length;
         if (length <= 1) return length;
-        Set<Integer> set = new HashSet<Integer>();
-        set.add(nums[0]);
-        for (int num : nums) {
-            if (!set.contains(num))
-                set.add(num);
+        Arrays.sort(nums);
+        int temp = nums[0];
+        int count = 1;
+        for (int i = 1; i < length; i++) {
+            if (temp != nums[i]) {
+                nums[count++] = nums[i];
+                temp = nums[i];
+            }
         }
-        return set.size();
+        return count;
     }
 
     public static void main(String[] args) {

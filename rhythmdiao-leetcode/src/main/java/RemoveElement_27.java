@@ -9,19 +9,17 @@ public final class RemoveElement_27 {
         int length = nums.length;
         if (length == 0) return length;
         Arrays.sort(nums);
+        if (length == 1 && nums[0] == val) return 0;
         if (nums[length - 1] < val) return length;
-        int start = 0;
-        int end = length - 1;
-        for (; start < length; start++) {
-            if (nums[start] == val) break;
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            if (nums[i] != val) nums[count++] = nums[i];
+            else nums[i] = 0;
         }
-        for (; end > 0; end--) {
-            if (nums[end] == val) break;
-        }
-        return length - (end - start) -1;
+        return count;
     }
 
     public static void main(String[] args) {
-        System.out.println(RemoveElement_27.removeElement(new int[]{4,5}, 4));
+        System.out.println(RemoveElement_27.removeElement(new int[]{3,3}, 3));
     }
 }
