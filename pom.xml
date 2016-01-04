@@ -64,6 +64,7 @@
         <junit.version>4.11</junit.version>
         <aspect.version>1.6.11</aspect.version>
         <config-magic.version>0.14</config-magic.version>
+        <owner.version>1.0.9</owner.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,12 @@
             <groupId>org.skife.config</groupId>
             <artifactId>config-magic</artifactId>
             <version>${config-magic.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aeonbits.owner</groupId>
+            <artifactId>owner</artifactId>
+            <version>${owner.version}</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servers>
+    <dev>
+        <name>development</name>
+        <connector>
+            <host>localhsot</host>
+            <port>8081</port>
+            <maxIdleTime>30000</maxIdleTime>
+            <lowResourcesConnections>5000</lowResourcesConnections>
+            <lowResourcesMaxIdleTime>5000</lowResourcesMaxIdleTime>
+            <acceptors>1</acceptors>
+            <statsOn>false</statsOn>
+            <acceptQueueSize>3</acceptQueueSize>
+        </connector>
+        <pool>
+            <minThreads>1</minThreads>
+            <maxThreads>3</maxThreads>
+        </pool>
+    </dev>
+    <uat>
+        <name>user acceptance</name>
+        <connector>
+            <host>localhsot</host>
+            <port>80</port>
+            <maxIdleTime>30000</maxIdleTime>
+            <lowResourcesConnections>5000</lowResourcesConnections>
+            <lowResourcesMaxIdleTime>5000</lowResourcesMaxIdleTime>
+            <acceptors>1</acceptors>
+            <statsOn>false</statsOn>
+            <acceptQueueSize>10</acceptQueueSize>
+        </connector>
+        <pool>
+            <minThreads>3</minThreads>
+            <maxThreads>10</maxThreads>
+        </pool>
+    </uat>
+    <prod>
+        <name>production</name>
+        <connector>
+            <host>localhsot</host>
+            <port>80</port>
+            <maxIdleTime>3000</maxIdleTime>
+            <lowResourcesConnections>500</lowResourcesConnections>
+            <lowResourcesMaxIdleTime>500</lowResourcesMaxIdleTime>
+            <acceptors>4</acceptors>
+            <statsOn>false</statsOn>
+            <acceptQueueSize>100</acceptQueueSize>
+        </connector>
+        <pool>
+            <minThreads>10</minThreads>
+            <maxThreads>100</maxThreads>
+        </pool>
+    </prod>
+</servers>

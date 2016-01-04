@@ -62,7 +62,7 @@ public final class DispatchHandler extends AbstractHandler {
         if ("/favicon.ico".equals(target)) return;
         request.setCharacterEncoding(Charsets.UTF_8.name());
         String method = baseRequest.getMethod();
-        Register registeredHandler = HandlerPath.INSTANCE.getPath().row(method).get(target);
+        Register registeredHandler = HandlerPath.INSTANCE.getRegisteredHandler(method, target);
         if (registeredHandler == null) {
             LOG.debug("Unknown target, and the target is [{}]", target);
             response.setStatus(HttpStatus.NOT_FOUND_404);
