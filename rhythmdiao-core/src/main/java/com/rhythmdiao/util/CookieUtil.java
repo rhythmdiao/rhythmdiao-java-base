@@ -1,4 +1,4 @@
-package com.rhythmdiao.utils;
+package com.rhythmdiao.util;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Optional;

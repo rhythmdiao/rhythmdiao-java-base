@@ -1,4 +1,4 @@
-package com.rhythmdiao.utils;
+package com.rhythmdiao.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

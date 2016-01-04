@@ -1,7 +1,7 @@
 package com.rhythmdiao.injection;
 
 import com.google.common.base.Strings;
-import com.rhythmdiao.utils.TypeConverter;
+import com.rhythmdiao.util.TypeConverter;
 import javafx.util.Pair;
 import org.springframework.format.annotation.DateTimeFormat;
 

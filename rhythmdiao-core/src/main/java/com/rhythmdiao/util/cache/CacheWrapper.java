@@ -1,4 +1,4 @@
-package com.rhythmdiao.utils.cache;
+package com.rhythmdiao.util.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

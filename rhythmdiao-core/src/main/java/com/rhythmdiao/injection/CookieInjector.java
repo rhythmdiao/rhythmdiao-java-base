@@ -3,7 +3,7 @@ package com.rhythmdiao.injection;
 import com.google.common.base.Strings;
 import com.rhythmdiao.annotation.CookieParameter;
 import com.rhythmdiao.annotation.Injector;
-import com.rhythmdiao.utils.CookieUtil;
+import com.rhythmdiao.util.CookieUtil;
 import javafx.util.Pair;
 
 import javax.servlet.http.HttpServletRequest;

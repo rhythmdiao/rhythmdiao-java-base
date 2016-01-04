@@ -1,4 +1,4 @@
-package com.rhythmdiao.utils;
+package com.rhythmdiao.util;
 
 public enum DelayUtil {
     ;

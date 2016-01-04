@@ -1,18 +1,15 @@
 package com.rhythmdiao.config;
 
-import org.aeonbits.owner.Accessible;
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.Config.HotReload;
 import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.Sources;
 
-@HotReload
 @LoadPolicy(Config.LoadType.FIRST)
 @Sources({"file:jetty-env-config.xml"
         , "classpath:jetty-env-config.xml"
         //,
 })
-public interface JettyEnvCfg extends Accessible {
+public interface JettyEnvCfg extends Config {
     @DefaultValue("dev")
     String env();
 
