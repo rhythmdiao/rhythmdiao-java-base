@@ -29,7 +29,7 @@ class SwitchHandler extends BaseHandler {
         if (target.equalsIgnoreCase("/switch")) {
             result.setStatusMsg("The switch handler can not be turned off!");
         } else {
-            Register registeredHandler = HandlerPath.INSTANCE.getPath().row(method).get(target);
+            Register registeredHandler = HandlerPath.INSTANCE.getRegisteredHandler(method, target);
 
             if (registeredHandler != null) {
                 registeredHandler.setStatus(registeredHandler.getStatus().value() ? Register.Switch.OFF : Register.Switch.ON);

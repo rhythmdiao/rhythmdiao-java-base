@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class AppConfig {
-    private String env;
+    private String env = "dev";
 
     private JettyEnvCfg jettyEnvCfg;
 
@@ -20,7 +20,7 @@ public final class AppConfig {
 
     public final void init() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("env", (env == null || env.isEmpty()) ? "dev" : env);
+        map.put("env", env);
         jettyEnvCfg = ConfigCache.getOrCreate("jetty_env_config", JettyEnvCfg.class, map);
     }
 }
