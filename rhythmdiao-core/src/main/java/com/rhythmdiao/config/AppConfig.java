@@ -10,8 +10,14 @@ public final class AppConfig {
 
     private JettyEnvCfg jettyEnvCfg;
 
+    private AuthorityCfg authorityCfg;
+
     public JettyEnvCfg getJettyEnvCfg() {
         return jettyEnvCfg;
+    }
+
+    public AuthorityCfg getAuthorityCfg() {
+        return authorityCfg;
     }
 
     public void setEnv(String env) {
@@ -22,5 +28,6 @@ public final class AppConfig {
         Map<String, String> map = new HashMap<String, String>();
         map.put("env", env);
         jettyEnvCfg = ConfigCache.getOrCreate("jetty_env_config", JettyEnvCfg.class, map);
+        authorityCfg = ConfigCache.getOrCreate("authority_config", AuthorityCfg.class, map);
     }
 }

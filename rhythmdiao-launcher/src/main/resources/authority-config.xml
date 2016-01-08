@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<authorities>
+    <dev>
+        <appKey>
+            <android></android>
+            <ios></ios>
+            <web></web>
+            <other></other>
+        </appKey>
+    </dev>
+    <uat>
+        <appKey>
+            <android></android>
+            <ios></ios>
+            <web></web>
+            <other></other>
+        </appKey>
+    </uat>
+    <prod>
+        <appKey>
+            <android></android>
+            <ios></ios>
+            <web></web>
+            <other></other>
+        </appKey>
+    </prod>
+</authorities>
