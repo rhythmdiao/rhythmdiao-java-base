@@ -17,8 +17,10 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="handlerDescriber" level="debug"/>
-    <logger name="dispatchHandler" level="debug"/>
+    <logger name="handler_describer" level="debug"/>
+    <logger name="dispatch_handler" level="debug"/>
+    <logger name="handler_initializer" level="debug"/>
+
     <root level="info">
         <appender-ref ref="consoleAppender" />
         <appender-ref ref="fileAppender" />

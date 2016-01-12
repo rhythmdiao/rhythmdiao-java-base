@@ -32,7 +32,7 @@
             <bean class="org.eclipse.jetty.server.handler.HandlerList">
                 <property name="handlers">
                     <list>
-                        <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init"/>
+                        <bean class="com.rhythmdiao.handler.DispatchHandler"/>
                         <bean class="org.eclipse.jetty.server.handler.DefaultHandler"/>
                     </list>
                 </property>

@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HandlerDescriber {
-    private static final Logger LOG = LoggerFactory.getLogger("handlerDescriber");
+    private static final Logger LOG = LoggerFactory.getLogger("handler_describer");
     private BaseHandler handler;
 
     public HandlerDescriber(BaseHandler handler) {

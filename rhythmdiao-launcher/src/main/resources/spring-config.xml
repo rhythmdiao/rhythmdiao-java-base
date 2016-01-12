@@ -9,6 +9,13 @@
     <bean name="appCfg" class="com.rhythmdiao.config.AppConfig" init-method="init">
         <property name="env" value="dev"/>
     </bean>
+    <bean class="com.rhythmdiao.handler.Initializer" init-method="init">
+        <property name="pkgs">
+            <list>
+                <value>com.rhythmdiao.handler</value>
+            </list>
+        </property>
+    </bean>
     <import resource="jetty-config.xml"/>
     <context:component-scan base-package="com.rhythmdiao.handler"/>
 </beans>
