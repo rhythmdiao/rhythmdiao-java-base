@@ -27,7 +27,7 @@ public class BlackListHandler extends AbstractHandler {
         cfg.addReloadListener(new ReloadListener() {
             @Override
             public void reloadPerformed(ReloadEvent reloadEvent) {
-                Cache<String, String[]> cache = CacheWrapper.getInstance().getOrDefault("ip_access_config");
+                @SuppressWarnings("unchecked") Cache<String, String[]> cache = CacheWrapper.getInstance().getOrDefault("ip_access_config");
                 cache.put("forbidden", cfg.forbidden());
                 LOG.debug("Reload performed......");
             }
