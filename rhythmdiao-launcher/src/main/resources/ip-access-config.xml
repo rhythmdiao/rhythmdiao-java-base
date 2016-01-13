@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access>
+    <dev>
+        <ip>*</ip>
+    </dev>
+    <uat>
+        <ip>*</ip>
+    </uat>
+    <prod>
+        <ip>*</ip>
+    </prod>
+</access>

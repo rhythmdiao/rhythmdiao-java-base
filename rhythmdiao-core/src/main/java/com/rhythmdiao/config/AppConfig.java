@@ -12,12 +12,18 @@ public final class AppConfig {
 
     private AuthorityCfg authorityCfg;
 
+    private IPAccessCfg ipAccessCfg;
+
     public JettyEnvCfg getJettyEnvCfg() {
         return jettyEnvCfg;
     }
 
     public AuthorityCfg getAuthorityCfg() {
         return authorityCfg;
+    }
+
+    public IPAccessCfg getIpAccessCfg() {
+        return ipAccessCfg;
     }
 
     public void setEnv(String env) {
@@ -29,5 +35,6 @@ public final class AppConfig {
         map.put("env", env);
         jettyEnvCfg = ConfigCache.getOrCreate("jetty_env_config", JettyEnvCfg.class, map);
         authorityCfg = ConfigCache.getOrCreate("authority_config", AuthorityCfg.class, map);
+        ipAccessCfg = ConfigCache.getOrCreate("ip_access_config", IPAccessCfg.class, map);
     }
 }
