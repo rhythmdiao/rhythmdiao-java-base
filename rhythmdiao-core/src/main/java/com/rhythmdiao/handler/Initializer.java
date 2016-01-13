@@ -12,7 +12,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import java.util.List;
 import java.util.Set;
 
-public class Initializer {
+public final class Initializer {
     private static final Logger LOG = LoggerFactory.getLogger("handler_initializer");
 
     private List<String> pkgs;

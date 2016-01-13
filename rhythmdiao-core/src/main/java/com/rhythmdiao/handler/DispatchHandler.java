@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.util.IntervalUtil;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -24,6 +25,7 @@ public final class DispatchHandler extends AbstractHandler {
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
+        IntervalUtil interval = new IntervalUtil().start();
         if ("/favicon.ico".equals(target)) return;
         request.setCharacterEncoding(Charsets.UTF_8.name());
         String method = baseRequest.getMethod();
@@ -59,6 +61,7 @@ public final class DispatchHandler extends AbstractHandler {
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
                 response.getWriter().write(parser.toString());
+                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName() ,interval.end());
             }
         }
         baseRequest.setHandled(true);
