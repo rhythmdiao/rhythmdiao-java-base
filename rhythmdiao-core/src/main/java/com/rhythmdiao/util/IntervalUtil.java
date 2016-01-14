@@ -25,14 +25,13 @@ public class IntervalUtil {
 
     public long end() {
         mark();
-        return interval();
+        return interval(0, marks.size() - 1);
     }
 
-    public long interval() {
-        int size = marks.size();
-        if (size == 0) return -1;
-        if (size == 1) return 0;
-        return marks.get(size - 1) - marks.get(0);
+    public long interval(int start, int end) {
+        if (end == -1 || end < start) return -1;
+        if (end == start) return 0;
+        return marks.get(end) - marks.get(start);
     }
 
     public void reset() {
