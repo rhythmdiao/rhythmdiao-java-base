@@ -2,11 +2,12 @@ package com.rhythmdiao.handler;
 
 import com.google.common.base.Strings;
 import com.rhythmdiao.annotation.RestfulHandler;
+import com.rhythmdiao.constant.LoggerName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HandlerDescriber {
-    private static final Logger LOG = LoggerFactory.getLogger("handler_describer");
+    private static final Logger LOG = LoggerFactory.getLogger(LoggerName.DESCRIBER);
     private BaseHandler handler;
 
     public HandlerDescriber(BaseHandler handler) {
@@ -31,7 +32,7 @@ public class HandlerDescriber {
         }
     }
 
-    public void describeRequest(String... keys) {
+    public void describe(String... keys) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("target={}", handler.getClass().getAnnotation(RestfulHandler.class).target());
             describeHeader(keys);

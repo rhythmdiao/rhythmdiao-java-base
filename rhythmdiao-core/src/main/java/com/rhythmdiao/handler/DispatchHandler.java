@@ -2,6 +2,7 @@ package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
+import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.Parser;
@@ -21,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 public final class DispatchHandler extends AbstractHandler {
-    private static final Logger LOG = LoggerFactory.getLogger("dispatch_handler");
+    private static final Logger LOG = LoggerFactory.getLogger(LoggerName.DISPATCHER);
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {

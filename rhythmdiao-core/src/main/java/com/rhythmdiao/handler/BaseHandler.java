@@ -33,4 +33,9 @@ public abstract class BaseHandler implements Handler {
     public void setHandlerMetaData(HandlerMetaData handlerMetaData) {
         this.handlerMetaData = handlerMetaData;
     }
+
+    public void describe(String... keys) {
+        HandlerDescriber describer = new HandlerDescriber(this);
+        describer.describe(keys);
+    }
 }

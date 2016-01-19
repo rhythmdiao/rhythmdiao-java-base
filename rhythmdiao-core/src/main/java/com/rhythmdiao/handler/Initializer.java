@@ -1,6 +1,7 @@
 package com.rhythmdiao.handler;
 
 import com.rhythmdiao.annotation.RestfulHandler;
+import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.util.ApplicationContextWrapper;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class Initializer {
-    private static final Logger LOG = LoggerFactory.getLogger("handler_initializer");
+    private static final Logger LOG = LoggerFactory.getLogger(LoggerName.INITIALIZER);
 
     private List<String> pkgs;
 
