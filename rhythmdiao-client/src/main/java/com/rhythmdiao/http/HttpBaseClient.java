@@ -11,7 +11,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -20,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class HttpBaseClient implements Client, Closeable {
+public abstract class HttpBaseClient implements Client {
     private String scheme;
     private String context;
     private CloseableHttpClient client;
@@ -32,7 +31,7 @@ public abstract class HttpBaseClient implements Client, Closeable {
     protected HttpBaseClient(String scheme, String context) {
         this.scheme = scheme != null && scheme.equals("https") ? scheme : "http";
         this.context = context;
-        this.client = ConnectionManager.INSTANCE.getClient();
+        this.client = ClientBuilder.INSTANCE.getClient();
     }
 
     protected void setURI(HttpRequestBase httpRequestBase, String path) {
@@ -69,7 +68,7 @@ public abstract class HttpBaseClient implements Client, Closeable {
     }
 
     protected String execute(HttpRequestBase request) {
-        CloseableHttpResponse response = null;
+        CloseableHttpResponse response;
         try {
             response = client.execute(request);
             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
@@ -82,21 +81,7 @@ public abstract class HttpBaseClient implements Client, Closeable {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (response != null) EntityUtils.consume(response.getEntity());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
         return null;
-    }
-
-    public void close() {
-        try {
-            client.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

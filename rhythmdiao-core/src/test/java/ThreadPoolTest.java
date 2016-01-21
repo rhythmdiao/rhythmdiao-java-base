@@ -1,4 +1,6 @@
+import com.rhythmdiao.thread.ExecutorThreadPool;
 import com.rhythmdiao.thread.ThreadPool;
+import com.rhythmdiao.util.IntervalUtil;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +12,11 @@ public class ThreadPoolTest {
     private static final Logger LOG = LoggerFactory.getLogger(ThreadPoolTest.class);
 
     @Test
-    public void testThreadPool() {
-        long before = System.currentTimeMillis();
-        ThreadPool threadPool = new ThreadPool(1);
-        ThreadPool threadPool2 = new ThreadPool(1, Executors.newFixedThreadPool(1)).time(10).timeUnit(TimeUnit.MILLISECONDS);
-        for (int i = 1; i < 10; i++) {
+    public void testExecutorThreadPool() {
+        IntervalUtil interval = new IntervalUtil().start();
+        ThreadPool threadPool = new ExecutorThreadPool();
+        ThreadPool threadPool2 = new ExecutorThreadPool(10, 100L, TimeUnit.MILLISECONDS, Executors.newFixedThreadPool(5));
+        for (int i = 1; i < 1000; i++) {
             final int j = i;
             threadPool2.execute(new Runnable() {
                 @Override
@@ -24,7 +26,6 @@ public class ThreadPoolTest {
             });
         }
         threadPool2.shutDown();
-        long after = System.currentTimeMillis();
-        LOG.info("Thread pool execution spent {} milliseconds", after - before);
+        LOG.info("Thread pool execution spent {} milliseconds", interval.end());
     }
 }
