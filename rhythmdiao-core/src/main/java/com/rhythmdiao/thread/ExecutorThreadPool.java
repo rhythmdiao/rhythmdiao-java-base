@@ -50,6 +50,7 @@ public class ExecutorThreadPool extends ThreadPool {
             LOG.info("The threadPool has been shut down");
             return null;
         }
+
         try {
             monitor.enterWhen(canSubmit, time, timeUnit);
             currentThreads.incrementAndGet();
@@ -60,7 +61,6 @@ public class ExecutorThreadPool extends ThreadPool {
                         return task.call();
                     } finally {
                         currentThreads.decrementAndGet();
-
                     }
                 }
             });

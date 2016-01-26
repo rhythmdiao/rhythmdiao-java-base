@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration scan="true" scanPeriod="60 seconds">
+    <contextName>rhythmdiao-java-base</contextName>
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{[MM/dd/yyyy HH:mm:ss]} [%t] %-5level %logger.%M:%L - %m%n</pattern>
