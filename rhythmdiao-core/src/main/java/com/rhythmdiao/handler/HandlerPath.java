@@ -1,6 +1,7 @@
 package com.rhythmdiao.handler;
 
 import com.google.common.collect.*;
+import com.rhythmdiao.entity.HandlerMetaData;
 
 import java.util.Set;
 
@@ -15,8 +16,8 @@ public enum HandlerPath {
         ignorePaths = Sets.newHashSet();
     }
 
-    protected void setPathMap(String method, String uri, BaseHandler handler) {
-        Register register = new Register(handler);
+    protected void setPathMap(String method, String uri, Class<? extends BaseHandler> handler, HandlerMetaData metaData) {
+        Register register = new Register(handler, metaData);
         pathTable.put(method, uri, register);
     }
 

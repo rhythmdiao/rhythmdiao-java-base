@@ -35,12 +35,12 @@ public final class DispatchHandler extends AbstractHandler {
             LOG.debug("Unknown target, and the target is [{}]", target);
             response.setStatus(HttpStatus.NOT_FOUND_404);
         } else if (registeredHandler.getStatus() == Register.Switch.OFF) {
-            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandler().getClass().getCanonicalName(), method, target);
+            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
             BaseHandler baseHandler = null;
             try {
-                baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandler().getClass().getName()).newInstance();
+                baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -51,8 +51,7 @@ public final class DispatchHandler extends AbstractHandler {
             if (baseHandler != null) {
                 baseHandler.setRequest(request);
                 baseHandler.setResponse(response);
-                HandlerMetaData metaData = registeredHandler.getHandler().getHandlerMetaData();
-                baseHandler.setHandlerMetaData(metaData);
+                HandlerMetaData metaData = registeredHandler.getMetaData();
                 Map<Field, Class<? extends Annotation>> annotatedFields = metaData.getAnnotatedFields();
                 Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
                 FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);

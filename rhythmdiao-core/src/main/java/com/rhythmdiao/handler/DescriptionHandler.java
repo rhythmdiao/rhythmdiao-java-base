@@ -22,8 +22,7 @@ class DescriptionHandler extends BaseHandler {
     public Parser execute() {
         Result result = new Result();
         for (Register registeredHandler : HandlerPath.INSTANCE.getPath().values()) {
-            BaseHandler handler = registeredHandler.getHandler();
-            HandlerMetaDataList.INSTANCE.add(handler.getHandlerMetaData());
+            HandlerMetaDataList.INSTANCE.add(registeredHandler.getMetaData());
         }
 
         HashMap<String, Object> data = new HashMap<String, Object>(1);

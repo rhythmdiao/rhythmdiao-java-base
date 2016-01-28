@@ -3,7 +3,6 @@ package com.rhythmdiao.entity;
 import com.google.gson.annotations.JsonAdapter;
 import com.rhythmdiao.adapter.HandlerMetaDataAdapter;
 import com.rhythmdiao.annotation.RestfulHandler;
-import com.rhythmdiao.handler.BaseHandler;
 import com.rhythmdiao.injection.AbstractInjector;
 import com.rhythmdiao.injection.FieldInjection;
 
@@ -23,8 +22,7 @@ public final class HandlerMetaData implements Serializable {
     private String description;
     private Map<Field, Class<? extends Annotation>> annotatedFields;
 
-    public HandlerMetaData(BaseHandler handler, int fieldSize) {
-        RestfulHandler annotation = handler.getClass().getAnnotation(RestfulHandler.class);
+    public HandlerMetaData(RestfulHandler annotation, int fieldSize) {
         this.method = annotation.method();
         this.target = annotation.target();
         this.description = annotation.description();

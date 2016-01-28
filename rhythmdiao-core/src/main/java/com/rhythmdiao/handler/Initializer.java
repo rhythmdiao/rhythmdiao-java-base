@@ -44,10 +44,9 @@ public final class Initializer {
         String method = annotation.method();
         String uri = annotation.target();
         BaseHandler handler = (BaseHandler) ApplicationContextWrapper.getBean(cls);
-        HandlerMetaData handlerMetaData = new HandlerMetaData(handler, cls.getDeclaredFields().length);
-        handlerMetaData.putFields(cls.getDeclaredFields());
-        handler.setHandlerMetaData(handlerMetaData);
-        HandlerPath.INSTANCE.setPathMap(method, uri, handler);
+        HandlerMetaData metaData = new HandlerMetaData(annotation, cls.getDeclaredFields().length);
+        metaData.putFields(cls.getDeclaredFields());
+        HandlerPath.INSTANCE.setPathMap(method, uri, handler.getClass(), metaData);
         LOG.info(String.format("Dispatching [%s, %s] on handler: %s", method, uri, cls.getSimpleName()));
     }
 }
