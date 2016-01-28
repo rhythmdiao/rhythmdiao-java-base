@@ -1,11 +1,11 @@
 package com.rhythmdiao.handler;
 
-import com.rhythmdiao.annotation.CookieParameter;
-import com.rhythmdiao.annotation.RequestHeader;
-import com.rhythmdiao.annotation.RequestParameter;
-import com.rhythmdiao.annotation.RestfulHandler;
+import com.rhythmdiao.annotation.*;
 import com.rhythmdiao.entity.Entity;
-import com.rhythmdiao.result.*;
+import com.rhythmdiao.result.GsonParser;
+import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.result.Result;
+import com.rhythmdiao.result.StatusCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,6 +31,7 @@ public
 class TestHandler extends BaseHandler {
     private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
 
+    @Describer(comment = "/test")
     @RequestHeader
     private int field1;
 

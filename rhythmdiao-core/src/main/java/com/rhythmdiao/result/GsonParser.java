@@ -17,10 +17,9 @@ public class GsonParser implements Parser {
     }
 
     public GsonParser(Result result) {
-        this.result = result;
-        this.builder = new GsonBuilder()
+        this(result, new GsonBuilder()
                 .setPrettyPrinting()
-                .enableComplexMapKeySerialization();
+                .enableComplexMapKeySerialization());
     }
 
     @Override

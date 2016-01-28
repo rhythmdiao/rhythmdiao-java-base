@@ -22,9 +22,4 @@ public abstract class BaseHandler implements Handler {
     public void setResponse(HttpServletResponse response) {
         this.response = response;
     }
-
-    public void describe(String... keys) {
-        HandlerDescriber describer = new HandlerDescriber(this);
-        describer.describe(keys);
-    }
 }
