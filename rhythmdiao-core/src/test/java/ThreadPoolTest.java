@@ -1,6 +1,6 @@
 import com.rhythmdiao.thread.ExecutorThreadPool;
 import com.rhythmdiao.thread.ThreadPool;
-import com.rhythmdiao.util.IntervalUtil;
+import com.rhythmdiao.util.time.TimeCounter;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class ThreadPoolTest {
 
     @Test
     public void testExecutorThreadPool() {
-        IntervalUtil interval = new IntervalUtil().start();
+        TimeCounter interval = new TimeCounter().start();
         ThreadPool threadPool = new ExecutorThreadPool();
         ThreadPool threadPool2 = new ExecutorThreadPool(10, 100L, TimeUnit.MILLISECONDS, Executors.newFixedThreadPool(5));
         for (int i = 1; i < 1000; i++) {

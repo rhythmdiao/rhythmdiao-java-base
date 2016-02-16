@@ -1,18 +1,18 @@
-package com.rhythmdiao.util;
+package com.rhythmdiao.util.time;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntervalUtil {
+public class TimeCounter {
     private long start = -1;
 
     private List<Long> marks;
 
-    public IntervalUtil() {
+    public TimeCounter() {
         marks = new ArrayList<Long>();
     }
 
-    public IntervalUtil start() {
+    public TimeCounter start() {
         reset();
         start = currentTime();
         marks.add(start);

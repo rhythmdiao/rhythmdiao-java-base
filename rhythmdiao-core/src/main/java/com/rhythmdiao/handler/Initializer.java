@@ -32,8 +32,7 @@ public final class Initializer {
                 try {
                     cls = Class.forName(beanDefinition.getBeanClassName());
                     dispatcher(cls);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+                } catch (ClassNotFoundException ignored) {
                 }
             }
         }

@@ -1,6 +1,8 @@
 package com.rhythmdiao.handler;
 
 import com.rhythmdiao.entity.HandlerMetaData;
+import com.rhythmdiao.util.time.TimeMonitor;
+import com.rhythmdiao.util.time.TimeUtil;
 
 public class Register {
     private Class<? extends BaseHandler> handlerClass;
@@ -9,9 +11,12 @@ public class Register {
 
     private Switch status;
 
+    private TimeMonitor moniter;
+
     public Register(Class<? extends BaseHandler> handlerClass, HandlerMetaData metaData) {
         this.handlerClass = handlerClass;
         this.metaData = metaData;
+        this.moniter = TimeUtil.INSTANCE.getMoniter();
         status = Switch.ON;
     }
 
@@ -29,6 +34,10 @@ public class Register {
 
     public Switch getStatus() {
         return status;
+    }
+
+    public TimeMonitor getMoniter() {
+        return moniter;
     }
 
     protected enum Switch {

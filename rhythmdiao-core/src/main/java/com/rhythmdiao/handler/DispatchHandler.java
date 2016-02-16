@@ -6,7 +6,7 @@ import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.Parser;
-import com.rhythmdiao.util.IntervalUtil;
+import com.rhythmdiao.util.time.TimeCounter;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
@@ -26,7 +26,7 @@ public final class DispatchHandler extends AbstractHandler {
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        IntervalUtil interval = new IntervalUtil().start();
+        TimeCounter interval = new TimeCounter().start();
         if ("/favicon.ico".equals(target)) return;
         request.setCharacterEncoding(Charsets.UTF_8.name());
         String method = baseRequest.getMethod();
@@ -41,12 +41,9 @@ public final class DispatchHandler extends AbstractHandler {
             BaseHandler baseHandler = null;
             try {
                 baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (InstantiationException ignored) {
+            } catch (IllegalAccessException ignored) {
+            } catch (ClassNotFoundException ignored) {
             }
             if (baseHandler != null) {
                 baseHandler.setRequest(request);
@@ -61,7 +58,9 @@ public final class DispatchHandler extends AbstractHandler {
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
                 response.getWriter().write(parser.toString());
-                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName() ,interval.end());
+                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName(), interval.end());
+                registeredHandler.getMoniter().record(interval.end());
+                LOG.debug("avg:{}", registeredHandler.getMoniter().avg());
             }
         }
         baseRequest.setHandled(true);
