@@ -11,12 +11,12 @@ public class Register {
 
     private Switch status;
 
-    private TimeMonitor moniter;
+    private TimeMonitor monitor;
 
     public Register(Class<? extends BaseHandler> handlerClass, HandlerMetaData metaData) {
         this.handlerClass = handlerClass;
         this.metaData = metaData;
-        this.moniter = TimeUtil.INSTANCE.getMoniter();
+        this.monitor = TimeUtil.INSTANCE.getMoniter();
         status = Switch.ON;
     }
 
@@ -36,8 +36,8 @@ public class Register {
         return status;
     }
 
-    public TimeMonitor getMoniter() {
-        return moniter;
+    public TimeMonitor getMonitor() {
+        return monitor;
     }
 
     protected enum Switch {
