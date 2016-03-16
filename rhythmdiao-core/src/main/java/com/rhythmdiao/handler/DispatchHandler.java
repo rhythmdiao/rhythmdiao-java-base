@@ -27,7 +27,7 @@ public final class DispatchHandler extends AbstractHandler {
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         TimeCounter interval = new TimeCounter().start();
-        if ("/favicon.ico".equals(target)) return;
+        if (HandlerPath.INSTANCE.isIgnored(target)) return;
         request.setCharacterEncoding(Charsets.UTF_8.name());
         String method = baseRequest.getMethod();
         Register registeredHandler = HandlerPath.INSTANCE.getRegisteredHandler(method, target);

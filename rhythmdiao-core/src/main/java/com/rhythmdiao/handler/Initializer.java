@@ -18,8 +18,14 @@ public final class Initializer {
 
     private List<String> pkgs;
 
+    private List<String> ignored;
+
     public void setPkgs(List<String> pkgs) {
         this.pkgs = pkgs;
+    }
+
+    public void setIgnored(List<String> ignored) {
+        this.ignored = ignored;
     }
 
     public void init() {
@@ -35,6 +41,10 @@ public final class Initializer {
                 } catch (ClassNotFoundException ignored) {
                 }
             }
+        }
+
+        for (String target : ignored) {
+            HandlerPath.INSTANCE.setIgnored(target);
         }
     }
 

@@ -15,6 +15,11 @@
                 <value>com.rhythmdiao.handler</value>
             </list>
         </property>
+        <property name="ignored">
+            <list>
+                <value>/favicon.ico</value>
+            </list>
+        </property>
     </bean>
     <import resource="jetty-config.xml"/>
     <context:component-scan base-package="com.*.handler"/>

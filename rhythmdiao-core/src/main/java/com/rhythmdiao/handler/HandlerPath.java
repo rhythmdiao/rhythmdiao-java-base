@@ -21,8 +21,12 @@ public enum HandlerPath {
         pathTable.put(method, uri, register);
     }
 
-    protected void setIgnorePath(String target) {
+    protected void setIgnored(String target) {
         ignorePaths.add(target);
+    }
+
+    protected boolean isIgnored(String target) {
+        return ignorePaths.contains(target);
     }
 
     protected Register getRegisteredHandler(String method, String target) {
