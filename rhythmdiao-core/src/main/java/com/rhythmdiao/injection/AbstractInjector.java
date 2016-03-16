@@ -41,7 +41,7 @@ public abstract class AbstractInjector implements Injector {
     }
 
     public void describeParam(Field field, String param) {
-        if (field.getAnnotation(Describer.class) != null) {
+        if (field.getAnnotation(Describer.class) != null && LOG.isDebugEnabled()) {
             LOG.debug("{}:{}={}", field.getAnnotation(Describer.class).comment(), field.getName(), param);
         }
     }

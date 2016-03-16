@@ -58,8 +58,8 @@ public final class DispatchHandler extends AbstractHandler {
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
                 response.getWriter().write(parser.toString());
-                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName(), interval.end());
-                registeredHandler.getMonitor().record(interval.end());
+                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName(),
+                        registeredHandler.getMonitor().record(interval.end()));
                 LOG.debug("avg:{}", registeredHandler.getMonitor().avg());
             }
         }
