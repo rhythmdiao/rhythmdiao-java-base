@@ -56,6 +56,6 @@ public final class Initializer {
         HandlerMetaData metaData = new HandlerMetaData(annotation, cls.getDeclaredFields().length);
         metaData.putFields(cls.getDeclaredFields());
         HandlerPath.INSTANCE.setPathMap(method, uri, handler.getClass(), metaData);
-        LOG.info(String.format("Dispatching [%s, %s] on handler: %s", method, uri, cls.getSimpleName()));
+        LOG.info("Dispatching [{}, {}] on handler: {}", method, uri, cls.getSimpleName());
     }
 }
