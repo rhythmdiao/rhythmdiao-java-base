@@ -1,4 +1,6 @@
-package com.rhythmdiao.util.time;
+package com.rhythmdiao.util;
+
+import com.rhythmdiao.util.time.TimeMonitor;
 
 /**
  * Created by mayuxing on 2016/1/29.

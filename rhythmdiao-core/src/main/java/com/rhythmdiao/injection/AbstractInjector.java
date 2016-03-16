@@ -3,7 +3,7 @@ package com.rhythmdiao.injection;
 import com.google.common.base.Strings;
 import com.rhythmdiao.annotation.Describer;
 import com.rhythmdiao.constant.LoggerName;
-import com.rhythmdiao.util.TypeConverter;
+import com.rhythmdiao.TypeConverter;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

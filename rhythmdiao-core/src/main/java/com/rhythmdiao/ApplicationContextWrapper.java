@@ -1,4 +1,4 @@
-package com.rhythmdiao.util;
+package com.rhythmdiao;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

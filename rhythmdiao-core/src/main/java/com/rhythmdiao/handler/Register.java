@@ -2,7 +2,7 @@ package com.rhythmdiao.handler;
 
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.util.time.TimeMonitor;
-import com.rhythmdiao.util.time.TimeUtil;
+import com.rhythmdiao.util.TimeUtil;
 
 public class Register {
     private Class<? extends BaseHandler> handlerClass;

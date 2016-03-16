@@ -3,7 +3,7 @@ package com.rhythmdiao.handler;
 import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
-import com.rhythmdiao.util.ApplicationContextWrapper;
+import com.rhythmdiao.ApplicationContextWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
