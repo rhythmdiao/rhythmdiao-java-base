@@ -43,18 +43,18 @@ public abstract class HttpBaseClient implements Client {
         }
     }
 
-    protected void addHeader(HttpRequestBase httpRequestBase, HttpRequest httpRequest) {
-        if (httpRequest.getHeaderMap() != null) {
-            for (Map.Entry<String, String> header : httpRequest.getHeaderMap().entrySet()) {
+    protected void addHeader(HttpRequestBase httpRequestBase, HttpProperty httpProperty) {
+        if (httpProperty.getHeaderMap() != null) {
+            for (Map.Entry<String, String> header : httpProperty.getHeaderMap().entrySet()) {
                 httpRequestBase.addHeader(header.getKey(), header.getValue());
             }
         }
     }
 
-    protected void addParameter(HttpPost httpPost, HttpRequest httpRequest) {
-        if (httpRequest.getParameterMap() != null) {
+    protected void addParameter(HttpPost httpPost, HttpProperty httpProperty) {
+        if (httpProperty.getParameterMap() != null) {
             List<NameValuePair> parameters = new LinkedList<NameValuePair>();
-            for (Map.Entry<String, String> parameter : httpRequest.getParameterMap().entrySet()) {
+            for (Map.Entry<String, String> parameter : httpProperty.getParameterMap().entrySet()) {
                 parameters.add(new BasicNameValuePair(parameter.getKey(), parameter.getValue()));
             }
             HttpEntity entity = null;

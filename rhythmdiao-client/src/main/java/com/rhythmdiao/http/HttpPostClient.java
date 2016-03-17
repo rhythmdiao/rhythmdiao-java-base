@@ -12,11 +12,11 @@ public class HttpPostClient extends HttpBaseClient {
         super(scheme, context);
     }
 
-    public String execute(String path, HttpRequest httpRequest) {
+    public String execute(String path, HttpProperty httpProperty) {
         HttpPost httpPost = new HttpPost();
         setURI(httpPost, path);
-        addHeader(httpPost, httpRequest);
-        addParameter(httpPost, httpRequest);
+        addHeader(httpPost, httpProperty);
+        addParameter(httpPost, httpProperty);
         return execute(httpPost);
     }
 }

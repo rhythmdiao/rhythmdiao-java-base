@@ -2,15 +2,15 @@
 [![Build Status](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base.svg?branch=master)](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base)
 [![Coverage Status](https://coveralls.io/repos/rhythmdiao/rhythmdiao-java-base/badge.svg?branch=master&service=github)](https://coveralls.io/github/rhythmdiao/rhythmdiao-java-base?branch=master)
 #Features 特征
-*   easy-to-use embedded jetty 8 server and deamon assembler for building and running application
-*   嵌入式jetty服务器以及deamon模式构建应用程序
+*   easy-to-use embedded jetty 8 server and daemon assembler for building and running application
+*   嵌入式jetty服务器以及daemon模式构建应用程序
 *   provides annotated handlers to demonstrate simple restful like API, handler switch
 *   Restful风格自定义接口，注解方式注射请求参数，接口降级开关
 *   wrapped json and xml result to generate http response
 *   json和xml格式请求响应
 *   wrapped local cache and request path map to manage application level cache and uri
 *   封装过的本地缓存管理器和接口管理器，使用guava
-*   wrapped Apache http client 4.3 to fetch data from outside
+*   wrapped http client to fetch data
 *   封装过的http client用于远程调用
 *   thread pool with monitor
 *   自定义线程池，监视任务提交
@@ -71,16 +71,16 @@ class TestHandler extends BaseHandler {
 For http client, you can simply do as below
 ```java
     HttpGetClient httpGetClient = new HttpGetClient("http", "localhost:8080");
-    HttpRequest httpRequest = new HttpRequest();
-    httpRequest
+    HttpProperty property = new HttpProperty();
+    property
             .setHeader("field1", "123")
             .setParameter("field2", "test");
-    String response = httpGetClient.execute("/test", httpRequest);
+    String response = httpGetClient.execute("/test", property);
     //do something with the response
 ```
 
 #License
-*   Copyright(c) 2014-2015 Yuxing Ma
+*   Copyright(c) 2014-2016 Yuxing Ma
 
 #Author
 *   rhythmdiao@163.com

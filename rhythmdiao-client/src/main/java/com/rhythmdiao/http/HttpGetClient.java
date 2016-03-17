@@ -12,10 +12,10 @@ public class HttpGetClient extends HttpBaseClient {
         super(scheme, context);
     }
 
-    public String execute(String path, HttpRequest httpRequest) {
+    public String execute(String path, HttpProperty httpProperty) {
         HttpGet httpGet = new HttpGet();
         setURI(httpGet, path);
-        addHeader(httpGet, httpRequest);
+        addHeader(httpGet, httpProperty);
         return execute(httpGet);
     }
 }
