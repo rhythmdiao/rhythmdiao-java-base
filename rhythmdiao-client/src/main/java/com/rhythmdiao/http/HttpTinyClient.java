@@ -39,7 +39,9 @@ public class HttpTinyClient {
             connection.setDoInput(true);
             setHeaders(connection, property);
             String encodedParams = encodeParams(property, encoding);
-            connection.getOutputStream().write(encodedParams.getBytes());
+            if (encodedParams != null && !encodedParams.equals("")) {
+                connection.getOutputStream().write(encodedParams.getBytes());
+            }
             connection.connect();
             return IOUtil.toString(
                     connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()
@@ -53,7 +55,7 @@ public class HttpTinyClient {
     }
 
     private static void setHeaders(HttpURLConnection connection, HttpProperty property) {
-        if (property != null) {
+        if (property.getHeaderMap() != null) {
             for (Map.Entry<String, String> header : property.getHeaderMap().entrySet()) {
                 connection.setRequestProperty(header.getKey(), header.getValue());
             }
@@ -61,7 +63,7 @@ public class HttpTinyClient {
     }
 
     private static String encodeParams(HttpProperty property, String encoding) {
-        if (property != null) {
+        if (property.getParameterMap() != null) {
             StringBuilder builder = new StringBuilder();
             try {
                 for (Map.Entry<String, String> parameter : property.getParameterMap().entrySet()) {
