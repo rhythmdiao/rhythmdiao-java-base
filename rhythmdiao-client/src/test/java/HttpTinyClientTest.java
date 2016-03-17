@@ -1,3 +1,7 @@
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import com.rhythmdiao.http.HttpProperty;
 import com.rhythmdiao.http.HttpTinyClient;
 import org.junit.Test;
@@ -17,6 +21,8 @@ public class HttpTinyClientTest {
                 .setHeader("field1", "886")
                 .setParameter("field2", "rhythmdiao")
                 .setParameter("date", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime()));
-        LOG.info(HttpTinyClient.post("http://localhost:8081/test", httpProperty, "UTF-8", 5000));
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        LinkedTreeMap object = (LinkedTreeMap) gson.fromJson(HttpTinyClient.get("http://localhost:8081/test", httpProperty, "UTF-8", 5000), Object.class);
+        LOG.info(object.toString());
     }
 }
