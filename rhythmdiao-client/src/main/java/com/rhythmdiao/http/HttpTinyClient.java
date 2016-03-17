@@ -8,7 +8,7 @@ import java.net.URLEncoder;
 import java.util.Map;
 
 public class HttpTinyClient {
-    public static String get(String url, HttpProperty property, String encoding, int timeout) {
+    public static TinyResponse get(String url, HttpProperty property, String encoding, int timeout) {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
@@ -17,9 +17,12 @@ public class HttpTinyClient {
             connection.setReadTimeout(timeout);
             setHeaders(connection, property);
             connection.connect();
-            return IOUtil.toString(
-                    connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()
+            TinyResponse response = new TinyResponse();
+            response.code = connection.getResponseCode();
+            response.content = IOUtil.toString(
+                    response.code == 200 ? connection.getInputStream() : connection.getErrorStream()
                     , encoding);
+            return response;
         } catch (IOException ignored) {
         } finally {
             if (connection != null)
@@ -28,7 +31,7 @@ public class HttpTinyClient {
         return null;
     }
 
-    public static String post(String url, HttpProperty property, String encoding, int timeout) {
+    public static TinyResponse post(String url, HttpProperty property, String encoding, int timeout) {
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
@@ -43,9 +46,12 @@ public class HttpTinyClient {
                 connection.getOutputStream().write(encodedParams.getBytes());
             }
             connection.connect();
-            return IOUtil.toString(
-                    connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream()
+            TinyResponse response = new TinyResponse();
+            response.code = connection.getResponseCode();
+            response.content = IOUtil.toString(
+                    response.code == 200 ? connection.getInputStream() : connection.getErrorStream()
                     , encoding);
+            return response;
         } catch (IOException ignored) {
         } finally {
             if (connection != null)
@@ -77,5 +83,10 @@ public class HttpTinyClient {
             }
         }
         return null;
+    }
+
+    public static class TinyResponse {
+        public int code;
+        public String content;
     }
 }

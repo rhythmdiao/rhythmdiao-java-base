@@ -22,7 +22,7 @@ public class HttpTinyClientTest {
                 .setParameter("field2", "rhythmdiao")
                 .setParameter("date", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(Calendar.getInstance().getTime()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        LinkedTreeMap object = (LinkedTreeMap) gson.fromJson(HttpTinyClient.get("http://localhost:8081/test", httpProperty, "UTF-8", 5000), Object.class);
+        LinkedTreeMap object = (LinkedTreeMap) gson.fromJson(HttpTinyClient.get("http://localhost:8081/test", httpProperty, "UTF-8", 5000).content, Object.class);
         LOG.info(object.toString());
     }
 }
