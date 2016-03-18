@@ -49,7 +49,6 @@ class TestHandler extends BaseHandler {
         hashMap.put("items", entity);
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
-        LogUtil.info(LOG, "field1:{},field2:{}", field1, field2);
         return new GsonParser(result);
     }
 

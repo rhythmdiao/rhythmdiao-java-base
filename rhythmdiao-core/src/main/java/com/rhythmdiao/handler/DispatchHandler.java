@@ -61,6 +61,7 @@ public final class DispatchHandler extends AbstractHandler {
                 LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName(),
                         registeredHandler.getMonitor().record(interval.end()));
                 LOG.debug("avg:{}", registeredHandler.getMonitor().avg());
+                LOG.debug("usage:{}", registeredHandler.countUsage());
             }
         }
         baseRequest.setHandled(true);
