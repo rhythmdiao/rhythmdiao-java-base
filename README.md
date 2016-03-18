@@ -51,6 +51,7 @@ class TestHandler extends BaseHandler {
         Result result = new Result();
         //do something
         //return a parser as return type with result
+        LogUtil.info(LOG, "for test:{}", "hello world");
         return new GsonParser(result);
     }
     //setter is nesscery，变量修改器不能少，注射必要

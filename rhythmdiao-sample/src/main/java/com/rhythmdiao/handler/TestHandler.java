@@ -6,8 +6,7 @@ import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.rhythmdiao.util.LogUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 
@@ -29,8 +28,6 @@ public
 @Controller
 @RestfulHandler(target = "/test", description = "测试接口")
 class TestHandler extends BaseHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(TestHandler.class);
-
     @Describer(comment = "/test")
     @RequestHeader
     private int field1;
@@ -52,6 +49,7 @@ class TestHandler extends BaseHandler {
         hashMap.put("items", entity);
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
+        LogUtil.info(LOG, "field1:{},field2:{}", field1, field2);
         return new GsonParser(result);
     }
 

@@ -7,16 +7,12 @@ import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
 import org.eclipse.jetty.http.HttpMethods;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 public
 @Controller
 @RestfulHandler(target = "/switch", description = "接口开关", method = HttpMethods.POST)
 class SwitchHandler extends BaseHandler {
-    private static final Logger LOG = LoggerFactory.getLogger(SwitchHandler.class);
-
     @RequestParameter(value = "method")
     private String method;
 

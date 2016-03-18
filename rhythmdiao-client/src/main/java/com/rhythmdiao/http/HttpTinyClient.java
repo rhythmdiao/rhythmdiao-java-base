@@ -10,6 +10,7 @@ import java.util.Map;
 public class HttpTinyClient {
     public static TinyResponse get(String url, HttpProperty property, String encoding, int timeout) {
         HttpURLConnection connection = null;
+        TinyResponse response = new TinyResponse();
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
@@ -17,7 +18,6 @@ public class HttpTinyClient {
             connection.setReadTimeout(timeout);
             setHeaders(connection, property);
             connection.connect();
-            TinyResponse response = new TinyResponse();
             response.code = connection.getResponseCode();
             response.content = IOUtil.toString(
                     response.code == 200 ? connection.getInputStream() : connection.getErrorStream()
@@ -28,11 +28,12 @@ public class HttpTinyClient {
             if (connection != null)
                 connection.disconnect();
         }
-        return null;
+        return response;
     }
 
     public static TinyResponse post(String url, HttpProperty property, String encoding, int timeout) {
         HttpURLConnection connection = null;
+        TinyResponse response = new TinyResponse();
         try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("GET");
@@ -46,18 +47,16 @@ public class HttpTinyClient {
                 connection.getOutputStream().write(encodedParams.getBytes());
             }
             connection.connect();
-            TinyResponse response = new TinyResponse();
             response.code = connection.getResponseCode();
             response.content = IOUtil.toString(
                     response.code == 200 ? connection.getInputStream() : connection.getErrorStream()
                     , encoding);
-            return response;
         } catch (IOException ignored) {
         } finally {
             if (connection != null)
                 connection.disconnect();
         }
-        return null;
+        return response;
     }
 
     private static void setHeaders(HttpURLConnection connection, HttpProperty property) {
