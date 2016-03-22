@@ -4,6 +4,7 @@ import com.rhythmdiao.annotation.RestfulHandler;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.ApplicationContextWrapper;
+import com.rhythmdiao.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -56,6 +57,6 @@ public final class Initializer {
         HandlerMetaData metaData = new HandlerMetaData(annotation, cls.getDeclaredFields().length);
         metaData.putFields(cls.getDeclaredFields());
         HandlerPath.INSTANCE.setPathMap(method, uri, handler.getClass(), metaData);
-        LOG.info("Dispatching [{}, {}] on handler: {}", method, uri, cls.getSimpleName());
+        LogUtil.info(LOG,"Dispatching [{}, {}] on handler: {}", method, uri, cls.getSimpleName());
     }
 }

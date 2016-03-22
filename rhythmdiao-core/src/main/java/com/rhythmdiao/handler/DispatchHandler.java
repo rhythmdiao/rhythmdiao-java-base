@@ -6,6 +6,7 @@ import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
 import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.util.LogUtil;
 import com.rhythmdiao.util.time.TimeCounter;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
@@ -32,10 +33,10 @@ public final class DispatchHandler extends AbstractHandler {
         String method = baseRequest.getMethod();
         Register registeredHandler = HandlerPath.INSTANCE.getRegisteredHandler(method, target);
         if (registeredHandler == null) {
-            LOG.debug("Unknown target, and the target is [{}]", target);
+            LogUtil.debug(LOG, "Unknown target, and the target is [{}]", target);
             response.setStatus(HttpStatus.NOT_FOUND_404);
         } else if (registeredHandler.getStatus() == Register.Switch.OFF) {
-            LOG.debug("Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
+            LogUtil.debug(LOG, "Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
             BaseHandler baseHandler = null;

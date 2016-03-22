@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.rhythmdiao.annotation.Describer;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.TypeConverter;
+import com.rhythmdiao.util.LogUtil;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public abstract class AbstractInjector implements Injector {
 
     public void describeParam(Field field, String param) {
         if (field.getAnnotation(Describer.class) != null && LOG.isDebugEnabled()) {
-            LOG.debug("{}:{}={}", field.getAnnotation(Describer.class).comment(), field.getName(), param);
+            LogUtil.debug(LOG,"{}:{}={}", field.getAnnotation(Describer.class).comment(), field.getName(), param);
         }
     }
 
