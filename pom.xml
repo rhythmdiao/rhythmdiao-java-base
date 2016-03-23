@@ -33,6 +33,10 @@
         <developer>
             <name>Yuxing Ma</name>
             <email>rhythmdiao@gmail.com</email>
+            <organization>individual project</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
         </developer>
     </developers>
 
