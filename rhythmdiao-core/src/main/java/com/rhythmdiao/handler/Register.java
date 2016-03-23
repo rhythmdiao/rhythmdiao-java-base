@@ -48,6 +48,10 @@ public class Register {
         return count.incrementAndGet(handlerClass);
     }
 
+    public void clearUsage() {
+        count.clear();
+    }
+
     protected enum Switch {
         ON(true), OFF(false);
 

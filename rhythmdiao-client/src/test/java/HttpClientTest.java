@@ -1,3 +1,4 @@
+import base.BaseTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.LinkedTreeMap;
@@ -12,9 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
-public class HttpClientTest {
-    private static final Logger LOG = LoggerFactory.getLogger(HttpClientTest.class);
-
+public class HttpClientTest extends BaseTest {
     @Test
     public void testHttpGet() {
         HttpGetClient httpGetClient = new HttpGetClient("http", "localhost:8081");

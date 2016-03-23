@@ -10,7 +10,7 @@ public abstract class BaseHandler implements Handler {
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    protected Logger LOG = LoggerFactory.getLogger(this.getClass());
+    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     public HttpServletRequest getRequest() {
         return request;
