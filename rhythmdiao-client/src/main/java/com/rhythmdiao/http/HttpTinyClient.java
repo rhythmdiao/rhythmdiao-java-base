@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-public class HttpTinyClient {
+public final class HttpTinyClient {
     public static TinyResponse get(String url, HttpProperty property, String encoding, int timeout) {
         HttpURLConnection connection = null;
         TinyResponse response = new TinyResponse();
@@ -29,6 +29,14 @@ public class HttpTinyClient {
                 connection.disconnect();
         }
         return response;
+    }
+
+    public static TinyResponse get(String url) {
+        return get(url, new HttpProperty(), "UTF-8", 5000);
+    }
+
+    public static TinyResponse get(String url, HttpProperty property) {
+        return get(url, property, "UTF-8", 5000);
     }
 
     public static TinyResponse post(String url, HttpProperty property, String encoding, int timeout) {
@@ -59,6 +67,14 @@ public class HttpTinyClient {
         return response;
     }
 
+    public static TinyResponse post(String url) {
+        return post(url, new HttpProperty(), "UTF-8", 5000);
+    }
+
+    public static TinyResponse post(String url, HttpProperty property) {
+        return post(url, property, "UTF-8", 5000);
+    }
+
     private static void setHeaders(HttpURLConnection connection, HttpProperty property) {
         if (property.getHeaderMap() != null) {
             for (Map.Entry<String, String> header : property.getHeaderMap().entrySet()) {
@@ -77,7 +93,11 @@ public class HttpTinyClient {
                             .append(URLEncoder.encode(parameter.getValue(), encoding))
                             .append("&");
                 }
-                return builder.toString();
+                String encoded = builder.toString();
+                if (encoded.endsWith("&")) {
+                    encoded = encoded.substring(0, encoded.length() - 1);
+                }
+                return encoded;
             } catch (UnsupportedEncodingException ignored) {
             }
         }
