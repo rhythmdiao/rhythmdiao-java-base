@@ -14,6 +14,8 @@ public final class AppConfig {
 
     private IPAccessCfg ipAccessCfg;
 
+    private RedisCFg redisCFg;
+
     public JettyEnvCfg getJettyEnvCfg() {
         return jettyEnvCfg;
     }
@@ -36,5 +38,6 @@ public final class AppConfig {
         jettyEnvCfg = ConfigCache.getOrCreate("jetty_env_config", JettyEnvCfg.class, map);
         authorityCfg = ConfigCache.getOrCreate("authority_config", AuthorityCfg.class, map);
         ipAccessCfg = ConfigCache.getOrCreate("ip_access_config", IPAccessCfg.class, map);
+        redisCFg = ConfigCache.getOrCreate("redis_config", RedisCFg.class, map);
     }
 }
