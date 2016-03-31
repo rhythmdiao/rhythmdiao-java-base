@@ -4,7 +4,7 @@ import com.rhythmdiao.operation.Manipulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class RetryUtil<T> extends Manipulator {
+public abstract class RetryUtil extends Manipulator<Boolean> {
     private static final Logger LOG = LoggerFactory.getLogger(RetryUtil.class);
 
     private int retry = 3;
@@ -16,12 +16,12 @@ public abstract class RetryUtil<T> extends Manipulator {
         this.retry = retry;
     }
 
-    public abstract T execute();
+    public abstract Boolean execute();
 
-    public boolean isDone() {
+    public Boolean isDone() {
         while (retry-- > 0) {
             try {
-                if ((Boolean) execute()) return true;
+                if (execute()) return true;
             } catch (Exception e) {
                 LOG.error(e.getMessage(), e);
                 return false;
