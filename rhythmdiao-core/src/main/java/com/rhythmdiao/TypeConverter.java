@@ -1,5 +1,10 @@
 package com.rhythmdiao;
 
+import com.rhythmdiao.util.LogUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +14,8 @@ import java.util.Map;
 public enum TypeConverter {
     ;
     private static final Map<Class, Type> map = new HashMap<Class, Type>(11);
+
+    private static final Logger LOG = LoggerFactory.getLogger(TypeConverter.class);
 
     static {
         map.put(String.class, Type.STRING);
@@ -55,10 +62,10 @@ public enum TypeConverter {
                 default:
                     return s;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
+            LogUtil.error(LOG, "Failed to convert {}, and the message: {}", s, e.getMessage());
+            return null;
         }
-        return null;
     }
 
     private enum Type {
