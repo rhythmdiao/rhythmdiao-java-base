@@ -34,11 +34,11 @@ public enum TypeConverter {
     }
 
 
-    public static Object convert(String s, Class targetType) {
+    public static synchronized Object convert(String s, Class targetType) {
         return convert(s, targetType, null);
     }
 
-    public static Object convert(String s, Class targetType, String format) {
+    public static synchronized Object convert(String s, Class targetType, String format) {
         try {
             Type type = map.get(targetType);
             switch (type) {
