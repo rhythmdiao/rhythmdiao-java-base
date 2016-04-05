@@ -19,7 +19,7 @@ public class Register {
     public Register(Class<? extends BaseHandler> handlerClass, HandlerMetaData metaData) {
         this.handlerClass = handlerClass;
         this.metaData = metaData;
-        this.monitor = TimeUtil.INSTANCE.getMoniter();
+        this.monitor = TimeUtil.INSTANCE.getMonitor();
         status = Switch.ON;
         this.count = AtomicLongMap.create();
     }
