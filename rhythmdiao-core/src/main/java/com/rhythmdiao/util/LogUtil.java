@@ -14,10 +14,10 @@ public enum LogUtil {
     }
 
     public static void warn(Logger LOG, String msg, Object... objs) {
-        if (LOG.isWarnEnabled()) LOG.info(msg, objs);
+        if (LOG.isWarnEnabled()) LOG.warn(msg, objs);
     }
 
     public static void error(Logger LOG, String msg, Object... objs) {
-        if (LOG.isErrorEnabled()) LOG.info(msg, objs);
+        if (LOG.isErrorEnabled()) LOG.error(msg, objs);
     }
 }

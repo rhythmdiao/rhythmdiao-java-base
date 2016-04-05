@@ -1,6 +1,7 @@
 package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
@@ -39,12 +40,11 @@ public final class DispatchHandler extends AbstractHandler {
             LogUtil.debug(LOG, "Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
-            BaseHandler baseHandler = null;
+            BaseHandler baseHandler;
             try {
                 baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
-            } catch (InstantiationException ignored) {
-            } catch (IllegalAccessException ignored) {
-            } catch (ClassNotFoundException ignored) {
+            } catch (Throwable t) {
+                throw Throwables.propagate(t);
             }
             if (baseHandler != null) {
                 baseHandler.setRequest(request);

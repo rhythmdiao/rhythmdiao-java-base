@@ -29,18 +29,14 @@ public final class Initializer {
         this.ignored = ignored;
     }
 
-    public void init() {
+    public void init() throws ClassNotFoundException {
         ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
         provider.addIncludeFilter(new AnnotationTypeFilter(RestfulHandler.class));
         for (String pkg : pkgs) {
             Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents(pkg);
             for (BeanDefinition beanDefinition : beanDefinitions) {
-                Class cls;
-                try {
-                    cls = Class.forName(beanDefinition.getBeanClassName());
-                    dispatcher(cls);
-                } catch (ClassNotFoundException ignored) {
-                }
+                Class cls = Class.forName(beanDefinition.getBeanClassName());
+                dispatcher(cls);
             }
         }
 
@@ -57,6 +53,6 @@ public final class Initializer {
         HandlerMetaData metaData = new HandlerMetaData(annotation, cls.getDeclaredFields().length);
         metaData.putFields(cls.getDeclaredFields());
         HandlerPath.INSTANCE.setPathMap(method, uri, handler.getClass(), metaData);
-        LogUtil.info(LOG,"Dispatching [{}, {}] on handler: {}", method, uri, cls.getSimpleName());
+        LogUtil.info(LOG, "Dispatching [{}, {}] on handler: {}", method, uri, cls.getSimpleName());
     }
 }
