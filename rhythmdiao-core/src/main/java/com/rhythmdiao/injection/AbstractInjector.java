@@ -16,8 +16,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 public abstract class AbstractInjector implements Injector {
-    private static final Logger LOG = LoggerFactory.getLogger(LoggerName.INJECTOR);
-
     private Class<? extends Annotation> annotation;
 
     protected AbstractInjector(Class<? extends Annotation> annotation) {
@@ -42,8 +40,8 @@ public abstract class AbstractInjector implements Injector {
     }
 
     public void describeParam(Field field, String param) {
-        if (field.getAnnotation(Describer.class) != null && LOG.isDebugEnabled()) {
-            LogUtil.debug(LOG,"{}:{}={}", field.getAnnotation(Describer.class).comment(), field.getName(), param);
+        if (field.getAnnotation(Describer.class) != null) {
+            LogUtil.debug(LOG, "{}:{}={}", field.getAnnotation(Describer.class).comment(), field.getName(), param);
         }
     }
 

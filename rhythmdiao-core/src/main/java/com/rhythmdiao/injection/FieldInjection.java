@@ -1,6 +1,7 @@
 package com.rhythmdiao.injection;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.Injector;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -23,20 +24,13 @@ public enum FieldInjection {
         Set<BeanDefinition> beanDefinitions = provider.findCandidateComponents("com.rhythmdiao.injection");
         injectorList = new ArrayList<AbstractInjector>(beanDefinitions.size());
         for (BeanDefinition beanDefinition : beanDefinitions) {
-            Class cls = null;
             try {
-                cls = Class.forName(beanDefinition.getBeanClassName());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            if (cls != null && cls.getSuperclass().equals(AbstractInjector.class)) {
-                try {
+                Class cls = Class.forName(beanDefinition.getBeanClassName());
+                if (cls != null && cls.getSuperclass().equals(AbstractInjector.class)) {
                     injectorList.add((AbstractInjector) cls.newInstance());
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
                 }
+            } catch (Throwable t) {
+                Throwables.propagate(t);
             }
         }
     }

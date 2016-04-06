@@ -13,7 +13,7 @@ import java.util.Map;
 
 public enum TypeConverter {
     ;
-    private static final Map<Class, Type> map = new HashMap<Class, Type>(11);
+    private static final Map<Class, Type> map = new HashMap<Class, Type>(13);
 
     private static final Logger LOG = LoggerFactory.getLogger(TypeConverter.class);
 
