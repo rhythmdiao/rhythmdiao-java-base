@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.Map;
 
 public abstract class AbstractInjector implements Injector {
@@ -46,10 +47,7 @@ public abstract class AbstractInjector implements Injector {
     }
 
     public Object convertParam(Field field, String param) {
-        if (field.getAnnotation(DateTimeFormat.class) != null) {
-            return TypeConverter.convert(param, field.getType(), field.getAnnotation(DateTimeFormat.class).pattern());
-        } else {
-            return TypeConverter.convert(param, field.getType());
-        }
+        DateTimeFormat format = field.getAnnotation(DateTimeFormat.class);
+        return TypeConverter.convert(param, field.getType(), format != null ? format.pattern() : null);
     }
 }
