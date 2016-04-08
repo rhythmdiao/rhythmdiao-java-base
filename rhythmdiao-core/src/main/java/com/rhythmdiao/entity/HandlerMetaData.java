@@ -14,9 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonAdapter(HandlerMetaDataAdapter.class)
-public final class HandlerMetaData implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public final class HandlerMetaData {
     private String target;
     private String method;
     private String description;

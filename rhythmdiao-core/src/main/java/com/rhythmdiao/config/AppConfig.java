@@ -28,6 +28,10 @@ public final class AppConfig {
         return ipAccessCfg;
     }
 
+    public RedisCFg getRedisCFg() {
+        return redisCFg;
+    }
+
     public void setEnv(String env) {
         this.env = env;
     }
