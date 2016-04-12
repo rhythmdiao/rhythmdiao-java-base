@@ -3,13 +3,11 @@ import com.rhythmdiao.thread.ExecutorThreadPool;
 import com.rhythmdiao.thread.ThreadPool;
 import com.rhythmdiao.util.time.TimeCounter;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class ThreadPoolTest extends BaseTest{
+public class ThreadPoolTest extends BaseTest {
     @Test
     public void testExecutorThreadPool() {
         TimeCounter interval = new TimeCounter().start();

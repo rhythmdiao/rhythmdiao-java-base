@@ -6,8 +6,6 @@ import com.rhythmdiao.http.HttpGetClient;
 import com.rhythmdiao.http.HttpPostClient;
 import com.rhythmdiao.http.HttpProperty;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
