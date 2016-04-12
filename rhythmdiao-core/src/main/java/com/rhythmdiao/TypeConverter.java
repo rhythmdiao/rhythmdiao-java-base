@@ -11,8 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum TypeConverter {
-    ;
+public final class TypeConverter {
     private static final Map<Class, Type> map = new HashMap<Class, Type>(13);
 
     private static final Logger LOG = LoggerFactory.getLogger(TypeConverter.class);
@@ -34,11 +33,11 @@ public enum TypeConverter {
     }
 
 
-    public static synchronized Object convert(String s, Class targetType) {
+    public static Object convert(String s, Class targetType) {
         return convert(s, targetType, null);
     }
 
-    public static synchronized Object convert(String s, Class targetType, String format) {
+    public static Object convert(String s, Class targetType, String format) {
         try {
             Type type = map.get(targetType);
             switch (type) {
