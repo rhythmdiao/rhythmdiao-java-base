@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.rhythmdiao.annotation.Injector;
+import com.rhythmdiao.handler.BaseHandler;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -39,7 +40,7 @@ public enum FieldInjection {
         return Collections.unmodifiableList(injectorList);
     }
 
-    public void injectField(Map<Field, Class<? extends Annotation>> annotatedFields, HttpServletRequest request, Map<String, Object> fieldMap) {
+    public void injectField(BaseHandler handler, Map<Field, Class<? extends Annotation>> annotatedFields, HttpServletRequest request) {
         for (final AbstractInjector injector : injectorList) {
             for (Map.Entry<Field, Class<? extends Annotation>> entry :
                     Maps.filterValues(annotatedFields, new Predicate<Class<? extends Annotation>>() {
@@ -47,7 +48,7 @@ public enum FieldInjection {
                             return annotation.equals(injector.getAnnotation());
                         }
                     }).entrySet()) {
-                injector.injectField(entry.getKey(), request, fieldMap);
+                injector.injectField(handler, entry.getKey(), request);
             }
         }
     }

@@ -6,7 +6,6 @@ import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import com.rhythmdiao.util.LogUtil;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 
@@ -36,7 +35,7 @@ class TestHandler extends BaseHandler {
     private String field2;
 
     @CookieParameter
-    private String field3 = "cookie";
+    private String field3;
 
     @RequestParameter
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -50,21 +49,5 @@ class TestHandler extends BaseHandler {
         result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
         result.setData(hashMap);
         return new GsonParser(result);
-    }
-
-    public void setField1(int field1) {
-        this.field1 = field1;
-    }
-
-    public void setField2(String field2) {
-        this.field2 = field2;
-    }
-
-    public void setField3(String field3) {
-        this.field3 = field3;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 }

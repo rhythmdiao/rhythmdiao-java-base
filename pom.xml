@@ -104,12 +104,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.skife.config</groupId>
-            <artifactId>config-magic</artifactId>
-            <version>${config-magic.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.aeonbits.owner</groupId>
             <artifactId>owner</artifactId>
             <version>${owner.version}</version>

@@ -54,18 +54,6 @@ class TestHandler extends BaseHandler {
         LogUtil.info(LOG, "for test:{}", "hello world");
         return new GsonParser(result);
     }
-    //setter is nesscery，变量修改器不能少，注射必要
-    public void setField1(int field1) {
-        this.field1 = field1;
-    }
-
-    public void setField2(String field2) {
-        this.field2 = field2;
-    }
-
-    public void setField3(String field3) {
-        this.field3 = field3;
-    }
 }
 ```
 --------------------

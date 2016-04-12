@@ -12,7 +12,6 @@ import com.rhythmdiao.util.time.TimeCounter;
 import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.skife.config.cglib.beans.BeanMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,10 +50,7 @@ public final class DispatchHandler extends AbstractHandler {
                 baseHandler.setResponse(response);
                 HandlerMetaData metaData = registeredHandler.getMetaData();
                 Map<Field, Class<? extends Annotation>> annotatedFields = metaData.getAnnotatedFields();
-                Map<String, Object> fieldMap = Maps.newHashMapWithExpectedSize(annotatedFields.size());
-                FieldInjection.INSTANCE.injectField(annotatedFields, request, fieldMap);
-                BeanMap beanMap = BeanMap.create(baseHandler);
-                beanMap.putAll(fieldMap);
+                FieldInjection.INSTANCE.injectField(baseHandler, annotatedFields, request);
                 Parser parser = baseHandler.execute();
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
