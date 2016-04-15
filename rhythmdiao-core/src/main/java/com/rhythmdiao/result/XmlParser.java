@@ -13,6 +13,10 @@ public class XmlParser implements Parser {
         this.xStream.setMode(XStream.NO_REFERENCES);
     }
 
+    public Result getResult() {
+        return result;
+    }
+
     public XmlParser(Result result, XStream xStream) {
         this.result = result;
         this.xStream = xStream;

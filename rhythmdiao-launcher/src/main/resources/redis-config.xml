@@ -3,13 +3,8 @@
     <dev>
         <host>localhost</host>
         <port>9736</port>
+        <minIdle>1</minIdle>
+        <maxIdle>10</maxIdle>
+        <maxWaitMillis>10000</maxWaitMillis>
     </dev>
-    <uat>
-        <host></host>
-        <port></port>
-    </uat>
-    <prod>
-        <host></host>
-        <port></port>
-    </prod>
 </redis>

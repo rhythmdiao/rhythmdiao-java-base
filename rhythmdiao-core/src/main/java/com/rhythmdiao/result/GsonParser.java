@@ -11,6 +11,10 @@ public class GsonParser implements Parser {
         return builder.create();
     }
 
+    public Result getResult() {
+        return result;
+    }
+
     public GsonParser(Result result, GsonBuilder builder) {
         this.result = result;
         this.builder = builder;

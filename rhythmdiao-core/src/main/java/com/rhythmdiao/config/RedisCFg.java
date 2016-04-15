@@ -17,4 +17,16 @@ public interface RedisCFg extends Config {
     @Key("redis.${env}.port")
     @DefaultValue("6379")
     int port();
+
+    @Key("redis.${env}.minIdle")
+    @DefaultValue("1")
+    int minIdle();
+
+    @Key("redis.${env}.maxIdle")
+    @DefaultValue("10")
+    int maxIdle();
+
+    @Key("redis.${env}.maxWaitMillis")
+    @DefaultValue("10000")
+    long maxWaitMillis();
 }

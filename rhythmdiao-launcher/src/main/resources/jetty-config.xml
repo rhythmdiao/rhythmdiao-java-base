@@ -33,7 +33,7 @@
                 <property name="handlers">
                     <list>
                         <bean class="com.rhythmdiao.handler.BlackListHandler" init-method="init"/>
-                        <bean class="com.rhythmdiao.handler.DispatchHandler"/>
+                        <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init"/>
                         <bean class="org.eclipse.jetty.server.handler.DefaultHandler"/>
                     </list>
                 </property>

@@ -2,11 +2,14 @@ package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
-import com.google.common.collect.Maps;
+import com.rhythmdiao.cache.HandlerCacheFactory;
+import com.rhythmdiao.cache.jedis.JedisManagerHandler;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
+import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
+import com.rhythmdiao.result.Result;
 import com.rhythmdiao.util.LogUtil;
 import com.rhythmdiao.util.time.TimeCounter;
 import org.eclipse.jetty.http.HttpStatus;
@@ -25,6 +28,13 @@ import java.util.Map;
 public final class DispatchHandler extends AbstractHandler {
     private static final Logger LOG = LoggerFactory.getLogger(LoggerName.DISPATCHER);
 
+    private HandlerCacheFactory handlerCacheFactory;
+
+    public void init() {
+        handlerCacheFactory = HandlerCacheFactory.getInstance();
+        handlerCacheFactory.setFirstCache(JedisManagerHandler.getInstance());
+    }
+
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         TimeCounter interval = new TimeCounter().start();
@@ -39,28 +49,53 @@ public final class DispatchHandler extends AbstractHandler {
             LogUtil.debug(LOG, "Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
-            BaseHandler baseHandler;
+            BaseHandler handler;
             try {
-                baseHandler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
+                handler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
             } catch (Throwable t) {
                 throw Throwables.propagate(t);
             }
-            if (baseHandler != null) {
-                baseHandler.setRequest(request);
-                baseHandler.setResponse(response);
+            if (handler != null) {
                 HandlerMetaData metaData = registeredHandler.getMetaData();
-                Map<Field, Class<? extends Annotation>> annotatedFields = metaData.getAnnotatedFields();
-                FieldInjection.INSTANCE.injectField(baseHandler, annotatedFields, request);
-                Parser parser = baseHandler.execute();
+                injectHandler(handler, metaData, request, response);
+                Parser parser;
+                if (handler instanceof CachedHandler) {
+                    CachedHandler cachedHandler = (CachedHandler) handler;
+                    LOG.debug("cache key is {}", cachedHandler.getKey());
+                    Result cachedResult = cachedResult(cachedHandler);
+                    if (cachedResult != null) {
+                        parser = new GsonParser(cachedResult);
+                    } else {
+                        parser = handler.execute();
+                        handlerCacheFactory.getHandlerCache(cachedHandler.getKey()).set(parser.getResult(), metaData.getCache());
+                    }
+                } else {
+                    parser = handler.execute();
+                }
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
                 response.getWriter().write(parser.toString());
-                LOG.debug("The execution of {} took {}ms", baseHandler.getClass().getSimpleName(),
+                LOG.debug("The execution of {} took {}ms", handler.getClass().getSimpleName(),
                         registeredHandler.getMonitor().record(interval.end()));
                 LOG.debug("avg:{}", registeredHandler.getMonitor().avg());
                 LOG.debug("usage:{}", registeredHandler.countUsage());
             }
+            baseRequest.setHandled(true);
         }
-        baseRequest.setHandled(true);
+    }
+
+    private void injectHandler(BaseHandler handler, HandlerMetaData metaData, HttpServletRequest request, HttpServletResponse response) {
+        handler.setRequest(request);
+        handler.setResponse(response);
+        Map<Field, Class<? extends Annotation>> annotatedFields = metaData.getAnnotatedFields();
+        FieldInjection.INSTANCE.injectField(handler, annotatedFields, request);
+    }
+
+    private Result cachedResult(CachedHandler handler) {
+        if (handler.getKey() == null || handler.getKey().equals("")) {
+            return null;
+        } else {
+            return handlerCacheFactory.getHandlerCache(handler.getKey()).get(Result.class);
+        }
     }
 }

@@ -15,4 +15,6 @@ public @interface RestfulHandler {
     String identification() default "";
 
     String description();
+
+    int cache() default 0;
 }
