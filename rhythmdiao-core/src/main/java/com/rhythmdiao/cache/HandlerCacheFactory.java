@@ -1,10 +1,11 @@
 package com.rhythmdiao.cache;
 
+import com.google.common.collect.MapMaker;
 import com.rhythmdiao.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class HandlerCacheFactory {
     private static final Logger LOG = LoggerFactory.getLogger(HandlerCacheFactory.class);
@@ -13,25 +14,20 @@ public class HandlerCacheFactory {
     //TODO
     private HandlerCacheManager secondCache;
 
-    private static final ConcurrentHashMap<String, HandlerCache> HANDLER_CACHE_MAP = new ConcurrentHashMap<String, HandlerCache>(1000);
+    private ConcurrentMap<String, HandlerCache> HANDLER_CACHE_MAP;
 
     private static HandlerCacheFactory instance = new HandlerCacheFactory();
 
     public static HandlerCacheFactory getInstance() {
-        if (instance != null) {
-            return instance;
-        }
-        synchronized (HandlerCacheFactory.class) {
-            if (instance == null) {
-                instance = new HandlerCacheFactory();
-            }
-        }
         return instance;
     }
 
-    public HandlerCache getHandlerCache(String key) {
+    private HandlerCacheFactory() {
+        HANDLER_CACHE_MAP = new MapMaker().makeMap();
+    }
+
+    public HandlerCache getHandlerCache(final String key) {
         HandlerCache handlerCache = HANDLER_CACHE_MAP.get(key);
-        System.out.println(key);
         if (handlerCache == null) {
             synchronized (key) {
                 handlerCache = HANDLER_CACHE_MAP.get(key);
@@ -44,9 +40,6 @@ public class HandlerCacheFactory {
             }
         }
         return handlerCache;
-    }
-
-    private HandlerCacheFactory() {
     }
 
     public void setFirstCache(HandlerCacheManager firstCache) {

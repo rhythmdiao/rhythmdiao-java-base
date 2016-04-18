@@ -2,7 +2,9 @@ package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
+import com.rhythmdiao.cache.HandlerCache;
 import com.rhythmdiao.cache.HandlerCacheFactory;
+import com.rhythmdiao.cache.HandlerCacheManager;
 import com.rhythmdiao.cache.jedis.JedisManagerHandler;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
@@ -30,9 +32,18 @@ public final class DispatchHandler extends AbstractHandler {
 
     private HandlerCacheFactory handlerCacheFactory;
 
+    private HandlerCacheManager firstCache;
+
+    //TODO
+    private HandlerCacheManager secondCache;
+
+    public void setFirstCache(HandlerCacheManager firstCache) {
+        this.firstCache = firstCache;
+    }
+
     public void init() {
         handlerCacheFactory = HandlerCacheFactory.getInstance();
-        handlerCacheFactory.setFirstCache(JedisManagerHandler.getInstance());
+        handlerCacheFactory.setFirstCache(firstCache);
     }
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)

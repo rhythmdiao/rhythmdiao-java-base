@@ -8,14 +8,6 @@ public class JedisManagerHandler implements HandlerCacheManager {
     private static JedisManagerHandler instance = new JedisManagerHandler();
 
     public static JedisManagerHandler getInstance() {
-        if (instance != null) {
-            return instance;
-        }
-        synchronized (JedisManagerHandler.class) {
-            if (instance == null) {
-                instance = new JedisManagerHandler();
-            }
-        }
         return instance;
     }
 
