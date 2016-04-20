@@ -29,6 +29,10 @@ public class HandlerCache {
         firstCache.set(key, value, seconds);
     }
 
+    public void delete() {
+        firstCache.delete(key);
+    }
+
     public HandlerCacheManager getFirstCache() {
         return firstCache;
     }
