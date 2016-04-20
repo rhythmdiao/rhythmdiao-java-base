@@ -14,6 +14,8 @@
 *   封装过的http client用于远程调用
 *   thread pool with monitor
 *   自定义线程池，监视任务提交
+*   cached handler for caching reusable data
+*   接口级别缓存
 *   build passing
 *   构建通过
 *   and more!
@@ -53,6 +55,33 @@ class TestHandler extends BaseHandler {
         //return a parser as return type with result
         LogUtil.info(LOG, "for test:{}", "hello world");
         return new GsonParser(result);
+    }
+}
+
+public
+@Controller
+@RestfulHandler(target = "/cached", description = "测试接口级别缓存接口", cache = 300)
+class TestCachedHandler extends CachedHandler{
+    @RequestHeader
+    private String field1;
+
+    @RequestParameter
+    private String field2;
+
+    @Override
+    public Parser execute() {
+        Result result = new Result();
+        result.setStatusCode(StatusCode.SUCCESS.getStatusCode());
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("field1", field1);
+        map.put("field2", field2);
+        result.setData(map);
+        return new GsonParser(result);
+    }
+
+    @Override
+    public String getKey() {//specific cache key
+        return "cached_" + field1 + "_" + field2;
     }
 }
 ```

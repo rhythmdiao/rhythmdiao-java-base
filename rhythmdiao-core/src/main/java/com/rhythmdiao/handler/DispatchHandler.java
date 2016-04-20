@@ -70,11 +70,12 @@ public final class DispatchHandler extends AbstractHandler {
                 HandlerMetaData metaData = registeredHandler.getMetaData();
                 injectHandler(handler, metaData, request, response);
                 Parser parser;
-                if (handler instanceof CachedHandler) {
+                if (handler instanceof CachedHandler && handlerCacheFactory != null && metaData.getCache() > 0) {
                     CachedHandler cachedHandler = (CachedHandler) handler;
                     LOG.debug("cache key is {}", cachedHandler.getKey());
                     Result cachedResult = cachedResult(cachedHandler);
                     if (cachedResult != null) {
+                        //TODO
                         parser = new GsonParser(cachedResult);
                     } else {
                         parser = handler.execute();
