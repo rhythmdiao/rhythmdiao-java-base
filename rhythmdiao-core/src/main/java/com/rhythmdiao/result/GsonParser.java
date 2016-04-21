@@ -32,7 +32,7 @@ public class GsonParser implements Parser {
     }
 
     @Override
-    public String toString() {
+    public String parse() {
         return gson().toJson(result);
     }
 }

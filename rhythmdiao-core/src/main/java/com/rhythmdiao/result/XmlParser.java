@@ -28,7 +28,7 @@ public class XmlParser implements Parser {
     }
 
     @Override
-    public String toString() {
+    public String parse() {
         return this.xStream.toXML(result);
     }
 }

@@ -2,10 +2,8 @@ package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
-import com.rhythmdiao.cache.HandlerCache;
 import com.rhythmdiao.cache.HandlerCacheFactory;
 import com.rhythmdiao.cache.HandlerCacheManager;
-import com.rhythmdiao.cache.jedis.JedisManagerHandler;
 import com.rhythmdiao.constant.LoggerName;
 import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.injection.FieldInjection;
@@ -86,7 +84,7 @@ public final class DispatchHandler extends AbstractHandler {
                 }
                 response.setCharacterEncoding(Charsets.UTF_8.name());
                 response.setContentType(parser.getContentType());
-                response.getWriter().write(parser.toString());
+                response.getWriter().write(parser.parse());
                 LOG.debug("The execution of {} took {}ms", handler.getClass().getSimpleName(),
                         registeredHandler.getMonitor().record(interval.end()));
                 LOG.debug("avg:{}", registeredHandler.getMonitor().avg());
