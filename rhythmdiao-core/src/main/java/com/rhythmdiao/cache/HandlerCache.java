@@ -21,8 +21,8 @@ public class HandlerCache {
         return firstCache.get(key);
     }
 
-    public <T> T get(Class<T> cls) {
-        return firstCache.get(key, cls);
+    public <T> T get(Class<T> type) {
+        return firstCache.get(key, type);
     }
 
     public void set(Object value, int seconds) {

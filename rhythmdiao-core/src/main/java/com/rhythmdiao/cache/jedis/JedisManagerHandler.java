@@ -16,38 +16,60 @@ public class JedisManagerHandler implements HandlerCacheManager {
 
     @Override
     public void set(String key, Object value, int seconds) {
-        Jedis jedis = JedisPoolManager.INSTANCE.getJedis();
-        Gson gson = new Gson();
-        if (seconds > 0) {
-            jedis.setex(key, seconds, gson.toJson(value));
-        } else {
-            jedis.set(key, gson.toJson(value));
+        Jedis jedis = null;
+        try {
+            jedis = JedisPoolManager.INSTANCE.getJedis();
+            Gson gson = new Gson();
+            if (seconds > 0) {
+                jedis.setex(key, seconds, gson.toJson(value));
+            } else {
+                jedis.set(key, gson.toJson(value));
+            }
+        } finally {
+            if (jedis != null)
+                jedis.close();
         }
-        jedis.close();
     }
 
     @Override
     public Object get(String key) {
-        Jedis jedis = JedisPoolManager.INSTANCE.getJedis();
-        Gson gson = new Gson();
-        Object result = gson.fromJson(jedis.get(key), Object.class);
-        jedis.close();
-        return result;
+        Jedis jedis = null;
+        try {
+            jedis = JedisPoolManager.INSTANCE.getJedis();
+            Gson gson = new Gson();
+            Object result = gson.fromJson(jedis.get(key), Object.class);
+            jedis.close();
+            return result;
+        } finally {
+            if (jedis != null)
+                jedis.close();
+        }
     }
 
     @Override
     public <T> T get(String key, Class<T> cls) {
-        Jedis jedis = JedisPoolManager.INSTANCE.getJedis();
-        Gson gson = new Gson();
-        T result = gson.fromJson(jedis.get(key), cls);
-        jedis.close();
-        return result;
+        Jedis jedis = null;
+        try {
+            jedis = JedisPoolManager.INSTANCE.getJedis();
+            Gson gson = new Gson();
+            T result = gson.fromJson(jedis.get(key), cls);
+            jedis.close();
+            return result;
+        } finally {
+            if (jedis != null)
+                jedis.close();
+        }
     }
 
     @Override
     public void delete(String key) {
-        Jedis jedis = JedisPoolManager.INSTANCE.getJedis();
-        jedis.del(key);
-        jedis.close();
+        Jedis jedis = null;
+        try {
+            jedis = JedisPoolManager.INSTANCE.getJedis();
+            jedis.del(key);
+        } finally {
+            if (jedis != null)
+                jedis.close();
+        }
     }
 }
