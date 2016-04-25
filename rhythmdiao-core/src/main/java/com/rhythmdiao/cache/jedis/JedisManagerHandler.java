@@ -37,9 +37,7 @@ public class JedisManagerHandler implements HandlerCacheManager {
         try {
             jedis = JedisPoolManager.INSTANCE.getJedis();
             Gson gson = new Gson();
-            Object result = gson.fromJson(jedis.get(key), Object.class);
-            jedis.close();
-            return result;
+            return gson.fromJson(jedis.get(key), Object.class);
         } finally {
             if (jedis != null)
                 jedis.close();
@@ -52,9 +50,7 @@ public class JedisManagerHandler implements HandlerCacheManager {
         try {
             jedis = JedisPoolManager.INSTANCE.getJedis();
             Gson gson = new Gson();
-            T result = gson.fromJson(jedis.get(key), cls);
-            jedis.close();
-            return result;
+            return gson.fromJson(jedis.get(key), cls);
         } finally {
             if (jedis != null)
                 jedis.close();
