@@ -15,7 +15,7 @@ public final class CacheWrapper<K, V> {
     private ConcurrentMap<String, Cache<K, V>> cacheMap;
 
     private CacheWrapper() {
-        cacheMap = new MapMaker().makeMap();
+        cacheMap = new MapMaker().concurrencyLevel(5).makeMap();
     }
 
     public static CacheWrapper getInstance() {
@@ -30,6 +30,12 @@ public final class CacheWrapper<K, V> {
 
     public Cache<K, V> newCache(String cacheName, String config) {
         Cache<K, V> cache = CacheBuilder.from(CacheBuilderSpec.parse(config)).build();
+        putIfAbsent(cacheName, cache);
+        return cache;
+    }
+
+    public Cache<K, V> newCache(String cacheName, CacheBuilder builder) {
+        Cache<K, V> cache = builder.build();
         putIfAbsent(cacheName, cache);
         return cache;
     }

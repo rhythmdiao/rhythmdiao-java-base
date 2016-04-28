@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import com.rhythmdiao.cache.HandlerCacheManager;
 import redis.clients.jedis.Jedis;
 
-public class JedisManagerHandler implements HandlerCacheManager {
-    private static JedisManagerHandler instance = new JedisManagerHandler();
+public class JedisManager implements HandlerCacheManager {
+    private static JedisManager instance = new JedisManager();
 
-    public static JedisManagerHandler getInstance() {
+    public static JedisManager getInstance() {
         return instance;
     }
 
-    private JedisManagerHandler() {
+    private JedisManager() {
     }
 
     @Override
