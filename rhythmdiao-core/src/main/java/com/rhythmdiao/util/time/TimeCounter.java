@@ -19,8 +19,9 @@ public class TimeCounter {
         return this;
     }
 
-    public void mark() {
+    public int mark() {
         marks.add(currentTime());
+        return marks.size();
     }
 
     public long end() {
@@ -29,6 +30,7 @@ public class TimeCounter {
     }
 
     public long interval(int start, int end) {
+        if (this.start == -1) return 0;
         if (end == -1 || end < start) return -1;
         if (end == start) return 0;
         return marks.get(end) - marks.get(start);
