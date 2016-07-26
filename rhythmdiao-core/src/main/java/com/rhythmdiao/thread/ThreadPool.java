@@ -37,7 +37,7 @@ public abstract class ThreadPool {
 
     public abstract <T> Future<T> execute(final Callable<T> task);
 
-    public abstract boolean isShutDown();
+    public abstract boolean isShutdown();
 
-    public abstract void shutDown();
+    public abstract void shutdown();
 }

@@ -22,7 +22,7 @@ public class ExecutorThreadPool extends ThreadPool {
 
     @Override
     public void execute(final Runnable task) {
-        if (isShutDown()) {
+        if (isShutdown()) {
             LOG.warn("The threadPool has been shut down");
             return;
         }
@@ -46,7 +46,7 @@ public class ExecutorThreadPool extends ThreadPool {
 
     @Override
     public <T> Future<T> execute(final Callable<T> task) {
-        if (isShutDown()) {
+        if (isShutdown()) {
             LOG.info("The threadPool has been shut down");
             return null;
         }
@@ -70,12 +70,12 @@ public class ExecutorThreadPool extends ThreadPool {
     }
 
     @Override
-    public boolean isShutDown() {
+    public boolean isShutdown() {
         return executor.isShutdown();
     }
 
     @Override
-    public void shutDown() {
+    public void shutdown() {
         executor.shutdown();
     }
 }

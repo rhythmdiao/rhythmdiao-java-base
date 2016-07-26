@@ -22,7 +22,7 @@ public class ThreadPoolTest extends BaseTest {
                 }
             });
         }
-        threadPool2.shutDown();
+        threadPool2.shutdown();
         LOG.info("Thread pool execution spent {} milliseconds", interval.end());
     }
 }

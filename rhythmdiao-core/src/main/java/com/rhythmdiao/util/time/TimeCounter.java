@@ -41,7 +41,7 @@ public class TimeCounter {
         marks.clear();
     }
 
-    private long currentTime() {
+    public static long currentTime() {
         return System.currentTimeMillis();
     }
 }
