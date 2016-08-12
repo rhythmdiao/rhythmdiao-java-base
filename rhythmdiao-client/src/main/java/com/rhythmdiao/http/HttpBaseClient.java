@@ -1,5 +1,6 @@
 package com.rhythmdiao.http;
 
+import com.google.common.base.Strings;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -7,6 +8,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -52,6 +54,12 @@ public abstract class HttpBaseClient implements Client {
     }
 
     protected void addParameter(HttpPost httpPost, HttpProperty httpProperty) {
+        if (!Strings.isNullOrEmpty(httpProperty.getBody())) {
+            StringEntity entity = new StringEntity(httpProperty.getBody(), "UTF-8");
+            entity.setContentType("application/json");
+            httpPost.setEntity(entity);
+            return;
+        }
         if (httpProperty.getParameterMap() != null) {
             List<NameValuePair> parameters = new LinkedList<NameValuePair>();
             for (Map.Entry<String, String> parameter : httpProperty.getParameterMap().entrySet()) {
