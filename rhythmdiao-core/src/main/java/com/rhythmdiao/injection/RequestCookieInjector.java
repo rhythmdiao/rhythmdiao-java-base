@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 
 @Injector
-public final class CookieInjector extends AbstractInjector {
-    public CookieInjector() {
+public final class RequestCookieInjector extends AbstractInjector {
+    public RequestCookieInjector() {
         super(CookieParameter.class);
     }
 

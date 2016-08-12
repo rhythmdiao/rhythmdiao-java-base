@@ -6,6 +6,7 @@ import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
+import org.eclipse.jetty.http.HttpMethods;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 
@@ -25,7 +26,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 * */
 public
 @Controller
-@RestfulHandler(target = "/test", description = "测试接口")
+@RestfulHandler(target = "/test", description = "测试接口", method = HttpMethods.POST)
 class TestHandler extends BaseHandler {
     @Describer(comment = "/test")
     @RequestHeader
@@ -36,6 +37,9 @@ class TestHandler extends BaseHandler {
 
     @CookieParameter
     private String field3;
+
+    @RequestBody
+    private String body;
 
     @RequestParameter
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

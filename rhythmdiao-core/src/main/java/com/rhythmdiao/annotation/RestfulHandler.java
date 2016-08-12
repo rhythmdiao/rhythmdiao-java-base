@@ -4,6 +4,9 @@ import org.eclipse.jetty.http.HttpMethods;
 
 import java.lang.annotation.*;
 
+/**
+ * request handler annotation
+ */
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

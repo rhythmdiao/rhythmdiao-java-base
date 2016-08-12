@@ -46,8 +46,11 @@ class TestHandler extends BaseHandler {
     @RequestParameter//request parameter injection,注入请求参数到变量
     private String field2;
 
-    @CookieParameter//cookie value injection,注入cookie到变量
+    @CookieParameter//request cookie injection,注入cookie到变量
     private String field3;
+
+    @RequestBody//request body injection,注入请求体到变量
+    private String body;
 
     public Parser execute() {
         Result result = new Result();
