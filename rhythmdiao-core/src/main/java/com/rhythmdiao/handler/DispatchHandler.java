@@ -32,7 +32,7 @@ public final class DispatchHandler extends AbstractHandler {
 
     private HandlerCacheManager firstCache;
 
-    //TODO
+    //TODO second cache
     private HandlerCacheManager secondCache;
 
     public void setFirstCache(HandlerCacheManager firstCache) {
@@ -73,7 +73,7 @@ public final class DispatchHandler extends AbstractHandler {
                     LOG.debug("cache key is {}", cachedHandler.getKey());
                     Result cachedResult = cachedResult(cachedHandler);
                     if (cachedResult != null) {
-                        //TODO
+                        //TODO second cache
                         parser = new GsonParser(cachedResult);
                     } else {
                         parser = handler.execute();

@@ -1,13 +1,13 @@
 package com.rhythmdiao.util;
 
 public enum DelayUtil {
-    ;
+    I;
 
-    public static void delay() {
+    public void delay() {
         delay(1000);
     }
 
-    public static void delay(long millis) {
+    public void delay(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {

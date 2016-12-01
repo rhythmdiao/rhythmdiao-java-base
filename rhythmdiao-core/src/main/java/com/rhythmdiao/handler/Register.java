@@ -5,7 +5,7 @@ import com.rhythmdiao.entity.HandlerMetaData;
 import com.rhythmdiao.util.time.TimeMonitor;
 import com.rhythmdiao.util.TimeUtil;
 
-public class Register {
+class Register {
     private Class<? extends BaseHandler> handlerClass;
 
     private HandlerMetaData metaData;
@@ -16,7 +16,7 @@ public class Register {
 
     private AtomicLongMap<Class<? extends BaseHandler>> count;
 
-    public Register(Class<? extends BaseHandler> handlerClass, HandlerMetaData metaData) {
+    Register(Class<? extends BaseHandler> handlerClass, HandlerMetaData metaData) {
         this.handlerClass = handlerClass;
         this.metaData = metaData;
         this.monitor = TimeUtil.INSTANCE.getMonitor();
@@ -24,35 +24,35 @@ public class Register {
         this.count = AtomicLongMap.create();
     }
 
-    public Class<? extends BaseHandler> getHandlerClass() {
+    Class<? extends BaseHandler> getHandlerClass() {
         return handlerClass;
     }
 
-    public HandlerMetaData getMetaData() {
+    HandlerMetaData getMetaData() {
         return metaData;
     }
 
-    public void setStatus(Switch status) {
+    void setStatus(Switch status) {
         this.status = status;
     }
 
-    public Switch getStatus() {
+    Switch getStatus() {
         return status;
     }
 
-    public TimeMonitor getMonitor() {
+    TimeMonitor getMonitor() {
         return monitor;
     }
 
-    public long countUsage() {
+    long countUsage() {
         return count.incrementAndGet(handlerClass);
     }
 
-    public void clearUsage() {
+    void clearUsage() {
         count.clear();
     }
 
-    protected enum Switch {
+    enum Switch {
         ON(true), OFF(false);
 
         public boolean value() {

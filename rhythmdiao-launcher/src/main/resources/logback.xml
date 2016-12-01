@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds">
-    <contextName>rhythmdiao-java-base</contextName>
+    <contextName>demo</contextName>
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{[MM/dd/yyyy HH:mm:ss]} [%t] %-5level %logger.%M:%L - %m%n</pattern>
         </encoder>
     </appender>
     <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/rhythmdiao_base.log</file>
+        <file>logs/root.log</file>
         <append>true</append>
         <encoder>
             <pattern>%d{[MM/dd/yyyy HH:mm:ss]} [%t] %-5level %logger.%M:%L - %m%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/rhythmdiao_base.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/root.log.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>1</maxHistory>
         </rollingPolicy>
     </appender>
