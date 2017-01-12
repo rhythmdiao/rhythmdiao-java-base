@@ -6,9 +6,6 @@
                "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <bean name="applicationContextWrapper" class="com.rhythmdiao.ApplicationContextWrapper"/>
-    <bean name="appCfg" class="com.rhythmdiao.config.AppConfig" init-method="init">
-        <property name="env" value="dev"/>
-    </bean>
     <bean class="com.rhythmdiao.handler.Initializer" init-method="init">
         <property name="pkgs">
             <list>

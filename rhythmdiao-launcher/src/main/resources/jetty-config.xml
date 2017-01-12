@@ -11,20 +11,20 @@
           init-method="start" destroy-method="stop">
         <property name="threadPool">
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
-                <property name="minThreads" value="#{appCfg.jettyEnvCfg.minThreads()}"/>
-                <property name="maxThreads" value="#{appCfg.jettyEnvCfg.maxThreads()}"/>
+                <property name="minThreads" value="10"/>
+                <property name="maxThreads" value="20"/>
             </bean>
         </property>
         <property name="connectors">
             <list>
                 <bean name="connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
-                    <property name="port" value="#{appCfg.jettyEnvCfg.port()}"/>
-                    <property name="maxIdleTime" value="#{appCfg.jettyEnvCfg.maxIdleTime()}"/>
-                    <property name="lowResourcesConnections" value="#{appCfg.jettyEnvCfg.lowResourcesConnections()}"/>
-                    <property name="lowResourcesMaxIdleTime" value="#{appCfg.jettyEnvCfg.lowResourcesMaxIdleTime()}"/>
-                    <property name="acceptors" value="#{appCfg.jettyEnvCfg.acceptors()}"/>
-                    <property name="statsOn" value="#{appCfg.jettyEnvCfg.statsOn()}"/>
-                    <property name="acceptQueueSize" value="#{appCfg.jettyEnvCfg.acceptQueueSize()}"/>
+                    <property name="port" value="8081"/>
+                    <property name="maxIdleTime" value="30000"/>
+                    <property name="lowResourcesConnections" value="5000"/>
+                    <property name="lowResourcesMaxIdleTime" value="5000"/>
+                    <property name="acceptors" value="4"/>
+                    <property name="statsOn" value="false"/>
+                    <property name="acceptQueueSize" value="500"/>
                 </bean>
             </list>
         </property>
@@ -32,7 +32,6 @@
             <bean class="org.eclipse.jetty.server.handler.HandlerList">
                 <property name="handlers">
                     <list>
-                        <bean class="com.rhythmdiao.handler.BlackListHandler" init-method="init"/>
                         <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init">
                             <property name="firstCache">
                                 <bean class="com.rhythmdiao.cache.jedis.JedisManager"/>

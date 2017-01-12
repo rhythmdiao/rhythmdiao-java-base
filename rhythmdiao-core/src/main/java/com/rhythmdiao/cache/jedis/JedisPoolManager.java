@@ -1,8 +1,6 @@
 package com.rhythmdiao.cache.jedis;
 
-import com.rhythmdiao.config.RedisCFg;
 import com.rhythmdiao.util.RetryUtil;
-import org.aeonbits.owner.ConfigCache;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -10,7 +8,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum JedisPoolManager {
+enum JedisPoolManager {
     INSTANCE;
 
     private Map<String, JedisPool> pools = new HashMap<String, JedisPool>();
@@ -18,17 +16,14 @@ public enum JedisPoolManager {
     private JedisPool defaultPool;
 
     JedisPoolManager() {
-        RedisCFg cfg = ConfigCache.get("redis_config");
-        if (cfg != null) {
-            String host = cfg.host();
+            /*String host = cfg.host();
             int port = cfg.port();
             JedisPoolConfig config = new JedisPoolConfig();
             config.setMinIdle(cfg.minIdle());
             config.setMaxIdle(cfg.maxIdle());
-            config.setMaxWaitMillis(cfg.maxWaitMillis());
-            defaultPool = new JedisPool(config, host, port);
-            pools.put(host + ":" + port, defaultPool);
-        }
+            config.setMaxWaitMillis(cfg.maxWaitMillis());*/
+        defaultPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379);
+        pools.put("127.0.0.1:6379", defaultPool);
     }
 
     private JedisPool getPool(String host, int port) {
