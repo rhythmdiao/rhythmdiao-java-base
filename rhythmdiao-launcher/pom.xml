@@ -56,7 +56,7 @@
                     <configurationDirectory>conf</configurationDirectory>
                     <configurationSourceDirectory>${env.config}</configurationSourceDirectory>
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <assembleDirectory>${project.build.directory}/${zip.name}</assembleDirectory>
+                    <assembleDirectory>${project.build.directory}/${program.name}</assembleDirectory>
                     <binFileExtensions>
                         <unix>.sh</unix>
                     </binFileExtensions>

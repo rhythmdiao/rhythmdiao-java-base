@@ -12,5 +12,11 @@ public final class Launcher {
         TimeCounter interval = new TimeCounter().start();
         new ClassPathXmlApplicationContext("classpath*:spring-config.xml");
         LOG.info("Launching took {}ms", interval.end());
+
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                LOG.info("Shutdown hook was invoked. Shutting down project now.");
+            }
+        });
     }
 }
