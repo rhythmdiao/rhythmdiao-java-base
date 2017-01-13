@@ -31,6 +31,13 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/${env.config}</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <finalName>${program.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -38,51 +45,64 @@
                 <version>1.9</version>
                 <executions>
                     <execution>
-                        <id>demo-scripts</id>
+                        <id>make-bin</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>generate-daemons</goal>
+                            <goal>assemble</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <target>${project.build.directory}/assembler</target>
                     <configurationDirectory>conf</configurationDirectory>
-                    <configurationSourceDirectory>${project.basedir}/src/main/resources
-                    </configurationSourceDirectory>
+                    <configurationSourceDirectory>${env.config}</configurationSourceDirectory>
                     <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <repositoryLayout>flat</repositoryLayout>
+                    <assembleDirectory>${project.build.directory}/${zip.name}</assembleDirectory>
+                    <binFileExtensions>
+                        <unix>.sh</unix>
+                    </binFileExtensions>
+                    <platforms>
+                        <platform>windows</platform>
+                        <platform>unix</platform>
+                    </platforms>
                     <repositoryName>lib</repositoryName>
-                    <logsDirectory>logs</logsDirectory>
-                    <daemons>
-                        <daemon>
-                            <id>demo</id>
-                            <mainClass>com.rhythmdiao.Launcher</mainClass>
-                            <jvmSettings>
-                                <initialMemorySize>256M</initialMemorySize>
-                                <maxMemorySize>512M</maxMemorySize>
-                            </jvmSettings>
-                            <generatorConfigurations>
-                                <generatorConfiguration>
-                                    <generator>jsw</generator>
-                                    <includes>
-                                        <include>linux-x86-64</include>
-                                    </includes>
-                                    <configuration>
-                                        <property>
-                                            <name>wrapper.logfile</name>
-                                            <value>./logs/root.log</value>
-                                        </property>
-                                    </configuration>
-                                </generatorConfiguration>
-                            </generatorConfigurations>
-                            <platforms>
-                                <platform>jsw</platform>
-                            </platforms>
-                        </daemon>
-                    </daemons>
+                    <programs>
+                        <program>
+                            <mainClass>${main.class}</mainClass>
+                            <name>${program.name}</name>
+                        </program>
+                    </programs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <!-- not append assembly id in release file name -->
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>../assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-zip</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <main.class>com.rhythmdiao.Launcher</main.class>
+                <env.config>${project.basedir}/src/main/resources/profiles/dev</env.config>
+                <program.name>rhythmdiao</program.name>
+            </properties>
+        </profile>
+    </profiles>
 </project>

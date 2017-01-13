@@ -8,7 +8,7 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-enum JedisPoolManager {
+public enum JedisPoolManager {
     INSTANCE;
 
     private Map<String, JedisPool> pools = new HashMap<String, JedisPool>();
@@ -23,7 +23,9 @@ enum JedisPoolManager {
             config.setMaxIdle(cfg.maxIdle());
             config.setMaxWaitMillis(cfg.maxWaitMillis());*/
         defaultPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379);
-        pools.put("127.0.0.1:6379", defaultPool);
+        if (defaultPool.getResource() != null) {
+            pools.put("127.0.0.1:6379", defaultPool);
+        }
     }
 
     private JedisPool getPool(String host, int port) {
