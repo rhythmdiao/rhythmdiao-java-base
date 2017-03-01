@@ -101,8 +101,8 @@ For http client, you can simply do as below
 ```
 
 #License
-*   Copyright(c) 2014-2016 Yuxing Ma
+*   Copyright(c) 2014-2017 Yuxing Ma
 
 #Author
-*   rhythmdiao@163.com
+*   rhythmdiao@gamil.com
 *   If any questions, freely contact me

@@ -3,10 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean name="jedisManager" class="com.rhythmdiao.cache.jedis.JedisManagerHandler"/>
-
-    <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="env.properties"/>
-    </bean>
+    <bean name="ehCacheManager" class="com.rhythmdiao.cache.ehcache.EHManagerHandler"/>
 
     <bean name="servletContextHandler" class="org.eclipse.jetty.servlet.ServletContextHandler">
         <property name="contextPath" value="/"/>
@@ -38,7 +35,8 @@
                 <property name="handlers">
                     <list>
                         <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init">
-                            <property name="firstCache" ref="jedisManager"/>
+                            <property name="firstCache" ref="ehCacheManager"/>
+                            <property name="secondCache" ref="jedisManager"/>
                         </bean>
                         <bean class="org.eclipse.jetty.server.handler.DefaultHandler"/>
                     </list>

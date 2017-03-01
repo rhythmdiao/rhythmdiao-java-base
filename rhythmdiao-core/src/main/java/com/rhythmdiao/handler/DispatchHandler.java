@@ -1,7 +1,7 @@
 package com.rhythmdiao.handler;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
+import com.google.common.base.Strings;
 import com.rhythmdiao.cache.HandlerCacheFactory;
 import com.rhythmdiao.cache.HandlerCacheManager;
 import com.rhythmdiao.constant.LoggerName;
@@ -31,17 +31,20 @@ public final class DispatchHandler extends AbstractHandler {
     private HandlerCacheFactory handlerCacheFactory;
 
     private HandlerCacheManager firstCache;
-
-    //TODO second cache
     private HandlerCacheManager secondCache;
 
     public void setFirstCache(HandlerCacheManager firstCache) {
         this.firstCache = firstCache;
     }
 
+    public void setSecondCache(HandlerCacheManager secondCache) {
+        this.secondCache = secondCache;
+    }
+
     public void init() {
         handlerCacheFactory = HandlerCacheFactory.getInstance();
         handlerCacheFactory.setFirstCache(firstCache);
+        handlerCacheFactory.setSecondCache(secondCache);
     }
 
     public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)
@@ -58,11 +61,10 @@ public final class DispatchHandler extends AbstractHandler {
             LogUtil.debug(LOG, "Handler {} is off, method: [{}], and target: [{}]", registeredHandler.getHandlerClass().getCanonicalName(), method, target);
             response.setStatus(HttpStatus.SERVICE_UNAVAILABLE_503);
         } else {
-            BaseHandler handler;
+            BaseHandler handler = null;
             try {
                 handler = (BaseHandler) Class.forName(registeredHandler.getHandlerClass().getName()).newInstance();
-            } catch (Throwable t) {
-                throw Throwables.propagate(t);
+            } catch (Exception ignored) {
             }
             if (handler != null) {
                 HandlerMetaData metaData = registeredHandler.getMetaData();
@@ -71,13 +73,13 @@ public final class DispatchHandler extends AbstractHandler {
                 if (handler instanceof CachedHandler && handlerCacheFactory != null && metaData.getCache() > 0) {
                     CachedHandler cachedHandler = (CachedHandler) handler;
                     LOG.debug("cache key is {}", cachedHandler.getKey());
-                    Result cachedResult = cachedResult(cachedHandler);
+                    Result cachedResult = cachedResult(cachedHandler.getKey(), null, metaData.getCache());
                     if (cachedResult != null) {
-                        //TODO second cache
                         parser = new GsonParser(cachedResult);
                     } else {
                         parser = handler.execute();
-                        handlerCacheFactory.getHandlerCache(cachedHandler.getKey()).set(parser.getResult(), metaData.getCache());
+                        cachedResult(cachedHandler.getKey(), parser.getResult(), metaData.getCache());
+                        //handlerCacheFactory.getHandlerCache(cachedHandler.getKey()).set(parser.getResult(), metaData.getCache());
                     }
                 } else {
                     parser = handler.execute();
@@ -101,11 +103,10 @@ public final class DispatchHandler extends AbstractHandler {
         FieldInjection.INSTANCE.injectField(handler, annotatedFields, request);
     }
 
-    private Result cachedResult(CachedHandler handler) {
-        if (handler.getKey() == null || handler.getKey().equals("")) {
+    private Result cachedResult(String key, Result result, int seconds) {
+        if (Strings.isNullOrEmpty(key)) {
             return null;
-        } else {
-            return handlerCacheFactory.getHandlerCache(handler.getKey()).get(Result.class);
         }
+        return (Result) handlerCacheFactory.getHandlerCache(key).getAndSet(result, seconds);
     }
 }

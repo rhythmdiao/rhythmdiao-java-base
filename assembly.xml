@@ -7,10 +7,45 @@
     <formats>
         <format>zip</format>
     </formats>
-    <includeBaseDirectory>false</includeBaseDirectory>
+
+    <dependencySets>
+        <dependencySet>
+            <useProjectArtifact>true</useProjectArtifact>
+            <outputDirectory>lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+
     <fileSets>
         <fileSet>
-            <directory>${project.build.directory}/${program.name}</directory>
+            <directory>../</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>README.md</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../bin</directory>
+            <outputDirectory>/bin</outputDirectory>
+            <includes>
+                <include>run.sh</include>
+                <include>run.bat</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/resources</directory>
+            <outputDirectory>/conf</outputDirectory>
+            <includes>
+                <include>jetty-config.xml</include>
+                <include>logback.xml</include>
+                <include>spring-config.xml</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../</directory>
+            <outputDirectory>/conf</outputDirectory>
+            <includes>
+                <include>${env.config}.xml</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>

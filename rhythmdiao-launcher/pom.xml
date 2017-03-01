@@ -33,46 +33,12 @@
     <build>
         <resources>
             <resource>
-                <directory>${project.basedir}/${env.config}</directory>
+                <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
         <finalName>${program.name}</finalName>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.9</version>
-                <executions>
-                    <execution>
-                        <id>make-bin</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>assemble</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <configurationDirectory>conf</configurationDirectory>
-                    <configurationSourceDirectory>${env.config}</configurationSourceDirectory>
-                    <copyConfigurationDirectory>true</copyConfigurationDirectory>
-                    <assembleDirectory>${project.build.directory}/${program.name}</assembleDirectory>
-                    <binFileExtensions>
-                        <unix>.sh</unix>
-                    </binFileExtensions>
-                    <platforms>
-                        <platform>windows</platform>
-                        <platform>unix</platform>
-                    </platforms>
-                    <repositoryName>lib</repositoryName>
-                    <programs>
-                        <program>
-                            <mainClass>${main.class}</mainClass>
-                            <name>${program.name}</name>
-                        </program>
-                    </programs>
-                </configuration>
-            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -81,6 +47,11 @@
                     <descriptors>
                         <descriptor>../assembly.xml</descriptor>
                     </descriptors>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.rhythmdiao.Launcher</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
                 <executions>
                     <execution>
@@ -98,11 +69,19 @@
     <profiles>
         <profile>
             <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
                 <main.class>com.rhythmdiao.Launcher</main.class>
-                <env.config>${project.basedir}/src/main/resources/profiles/dev</env.config>
+                <env.config>dev</env.config>
                 <program.name>rhythmdiao</program.name>
             </properties>
+            <build>
+                <filters>
+                    <filter>../dev.properties</filter>
+                </filters>
+            </build>
         </profile>
     </profiles>
 </project>
