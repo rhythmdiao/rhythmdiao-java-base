@@ -1,7 +1,5 @@
 package com.rhythmdiao.annotation;
 
-import org.eclipse.jetty.http.HttpMethods;
-
 import java.lang.annotation.*;
 
 /**
@@ -13,11 +11,14 @@ import java.lang.annotation.*;
 public @interface RestfulHandler {
     String target();
 
-    String method() default HttpMethods.GET;
+    String method() default GET;
 
     String identification() default "";
 
     String description();
 
     int cache() default 0;
+
+    String GET = "GET";
+    String POST = "POST";
 }

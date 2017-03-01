@@ -5,35 +5,30 @@
     <bean name="jedisManager" class="com.rhythmdiao.cache.jedis.JedisManagerHandler"/>
     <bean name="ehCacheManager" class="com.rhythmdiao.cache.ehcache.EHManagerHandler"/>
 
-    <bean name="servletContextHandler" class="org.eclipse.jetty.servlet.ServletContextHandler">
-        <property name="contextPath" value="/"/>
-    </bean>
+    <bean id="contexts" class="org.eclipse.jetty.server.handler.ContextHandlerCollection"/>
 
-    <bean name="server" class="org.eclipse.jetty.server.Server"
+    <bean id="server" name="server" class="org.eclipse.jetty.server.Server"
           init-method="start" destroy-method="stop">
-        <property name="threadPool">
+        <constructor-arg>
             <bean class="org.eclipse.jetty.util.thread.QueuedThreadPool">
                 <property name="minThreads" value="${jetty.minThreads}"/>
                 <property name="maxThreads" value="${jetty.maxThreads}"/>
             </bean>
-        </property>
+        </constructor-arg>
+
         <property name="connectors">
             <list>
-                <bean name="connector" class="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                <bean id="connector" class="org.eclipse.jetty.server.ServerConnector">
+                    <constructor-arg ref="server"/>
                     <property name="port" value="${jetty.connector.port}"/>
-                    <property name="maxIdleTime" value="${jetty.connector.maxIdleTime}"/>
-                    <property name="lowResourcesConnections" value="${jetty.connector.lowResourcesConnections}"/>
-                    <property name="lowResourcesMaxIdleTime" value="${jetty.connector.lowResourcesMaxIdleTime}"/>
-                    <property name="acceptors" value="${jetty.connector.acceptors}"/>
-                    <property name="statsOn" value="${jetty.connector.statsOn}"/>
-                    <property name="acceptQueueSize" value="${jetty.connector.acceptQueueSize}"/>
                 </bean>
             </list>
         </property>
         <property name="handler">
-            <bean class="org.eclipse.jetty.server.handler.HandlerList">
+            <bean class="org.eclipse.jetty.server.handler.HandlerCollection">
                 <property name="handlers">
                     <list>
+                        <ref bean="contexts"/>
                         <bean class="com.rhythmdiao.handler.DispatchHandler" init-method="init">
                             <property name="firstCache" ref="ehCacheManager"/>
                             <property name="secondCache" ref="jedisManager"/>

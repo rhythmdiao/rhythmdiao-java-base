@@ -6,7 +6,6 @@ import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import org.eclipse.jetty.http.HttpMethods;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 
@@ -26,7 +25,7 @@ import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 * */
 public
 @Controller
-@RestfulHandler(target = "/test", description = "测试接口", method = HttpMethods.POST)
+@RestfulHandler(target = "/test", description = "测试接口", method = RestfulHandler.POST)
 class TestHandler extends BaseHandler {
     @Describer(comment = "/test")
     @RequestHeader

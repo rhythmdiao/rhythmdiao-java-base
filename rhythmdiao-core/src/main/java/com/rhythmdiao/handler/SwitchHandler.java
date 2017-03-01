@@ -6,12 +6,11 @@ import com.rhythmdiao.result.GsonParser;
 import com.rhythmdiao.result.Parser;
 import com.rhythmdiao.result.Result;
 import com.rhythmdiao.result.StatusCode;
-import org.eclipse.jetty.http.HttpMethods;
 import org.springframework.stereotype.Controller;
 
 public
 @Controller
-@RestfulHandler(target = "/switch", description = "接口开关", method = HttpMethods.POST)
+@RestfulHandler(target = "/switch", description = "接口开关", method = RestfulHandler.POST)
 class SwitchHandler extends BaseHandler {
     @RequestParameter(value = "method")
     private String method;
