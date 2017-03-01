@@ -39,12 +39,13 @@
                 <include>logback.xml</include>
                 <include>spring-config.xml</include>
             </includes>
+            <filtered>true</filtered>
         </fileSet>
         <fileSet>
             <directory>../</directory>
             <outputDirectory>/conf</outputDirectory>
             <includes>
-                <include>${env.config}.xml</include>
+                <include>${env.config}.properties</include>
             </includes>
         </fileSet>
     </fileSets>
