@@ -1,6 +1,7 @@
 #Build Status
 [![Build Status](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base.svg?branch=master)](https://travis-ci.org/rhythmdiao/rhythmdiao-java-base)
 [![Coverage Status](https://coveralls.io/repos/rhythmdiao/rhythmdiao-java-base/badge.svg?branch=master&service=github)](https://coveralls.io/github/rhythmdiao/rhythmdiao-java-base?branch=master)
+
 #Features 特征
 *   easy-to-use embedded jetty 8 server and daemon assembler for building and running application
 *   嵌入式jetty服务器以及daemon模式构建应用程序
